@@ -1,1 +1,1753 @@
-
+{
+  "lieux": [
+    {
+      "nom": "Otosan Uchi",
+      "type": "Capitale",
+      "clan": "Impérial",
+      "desc": "Cité Impériale, demeure de l'Empereur Hantei. Centre politique de Rokugan.",
+      "id": "l17790543988110",
+      "coords": [
+        1406.7890795908359,
+        1115.4490948340524
+      ],
+      "descMJ": "",
+      "visible": true
+    },
+    {
+      "nom": "Kyuden Bayushi",
+      "type": "Kyuden",
+      "clan": "Scorpion",
+      "desc": "Palais du Clan Scorpion, dissimulé dans les montagnes.",
+      "id": "l17790543988121",
+      "coords": null,
+      "descMJ": "",
+      "visible": true
+    },
+    {
+      "nom": "Shiro Akodo",
+      "type": "Shiro",
+      "clan": "Lion",
+      "desc": "Château de la Loyauté, siège du Clan Lion.",
+      "id": "l17790543988122",
+      "coords": [
+        1564.5513352491714,
+        1009.0756983044574
+      ],
+      "descMJ": "",
+      "visible": true
+    },
+    {
+      "nom": "Kyuden Doji",
+      "type": "Kyuden",
+      "clan": "Grue",
+      "desc": "Palais du Clan Grue, joyau d'architecture sur la côte.",
+      "id": "l17790543988123",
+      "coords": null,
+      "descMJ": "",
+      "visible": true
+    },
+    {
+      "nom": "Kyuden Hida",
+      "type": "Kyuden",
+      "clan": "Crabe",
+      "desc": "Forteresse austère face aux Outrelands.",
+      "id": "l17790543988124",
+      "coords": null,
+      "descMJ": "",
+      "visible": true
+    },
+    {
+      "nom": "Kyuden Shiba",
+      "type": "Kyuden",
+      "clan": "Phénix",
+      "desc": "Palais Shiba, près des terres sacrées Isawa.",
+      "id": "l17790543988125",
+      "coords": null,
+      "descMJ": "",
+      "visible": true
+    },
+    {
+      "nom": "Shiro Mirumoto",
+      "type": "Shiro",
+      "clan": "Dragon",
+      "desc": "Citadelle Mirumoto perchée dans les montagnes Dragon.",
+      "id": "l17790543988126",
+      "coords": null,
+      "descMJ": "",
+      "visible": true
+    },
+    {
+      "nom": "Shiro Shinjo",
+      "type": "Shiro",
+      "clan": "Licorne",
+      "desc": "Bastion Shinjo, à l'orée des steppes occidentales.",
+      "id": "l17790543988127",
+      "coords": null,
+      "descMJ": "",
+      "visible": true
+    },
+    {
+      "nom": "Kyuden Gotei",
+      "type": "Kyuden",
+      "clan": "Mante",
+      "desc": "Palais du Clan Mante, sur les Îles de la Soie.",
+      "id": "l17790543988128",
+      "coords": null,
+      "descMJ": "",
+      "visible": true
+    },
+    {
+      "nom": "Forêt de Shinomen",
+      "type": "Lieu Sacré",
+      "clan": "Aucun",
+      "desc": "Immense forêt mystérieuse au sud-ouest. Abrite les ruines de la civilisation Naga endormie. Refuge des esprits anciens. Les voyageurs s'y perdent souvent à jamais.",
+      "id": "l17790543988129",
+      "coords": null,
+      "descMJ": "",
+      "visible": true
+    },
+    {
+      "nom": "Mur Kaiu",
+      "type": "Forteresse",
+      "clan": "Crabe",
+      "desc": "Muraille colossale construite par les Kaiu pour contenir les Outrelands. Plus de 100 km de pierre et de sang. Gardée jour et nuit.",
+      "id": "l177905439881210",
+      "coords": null,
+      "descMJ": "",
+      "visible": true
+    },
+    {
+      "nom": "Outrelands (Terres d'Ombre)",
+      "type": "Lieu Sacré",
+      "clan": "Outrelands",
+      "desc": "Territoire corrompu au sud du Mur Kaiu. Source de la Souillure. Royaume des Oni et de Fu Leng. Toute terre ou être qui y séjourne est souillé.",
+      "id": "l177905439881211",
+      "coords": null,
+      "descMJ": "",
+      "visible": true
+    },
+    {
+      "nom": "Mont Seikitsu",
+      "type": "Lieu Sacré",
+      "clan": "Aucun",
+      "desc": "Montagne sacrée séparant les terres centrales des steppes Licornes. Habitée par des esprits puissants et des ermites Yamabushi.",
+      "id": "l177905439881212",
+      "coords": null,
+      "descMJ": "",
+      "visible": true
+    },
+    {
+      "nom": "Toshi Ranbo (Cité des Mensonges)",
+      "type": "Cité",
+      "clan": "Aucun",
+      "desc": "Cité disputée entre Lion et Grue depuis des siècles. Nom complet : Toshi Ranbo wo Shien Shite Reigisaho. Chaque clan y voit sa capitale légitime.",
+      "id": "l177905439881213",
+      "coords": [
+        1751.984191664132,
+        893.0319929994449
+      ],
+      "descMJ": "",
+      "visible": true
+    },
+    {
+      "nom": "Temple d'Osano-Wo",
+      "type": "Temple",
+      "clan": "Aucun",
+      "desc": "Sanctuaire dédié à la Fortune du Feu, du Tonnerre et de la Guerre. Lieu de pèlerinage pour les bushi avant les batailles.",
+      "id": "l177905439881214",
+      "coords": null,
+      "descMJ": "",
+      "visible": true
+    },
+    {
+      "nom": "Temple de Shinsei",
+      "type": "Temple",
+      "clan": "Aucun",
+      "desc": "Lieu de méditation des moines disciples du Petit Maître. Enseigne la Voie des Mille Fortunes et la Vacuité.",
+      "id": "l177905439881215",
+      "coords": null,
+      "descMJ": "",
+      "visible": true
+    },
+    {
+      "nom": "Tsuma (Cité du Tournoi)",
+      "type": "Cité",
+      "clan": "Aucun",
+      "desc": "Cité neutre célèbre pour son tournoi de Topaze annuel, rite de passage des jeunes samouraïs.",
+      "id": "l177905439881216",
+      "coords": null,
+      "descMJ": "",
+      "visible": true
+    },
+    {
+      "nom": "Plaines de l'Os",
+      "type": "Lieu Sacré",
+      "clan": "Aucun",
+      "desc": "Vaste plaine au sud où eut lieu la Bataille des Champs d'Ossements. La terre reste hantée par les esprits des morts.",
+      "id": "l177905439881217",
+      "coords": null,
+      "descMJ": "",
+      "visible": true
+    },
+    {
+      "nom": "Lac de l'Esprit Endormi",
+      "type": "Lieu Sacré",
+      "clan": "Aucun",
+      "desc": "Lac immense aux eaux noires. La légende dit qu'un Dragon endormi gît au fond. Les pêcheurs y entendent parfois un chant lointain.",
+      "id": "l177905439881218",
+      "coords": null,
+      "descMJ": "",
+      "visible": true
+    },
+    {
+      "nom": "Mont Otosan (sacré)",
+      "type": "Lieu Sacré",
+      "clan": "Impérial",
+      "desc": "Montagne sacrée près de la capitale où les Hantei sont enterrés. Accès strictement contrôlé par les Seppun.",
+      "id": "l177905439881219",
+      "coords": null,
+      "descMJ": "",
+      "visible": true
+    },
+    {
+      "nom": "Académie Kakita",
+      "type": "Temple",
+      "clan": "Grue",
+      "desc": "École d'iaijutsu la plus prestigieuse de Rokugan. Fondée par Kakita lui-même. Forme l'élite des duellistes.",
+      "id": "l177905439881220",
+      "coords": null,
+      "descMJ": "",
+      "visible": true
+    },
+    {
+      "nom": "Académie de Guerre Akodo",
+      "type": "Forteresse",
+      "clan": "Lion",
+      "desc": "Académie militaire fondée par Akodo, auteur du \"Livre du Lion\". Forme les officiers de l'Empire.",
+      "id": "l177905439881221",
+      "coords": null,
+      "descMJ": "",
+      "visible": true
+    },
+    {
+      "nom": "Mont du Tonnerre",
+      "type": "Lieu Sacré",
+      "clan": "Phénix",
+      "desc": "Mont sacré du Clan Phénix où les Isawa communiquent avec les esprits du Ciel.",
+      "id": "l177905439881222",
+      "coords": null,
+      "descMJ": "",
+      "visible": true
+    },
+    {
+      "nom": "Forêt Kitsune",
+      "type": "Lieu Sacré",
+      "clan": "Mante",
+      "desc": "Forêt côtière habitée par la famille Kitsune et les esprits-renards. Difficile d'accès aux étrangers.",
+      "id": "l177905439881223",
+      "coords": null,
+      "descMJ": "",
+      "visible": true
+    },
+    {
+      "nom": "Yasuki Yashiki",
+      "type": "Cité",
+      "clan": "Crabe",
+      "desc": "Cité marchande Yasuki, plaque tournante du commerce. Atmosphère de bazar permanent.",
+      "id": "l177905439881224",
+      "coords": null,
+      "descMJ": "",
+      "visible": true
+    },
+    {
+      "nom": "Shiro no Soshi",
+      "type": "Shiro",
+      "clan": "Scorpion",
+      "desc": "Forteresse de la famille Soshi, centre d'apprentissage des shugenja Scorpion et de leurs arts ténébreux.",
+      "id": "l177905439881225",
+      "coords": null,
+      "descMJ": "",
+      "visible": true
+    }
+  ],
+  "pnj": [
+    {
+      "nom": "Hantei XXXVIII",
+      "famille": "Hantei",
+      "clan": "Impérial",
+      "gradeMilitaire": "",
+      "fonctions": [
+        "Empereur de Rokugan"
+      ],
+      "desc": "Le Fils du Ciel.",
+      "id": "p17790543988120",
+      "lieuId": null,
+      "liens": [
+        {
+          "id": "klp359nq",
+          "to": "p17790543988121",
+          "type": "Familial",
+          "desc": "Père et fils",
+          "visible": true
+        }
+      ],
+      "descMJ": "",
+      "visible": true,
+      "postesCour": [
+        "Empereur"
+      ]
+    },
+    {
+      "nom": "Sotorii",
+      "famille": "Hantei",
+      "clan": "Impérial",
+      "gradeMilitaire": "",
+      "fonctions": [
+        "Prince Héritier"
+      ],
+      "desc": "Fils aîné de l'Empereur, hautain.",
+      "id": "p17790543988121",
+      "lieuId": "",
+      "liens": [],
+      "descMJ": "",
+      "visible": true,
+      "postesCour": [
+        "Autre"
+      ]
+    },
+    {
+      "nom": "Banuken",
+      "famille": "Otomo",
+      "clan": "Impérial",
+      "gradeMilitaire": "",
+      "fonctions": [
+        "Courtisan"
+      ],
+      "desc": "Daimyo Otomo, maître des intrigues de cour.",
+      "id": "p17790543988122",
+      "lieuId": "",
+      "liens": [],
+      "descMJ": "",
+      "visible": true,
+      "postesCour": [
+        "Daimyo de Famille"
+      ]
+    },
+    {
+      "nom": "Yorihisa",
+      "famille": "Otomo",
+      "clan": "Impérial",
+      "gradeMilitaire": "",
+      "fonctions": [
+        "Médiateur des clans"
+      ],
+      "desc": "Diplomate impérial réputé pour ses ruses.",
+      "id": "p17790543988123",
+      "lieuId": null,
+      "liens": [],
+      "descMJ": "",
+      "visible": true,
+      "postesCour": [
+        "Courtisan"
+      ]
+    },
+    {
+      "nom": "Daiori",
+      "famille": "Seppun",
+      "clan": "Impérial",
+      "gradeMilitaire": "Taisa (Colonel)",
+      "fonctions": [
+        "Garde Impériale"
+      ],
+      "desc": "Daimyo Seppun, chef des gardes du corps de l'Empereur.",
+      "id": "p17790543988124",
+      "lieuId": "",
+      "liens": [
+        {
+          "id": "k6tdo9tc",
+          "to": "p17790543988120",
+          "type": "Vassalité",
+          "desc": "Garde Impériale",
+          "visible": true
+        }
+      ],
+      "descMJ": "",
+      "visible": true,
+      "postesCour": [
+        "Daimyo de Famille"
+      ]
+    },
+    {
+      "nom": "Toshiken",
+      "famille": "Seppun",
+      "clan": "Impérial",
+      "gradeMilitaire": "Shireikan (Capitaine)",
+      "fonctions": [
+        "Yojimbo Impérial"
+      ],
+      "desc": "Bushi élite, juré protecteur du Trône.",
+      "id": "p17790543988125",
+      "lieuId": "",
+      "liens": [],
+      "descMJ": "",
+      "visible": true,
+      "postesCour": [
+        "Yojimbo"
+      ]
+    },
+    {
+      "nom": "Satoshi",
+      "famille": "Miya",
+      "clan": "Impérial",
+      "gradeMilitaire": "",
+      "fonctions": [
+        "Héraut Impérial",
+        "Diplomate"
+      ],
+      "desc": "Daimyo Miya, porte-parole de l'Empereur.",
+      "id": "p17790543988126",
+      "lieuId": "",
+      "liens": [],
+      "descMJ": "",
+      "visible": true,
+      "postesCour": [
+        "Daimyo de Famille"
+      ]
+    },
+    {
+      "nom": "Yoto",
+      "famille": "Miya",
+      "clan": "Impérial",
+      "gradeMilitaire": "",
+      "fonctions": [
+        "Héraut",
+        "Messager Impérial"
+      ],
+      "desc": "Voyage à travers Rokugan pour porter les édits.",
+      "id": "p17790543988127",
+      "lieuId": "",
+      "liens": [],
+      "descMJ": "",
+      "visible": true,
+      "postesCour": [
+        "Diplomate"
+      ]
+    },
+    {
+      "nom": "Toturi",
+      "famille": "Akodo",
+      "clan": "Lion",
+      "gradeMilitaire": "Rikugun-shokan (Général)",
+      "fonctions": [
+        "Champion d'Émeraude",
+        "Daimyo Akodo"
+      ],
+      "desc": "Stratège brillant.",
+      "id": "p17790543988128",
+      "lieuId": null,
+      "liens": [
+        {
+          "id": "khgvzx2u",
+          "to": "p177905439881229",
+          "type": "Amour",
+          "desc": "Sentiments cachés",
+          "visible": true
+        }
+      ],
+      "descMJ": "",
+      "visible": true,
+      "postesCour": [
+        "Champion de Clan"
+      ]
+    },
+    {
+      "nom": "Tsuko",
+      "famille": "Matsu",
+      "clan": "Lion",
+      "gradeMilitaire": "Rikugun-shokan (Général)",
+      "fonctions": [],
+      "desc": "Femme guerrière au tempérament de feu.",
+      "id": "p17790543988129",
+      "lieuId": null,
+      "liens": [],
+      "descMJ": "",
+      "visible": true,
+      "postesCour": [
+        "Daimyo de Famille"
+      ]
+    },
+    {
+      "nom": "Sume",
+      "famille": "Ikoma",
+      "clan": "Lion",
+      "gradeMilitaire": "Taisa (Colonel)",
+      "fonctions": [],
+      "desc": "Daimyo Ikoma, conteur historien.",
+      "id": "p177905439881210",
+      "lieuId": null,
+      "liens": [],
+      "descMJ": "",
+      "visible": true,
+      "postesCour": [
+        "Daimyo de Famille"
+      ]
+    },
+    {
+      "nom": "Motso",
+      "famille": "Kitsu",
+      "clan": "Lion",
+      "gradeMilitaire": "",
+      "fonctions": [
+        "Shugenja"
+      ],
+      "desc": "Daimyo Kitsu.",
+      "id": "p177905439881211",
+      "lieuId": null,
+      "liens": [],
+      "descMJ": "",
+      "visible": true,
+      "postesCour": [
+        "Daimyo de Famille"
+      ]
+    },
+    {
+      "nom": "Hoturi",
+      "famille": "Doji",
+      "clan": "Grue",
+      "gradeMilitaire": "",
+      "fonctions": [
+        "Daimyo Doji",
+        "Le Pinacle de la Grue"
+      ],
+      "desc": "Paragon de la courtoisie.",
+      "id": "p177905439881212",
+      "lieuId": null,
+      "liens": [
+        {
+          "id": "k8bg2vdr",
+          "to": "p177905439881221",
+          "type": "Rivalité",
+          "desc": "Rivaux",
+          "visible": true
+        }
+      ],
+      "descMJ": "",
+      "visible": true,
+      "postesCour": [
+        "Champion de Clan"
+      ]
+    },
+    {
+      "nom": "Toshimoko",
+      "famille": "Kakita",
+      "clan": "Grue",
+      "gradeMilitaire": "",
+      "fonctions": [
+        "Sensei Académie Kakita",
+        "Le Grizzli Gris"
+      ],
+      "desc": "Maître escrimeur.",
+      "id": "p177905439881213",
+      "lieuId": null,
+      "liens": [],
+      "descMJ": "",
+      "visible": true,
+      "postesCour": [
+        "Daimyo de Famille"
+      ]
+    },
+    {
+      "nom": "Uji",
+      "famille": "Daidoji",
+      "clan": "Grue",
+      "gradeMilitaire": "Taisa (Colonel)",
+      "fonctions": [
+        "Chef des Fers de Lance"
+      ],
+      "desc": "Maître des opérations clandestines.",
+      "id": "p177905439881214",
+      "lieuId": null,
+      "liens": [],
+      "descMJ": "",
+      "visible": true,
+      "postesCour": [
+        "Daimyo de Famille"
+      ]
+    },
+    {
+      "nom": "Yoshi",
+      "famille": "Asahina",
+      "clan": "Grue",
+      "gradeMilitaire": "",
+      "fonctions": [
+        "Shugenja"
+      ],
+      "desc": "Daimyo Asahina, pacifiste.",
+      "id": "p177905439881215",
+      "lieuId": null,
+      "liens": [],
+      "descMJ": "",
+      "visible": true,
+      "postesCour": [
+        "Daimyo de Famille"
+      ]
+    },
+    {
+      "nom": "Kisada",
+      "famille": "Hida",
+      "clan": "Crabe",
+      "gradeMilitaire": "Rikugun-shokan (Général)",
+      "fonctions": [
+        "La Grande Montagne"
+      ],
+      "desc": "Seigneur de guerre inflexible.",
+      "id": "p177905439881216",
+      "lieuId": null,
+      "liens": [
+        {
+          "id": "kycoxqfm",
+          "to": "p177905439881217",
+          "type": "Familial",
+          "desc": "Père et fils",
+          "visible": true
+        }
+      ],
+      "descMJ": "",
+      "visible": true,
+      "postesCour": [
+        "Champion de Clan"
+      ]
+    },
+    {
+      "nom": "Yakamo",
+      "famille": "Hida",
+      "clan": "Crabe",
+      "gradeMilitaire": "Taisa (Colonel)",
+      "fonctions": [
+        "Héritier Hida"
+      ],
+      "desc": "Terreur des Outrelands.",
+      "id": "p177905439881217",
+      "lieuId": null,
+      "liens": [],
+      "descMJ": "",
+      "visible": true,
+      "postesCour": [
+        "Daimyo"
+      ]
+    },
+    {
+      "nom": "Yori",
+      "famille": "Kuni",
+      "clan": "Crabe",
+      "gradeMilitaire": "",
+      "fonctions": [
+        "Sorcier-Chasseur",
+        "Shugenja"
+      ],
+      "desc": "Expert magie de la Terre.",
+      "id": "p177905439881218",
+      "lieuId": null,
+      "liens": [],
+      "descMJ": "",
+      "visible": true,
+      "postesCour": [
+        "Daimyo de Famille"
+      ]
+    },
+    {
+      "nom": "Sukune",
+      "famille": "Hiruma",
+      "clan": "Crabe",
+      "gradeMilitaire": "Taisa (Colonel)",
+      "fonctions": [],
+      "desc": "Daimyo Hiruma, éclaireur.",
+      "id": "p177905439881219",
+      "lieuId": null,
+      "liens": [],
+      "descMJ": "",
+      "visible": true,
+      "postesCour": [
+        "Daimyo de Famille"
+      ]
+    },
+    {
+      "nom": "Yokuni",
+      "famille": "Togashi",
+      "clan": "Dragon",
+      "gradeMilitaire": "",
+      "fonctions": [
+        "Le Dragon Mystérieux"
+      ],
+      "desc": "Parle rarement.",
+      "id": "p177905439881220",
+      "lieuId": null,
+      "liens": [],
+      "descMJ": "",
+      "visible": true,
+      "postesCour": [
+        "Champion de Clan"
+      ]
+    },
+    {
+      "nom": "Hitomi",
+      "famille": "Mirumoto",
+      "clan": "Dragon",
+      "gradeMilitaire": "",
+      "fonctions": [
+        "Héritière Mirumoto"
+      ],
+      "desc": "Rivale de Hoturi.",
+      "id": "p177905439881221",
+      "lieuId": null,
+      "liens": [],
+      "descMJ": "",
+      "visible": true,
+      "postesCour": [
+        "Daimyo de Famille"
+      ]
+    },
+    {
+      "nom": "Yasu",
+      "famille": "Kitsuki",
+      "clan": "Dragon",
+      "gradeMilitaire": "",
+      "fonctions": [
+        "Méthode Kitsuki"
+      ],
+      "desc": "Enquêteur rigoureux.",
+      "id": "p177905439881222",
+      "lieuId": null,
+      "liens": [],
+      "descMJ": "",
+      "visible": true,
+      "postesCour": [
+        "Magistrat"
+      ]
+    },
+    {
+      "nom": "Tamori",
+      "famille": "Agasha",
+      "clan": "Dragon",
+      "gradeMilitaire": "",
+      "fonctions": [
+        "Shugenja"
+      ],
+      "desc": "Daimyo Agasha.",
+      "id": "p177905439881223",
+      "lieuId": null,
+      "liens": [],
+      "descMJ": "",
+      "visible": true,
+      "postesCour": [
+        "Daimyo de Famille"
+      ]
+    },
+    {
+      "nom": "Ujimitsu",
+      "famille": "Shiba",
+      "clan": "Phénix",
+      "gradeMilitaire": "",
+      "fonctions": [
+        "Gardien des Isawa"
+      ],
+      "desc": "Le Champion silencieux.",
+      "id": "p177905439881224",
+      "lieuId": null,
+      "liens": [],
+      "descMJ": "",
+      "visible": true,
+      "postesCour": [
+        "Champion de Clan"
+      ]
+    },
+    {
+      "nom": "Tadaka",
+      "famille": "Isawa",
+      "clan": "Phénix",
+      "gradeMilitaire": "",
+      "fonctions": [
+        "Maître de la Terre"
+      ],
+      "desc": "Conseil Élémentaire.",
+      "id": "p177905439881225",
+      "lieuId": "l17790543988125",
+      "liens": [
+        {
+          "id": "kv0rfwj1",
+          "to": "p177905439881227",
+          "type": "Familial",
+          "desc": "frère/soeur",
+          "visible": true
+        }
+      ],
+      "descMJ": "",
+      "visible": false,
+      "postesCour": [
+        "héritier"
+      ]
+    },
+    {
+      "nom": "Tomo",
+      "famille": "Asako",
+      "clan": "Phénix",
+      "gradeMilitaire": "",
+      "fonctions": [
+        "Henshin"
+      ],
+      "desc": "Moine philosophe.",
+      "id": "p177905439881226",
+      "lieuId": null,
+      "liens": [],
+      "descMJ": "",
+      "visible": true,
+      "postesCour": [
+        "Daimyo de Famille"
+      ]
+    },
+    {
+      "nom": "Kaede",
+      "famille": "Isawa",
+      "clan": "Phénix",
+      "gradeMilitaire": "",
+      "fonctions": [
+        "Maître du Vide"
+      ],
+      "desc": "Fille d'Isawa Ujina.",
+      "id": "p177905439881227",
+      "lieuId": "l17790543988110",
+      "liens": [],
+      "descMJ": "",
+      "visible": true,
+      "postesCour": [
+        "héritier"
+      ]
+    },
+    {
+      "nom": "Shoju",
+      "famille": "Bayushi",
+      "clan": "Scorpion",
+      "gradeMilitaire": "",
+      "fonctions": [],
+      "desc": "Conseiller et ami de l'empereur",
+      "id": "p177905439881228",
+      "lieuId": "l17790543988110",
+      "liens": [
+        {
+          "id": "kwqcbppe",
+          "to": "p177905439881229",
+          "type": "Amour",
+          "desc": "Mariés",
+          "visible": true
+        },
+        {
+          "id": "k3brb31e",
+          "to": "p177905439881230",
+          "type": "Familial",
+          "desc": "Frères",
+          "visible": true
+        }
+      ],
+      "descMJ": "Héritier d'un terrible secret.",
+      "visible": true,
+      "postesCour": [
+        "Champion de Clan",
+        "Conseiller Impérial",
+        "Daimyo de Famille"
+      ]
+    },
+    {
+      "nom": "Kachiko",
+      "famille": "Bayushi",
+      "clan": "Scorpion",
+      "gradeMilitaire": "",
+      "fonctions": [
+        "Maîtresse des Secrets"
+      ],
+      "desc": "La Dame du Scorpion.",
+      "id": "p177905439881229",
+      "lieuId": "",
+      "liens": [],
+      "descMJ": "",
+      "visible": true,
+      "postesCour": [
+        "Courtisan",
+        "Conseiller Impérial"
+      ]
+    },
+    {
+      "nom": "Aramoro",
+      "famille": "Bayushi",
+      "clan": "Scorpion",
+      "gradeMilitaire": "",
+      "fonctions": [],
+      "desc": "Frère de Shoju, assassin.",
+      "id": "p177905439881230",
+      "lieuId": "",
+      "liens": [
+        {
+          "id": "kdgn38b0",
+          "to": "p177905439881229",
+          "type": "Amour",
+          "desc": "fou amoureux de Kachiko et jaloux de son frère",
+          "visible": false
+        }
+      ],
+      "descMJ": "ninja",
+      "visible": true,
+      "postesCour": [
+        "Yojimbo"
+      ]
+    },
+    {
+      "nom": "Bantaro",
+      "famille": "Soshi",
+      "clan": "Scorpion",
+      "gradeMilitaire": "",
+      "fonctions": [
+        "Shugenja"
+      ],
+      "desc": "Daimyo Soshi.",
+      "id": "p177905439881231",
+      "lieuId": null,
+      "liens": [],
+      "descMJ": "",
+      "visible": true,
+      "postesCour": [
+        "Daimyo de Famille"
+      ]
+    },
+    {
+      "nom": "Yokatsu",
+      "famille": "Shinjo",
+      "clan": "Licorne",
+      "gradeMilitaire": "Rikugun-shokan (Général)",
+      "fonctions": [],
+      "desc": "Diplomate des steppes.",
+      "id": "p177905439881232",
+      "lieuId": null,
+      "liens": [],
+      "descMJ": "",
+      "visible": true,
+      "postesCour": [
+        "Champion de Clan"
+      ]
+    },
+    {
+      "nom": "Kamoko",
+      "famille": "Utaku",
+      "clan": "Licorne",
+      "gradeMilitaire": "Taisa (Colonel)",
+      "fonctions": [
+        "Cheffe Battle Maidens"
+      ],
+      "desc": "Otaku Kamoko, guerrière.",
+      "id": "p177905439881233",
+      "lieuId": null,
+      "liens": [],
+      "descMJ": "",
+      "visible": true,
+      "postesCour": [
+        "Daimyo de Famille"
+      ]
+    },
+    {
+      "nom": "Daiyu",
+      "famille": "Iuchi",
+      "clan": "Licorne",
+      "gradeMilitaire": "",
+      "fonctions": [
+        "Maître de Meishodo"
+      ],
+      "desc": "Daimyo Iuchi.",
+      "id": "p177905439881234",
+      "lieuId": null,
+      "liens": [],
+      "descMJ": "",
+      "visible": true,
+      "postesCour": [
+        "Daimyo de Famille"
+      ]
+    },
+    {
+      "nom": "Tsume",
+      "famille": "Moto",
+      "clan": "Licorne",
+      "gradeMilitaire": "Taisa (Colonel)",
+      "fonctions": [],
+      "desc": "Cavalier inflexible.",
+      "id": "p177905439881235",
+      "lieuId": null,
+      "liens": [],
+      "descMJ": "",
+      "visible": true,
+      "postesCour": [
+        "Daimyo de Famille"
+      ]
+    },
+    {
+      "nom": "Yoritomo",
+      "famille": "Yoritomo",
+      "clan": "Mante",
+      "gradeMilitaire": "Rikugun-shokan (Général)",
+      "fonctions": [
+        "Roi des Mers"
+      ],
+      "desc": "Fondateur du Grand Clan Mante.",
+      "id": "p177905439881236",
+      "lieuId": null,
+      "liens": [],
+      "descMJ": "",
+      "visible": true,
+      "postesCour": [
+        "Champion de Clan"
+      ]
+    },
+    {
+      "id": "p1779092813912",
+      "famille": "Yogo",
+      "nom": "Junzo",
+      "clan": "Scorpion",
+      "lieuId": "",
+      "gradeMilitaire": "",
+      "desc": "Shugenja extrêmement talentueux peut être le plus doué de sa génération",
+      "descMJ": "détient un black scroll et souhaite ouvrir celui celui détenu par les yogo dont il a la clé. il n' pas encore commis sa trahison ( malédiction yogo) mais il à menti.",
+      "postesCour": [
+        "Daimyo de Famille"
+      ],
+      "fonctions": [],
+      "visible": true,
+      "liens": []
+    }
+  ],
+  "bestiaire": [
+    {
+      "nom": "Bakemono",
+      "type": "Outreland",
+      "desc": "Petites créatures gobelinoïdes corrompues des Terres d'Ombre. Lâches en solo, dangereux en meute. Peau verdâtre, crocs, pillent les corps.",
+      "id": "b17790543988120",
+      "lieuId": null,
+      "descMJ": "",
+      "visible": true
+    },
+    {
+      "nom": "Goblin (Outreland)",
+      "type": "Outreland",
+      "desc": "Cousins plus grands des Bakemono. Servent souvent les Oni comme troupes de choc.",
+      "id": "b17790543988121",
+      "lieuId": null,
+      "descMJ": "",
+      "visible": true
+    },
+    {
+      "nom": "Ogre (Outreland)",
+      "type": "Outreland",
+      "desc": "Brutes massives au sang noir. Force colossale, intelligence limitée. Souvent capturés et asservis par les Oni.",
+      "id": "b17790543988122",
+      "lieuId": null,
+      "descMJ": "",
+      "visible": true
+    },
+    {
+      "nom": "Oni no Akuma",
+      "type": "Démon (Oni)",
+      "desc": "Démon majeur incarnant la haine pure. Apparence reptilienne, crachant un feu noir. Sert directement les Maîtres de l'Outreland.",
+      "id": "b17790543988123",
+      "lieuId": "",
+      "descMJ": "",
+      "visible": false
+    },
+    {
+      "nom": "Oni no Tsuburu",
+      "type": "Démon (Oni)",
+      "desc": "Démon enveloppé d'yeux multiples, voit ce que craignent ses victimes. Manipulateur, frappe les esprits avant les corps.",
+      "id": "b17790543988124",
+      "lieuId": "",
+      "descMJ": "",
+      "visible": false
+    },
+    {
+      "nom": "Oni no Hatsu",
+      "type": "Démon (Oni)",
+      "desc": "Démon d'humiliation, prend l'apparence de proches défunts pour briser la volonté des samouraïs.",
+      "id": "b17790543988125",
+      "lieuId": "",
+      "descMJ": "",
+      "visible": false
+    },
+    {
+      "nom": "Goryo",
+      "type": "Esprit",
+      "desc": "Esprit vengeur d'un samouraï mort dans le déshonneur. Hante un lieu précis. Ne peut être apaisé que par la réparation de l'offense.",
+      "id": "b17790543988126",
+      "lieuId": "",
+      "descMJ": "",
+      "visible": true
+    },
+    {
+      "nom": "Yurei",
+      "type": "Esprit",
+      "desc": "Fantôme féminin aux longs cheveux noirs, vêtue de blanc. Liée à un drame d'amour ou de trahison. Apparaît la nuit près des points d'eau.",
+      "id": "b17790543988127",
+      "lieuId": "",
+      "descMJ": "",
+      "visible": true
+    },
+    {
+      "nom": "Gaki",
+      "type": "Esprit",
+      "desc": "Esprit affamé condamné à errer pour ses péchés de gourmandise. Bouche minuscule, ventre énorme. Dévore vivres et parfois âmes.",
+      "id": "b17790543988128",
+      "lieuId": "",
+      "descMJ": "",
+      "visible": true
+    },
+    {
+      "nom": "Onibaba",
+      "type": "Surnaturelle",
+      "desc": "Sorcière démoniaque vivant en ermite dans les montagnes ou marais. Attire les voyageurs égarés pour les dévorer.",
+      "id": "b17790543988129",
+      "lieuId": "",
+      "descMJ": "",
+      "visible": true
+    },
+    {
+      "nom": "Tengu",
+      "type": "Surnaturelle",
+      "desc": "Yokai des montagnes, mi-corbeau mi-humain. Maîtres d'escrime et de stratégie. Capricieux : peuvent enseigner ou tourmenter les samouraïs orgueilleux.",
+      "id": "b177905439881210",
+      "lieuId": "",
+      "descMJ": "",
+      "visible": true
+    },
+    {
+      "nom": "Kappa",
+      "type": "Surnaturelle",
+      "desc": "Yokai aquatique au sommet du crâne creux rempli d'eau. Salue-le poliment : il s'inclinera, renversant son eau et perdant ses pouvoirs.",
+      "id": "b177905439881211",
+      "lieuId": null,
+      "descMJ": "",
+      "visible": true
+    },
+    {
+      "nom": "Kitsune (esprit-renard)",
+      "type": "Surnaturelle",
+      "desc": "Renard-esprit doué de magie. Plus il a de queues (jusqu'à neuf), plus il est puissant. Peut prendre forme humaine pour séduire ou conseiller.",
+      "id": "b177905439881212",
+      "lieuId": null,
+      "descMJ": "",
+      "visible": true
+    },
+    {
+      "nom": "Tanuki",
+      "type": "Surnaturelle",
+      "desc": "Esprit-blaireau farceur. Métamorphe, amateur de saké et de mauvaises plaisanteries. Rarement malveillant.",
+      "id": "b177905439881213",
+      "lieuId": "",
+      "descMJ": "",
+      "visible": true
+    },
+    {
+      "nom": "Penanggalan",
+      "type": "Surnaturelle",
+      "desc": "Tête volante traînant ses entrailles, ancienne sorcière maudite. Suce le sang des nouveau-nés. Folklore importé du sud.",
+      "id": "b177905439881214",
+      "lieuId": "",
+      "descMJ": "",
+      "visible": true
+    },
+    {
+      "nom": "Nezumi (Ratling)",
+      "type": "Naturelle",
+      "desc": "Peuple rat sentient vivant dans les Terres d'Ombre. Pas corrompus malgré leur habitat. Survivants méfiants, parfois alliés des Crabes.",
+      "id": "b177905439881215",
+      "lieuId": "",
+      "descMJ": "",
+      "visible": false
+    },
+    {
+      "nom": "Tsuno",
+      "type": "Outreland",
+      "desc": "Race cornue déchue, autrefois mortels, désormais piégés dans l'Outreland. Cherchent à briser les barrières entre les royaumes.",
+      "id": "b177905439881216",
+      "lieuId": "",
+      "descMJ": "",
+      "visible": true
+    },
+    {
+      "nom": "Maho-tsukai",
+      "type": "Surnaturelle",
+      "desc": "Shugenja corrompu pratiquant la magie du sang (Maho). N'est plus tout à fait humain : l'âme s'effiloche à chaque sort.",
+      "id": "b177905439881217",
+      "lieuId": null,
+      "descMJ": "",
+      "visible": true
+    },
+    {
+      "nom": "Inugami",
+      "type": "Esprit",
+      "desc": "Esprit-chien lié à une famille par un pacte sombre. Sert fidèlement mais réclame son tribut. Vengeur si trahi.",
+      "id": "b177905439881218",
+      "lieuId": "",
+      "descMJ": "",
+      "visible": false
+    },
+    {
+      "nom": "Mujina",
+      "type": "Surnaturelle",
+      "desc": "Yokai sans visage, prend l'apparence d'humains croisés. Effraie sans tuer. Reconnaissable à sa peau lisse au lieu d'un visage.",
+      "id": "b177905439881219",
+      "lieuId": null,
+      "descMJ": "",
+      "visible": true
+    },
+    {
+      "nom": "Oni no Okura",
+      "type": "Démon (Oni)",
+      "desc": "Démon massif aux trois yeux, gardien des trésors de l'Outreland. Cupide, marchande parfois avec les humains... à ses propres conditions.",
+      "id": "b177905439881220",
+      "lieuId": "",
+      "descMJ": "",
+      "visible": false
+    }
+  ],
+  "nemuranai": [
+    {
+      "nom": "Chukandomo (Épée Ancestrale du Crabe)",
+      "type": "Arme",
+      "desc": "Daisho ancestral du Champion du Clan Crabe. Lame forgée avec du sang d'Oni. Détecte la Souillure à courte distance.",
+      "id": "n17790543988120",
+      "lieuId": "",
+      "pnjId": "",
+      "descMJ": "",
+      "visible": false
+    },
+    {
+      "nom": "Shori (Épée Ancestrale de la Grue)",
+      "type": "Arme",
+      "desc": "Katana du Champion Doji. \"La Victoire\". Étrange éclat lumineux quand brandie pour défendre l'honneur d'un autre.",
+      "id": "n17790543988121",
+      "lieuId": "",
+      "pnjId": "",
+      "descMJ": "",
+      "visible": false
+    },
+    {
+      "nom": "Itsuwari (Épée Ancestrale du Dragon)",
+      "type": "Arme",
+      "desc": "Lame des Mirumoto. \"Le Mensonge\". Sa vérité se révèle uniquement aux dignes du Tao.",
+      "id": "n17790543988122",
+      "lieuId": "",
+      "pnjId": "",
+      "descMJ": "",
+      "visible": false
+    },
+    {
+      "nom": "Shitsui (Épée Ancestrale du Lion)",
+      "type": "Arme",
+      "desc": "Katana hérité d'Akodo. Renforce la stratégie de son porteur. Trois fois par jour, donne un conseil mental.",
+      "id": "n17790543988123",
+      "lieuId": "",
+      "pnjId": "",
+      "descMJ": "",
+      "visible": false
+    },
+    {
+      "nom": "Ofushikai (Épée Ancestrale du Phénix)",
+      "type": "Arme",
+      "desc": "Lame Shiba, gardienne des Maîtres Élémentaires. Peut couper même les esprits incorporels.",
+      "id": "n17790543988124",
+      "lieuId": "",
+      "pnjId": "",
+      "descMJ": "",
+      "visible": false
+    },
+    {
+      "nom": "Daisho de Shoju (Scorpion)",
+      "type": "Arme",
+      "desc": "Daisho ancestral Bayushi. Empoisonné en permanence. Cause des blessures qui ne guérissent jamais complètement.",
+      "id": "n17790543988125",
+      "lieuId": "",
+      "pnjId": "",
+      "descMJ": "",
+      "visible": false
+    },
+    {
+      "nom": "Utaku no Bushi-do (Licorne)",
+      "type": "Arme",
+      "desc": "Lame de Shinjo, frappée des steppes occidentales. Brille la nuit quand le danger approche.",
+      "id": "n17790543988126",
+      "lieuId": "",
+      "pnjId": "",
+      "descMJ": "",
+      "visible": false
+    },
+    {
+      "nom": "Yoritomo no Kama (Mante)",
+      "type": "Arme",
+      "desc": "Kama de Yoritomo, fondateur du Clan Mante. Maîtrise les vents marins.",
+      "id": "n17790543988127",
+      "lieuId": null,
+      "pnjId": null,
+      "descMJ": "",
+      "visible": true
+    },
+    {
+      "nom": "Yakamo no Te (Griffe de Yakamo)",
+      "type": "Arme",
+      "desc": "Tetsubo massif de Hida Yakamo. Inscrit de runes Kaiu. Brise armures et os.",
+      "id": "n17790543988128",
+      "lieuId": "",
+      "pnjId": "",
+      "descMJ": "",
+      "visible": false
+    },
+    {
+      "nom": "Rouleaux Noirs (Black Scrolls)",
+      "type": "Parchemin",
+      "desc": "Douze parchemins maudits contenant la prison de Fu Leng. Quiconque les lit voit son âme corrompue. Disséminés à travers l'Empire.",
+      "visible": false,
+      "descMJ": "Localisations dispersées : Phénix (2 connus), Scorpion (1, Shoju), divers (perdus).",
+      "id": "n17790543988129",
+      "lieuId": null,
+      "pnjId": null
+    },
+    {
+      "nom": "Heart of the Wolf (Cœur du Loup)",
+      "type": "Bijou",
+      "desc": "Pendentif ronin légendaire. Détecte les âmes corrompues à proximité (Souillure).",
+      "id": "n177905439881210",
+      "lieuId": "",
+      "pnjId": "",
+      "descMJ": "",
+      "visible": false
+    },
+    {
+      "nom": "Oeuf de P'an Ku",
+      "type": "Objet",
+      "desc": "Artefact mystique très ancien. Modifie les probabilités autour de son porteur. Considéré perdu ou volé.",
+      "visible": false,
+      "descMJ": "Pourrait être en possession des Kolat.",
+      "id": "n177905439881211",
+      "lieuId": null,
+      "pnjId": null
+    },
+    {
+      "nom": "Dernier Vœu (Last Wish)",
+      "type": "Bijou",
+      "desc": "Pierre précieuse renfermant l'âme d'une concubine impériale. Accorde un souhait à son détenteur — au prix de l'âme.",
+      "visible": false,
+      "descMJ": "Tenu secret par Bayushi Kachiko.",
+      "id": "n177905439881212",
+      "lieuId": null,
+      "pnjId": null
+    },
+    {
+      "nom": "Enclume du Désespoir",
+      "type": "Objet",
+      "desc": "Énorme enclume noire des Outrelands. Toute arme forgée dessus devient corrompue mais surpuissante.",
+      "visible": false,
+      "descMJ": "Cachée dans les ruines de Shiro no Yajinden.",
+      "id": "n177905439881213",
+      "lieuId": null,
+      "pnjId": null
+    },
+    {
+      "nom": "Masque de Fer (Iron Mask)",
+      "type": "Armure",
+      "desc": "Masque rituel des Bloodspeakers (Iuchiban). Permet de communiquer entre disciples du sang à distance.",
+      "visible": false,
+      "descMJ": "Plusieurs exemplaires en circulation chez les sectateurs.",
+      "id": "n177905439881214",
+      "lieuId": null,
+      "pnjId": null
+    },
+    {
+      "nom": "Larmes du Soleil",
+      "type": "Bijou",
+      "desc": "Collier de perles dorées de l'Impératrice. Protège des sorts d'illusion.",
+      "id": "n177905439881215",
+      "lieuId": "",
+      "pnjId": "",
+      "descMJ": "",
+      "visible": false
+    },
+    {
+      "nom": "Sword of the Dawn (Lame de l'Aube)",
+      "type": "Arme",
+      "desc": "Katana forgé à l'aube d'un solstice. Brille intensément contre les créatures de l'Outreland.",
+      "id": "n177905439881216",
+      "lieuId": "",
+      "pnjId": "",
+      "descMJ": "",
+      "visible": false
+    },
+    {
+      "nom": "Main d'Obsidienne",
+      "type": "Objet",
+      "desc": "Prothèse magique permettant à son porteur de manipuler la magie de la Souillure sans en subir les effets... pour un temps.",
+      "visible": false,
+      "descMJ": "Tenue secrète par certains maho-tsukai influents.",
+      "id": "n177905439881217",
+      "lieuId": null,
+      "pnjId": null
+    }
+  ],
+  "obstacles": [],
+  "lore": [
+    {
+      "titre": "Le salut (Rei)",
+      "theme": "Politesse",
+      "contenu": "Trois niveaux : saikeirei (45°, devant un supérieur impérial), futsurei (30°, égal ou supérieur de clan), eshaku (15°, simple courtoisie). Ne jamais détourner les yeux pendant le salut d'un supérieur, ni croiser son regard.",
+      "id": "L17790543988120",
+      "descMJ": "",
+      "visible": true
+    },
+    {
+      "titre": "Adresse et titres",
+      "theme": "Politesse",
+      "contenu": "-sama (très respectueux, seigneur), -san (égal courtois), -dono (seigneur chaleureux), -kun (familier, jeune homme), -chan (intime). Utiliser un titre incorrect est une offense sérieuse.",
+      "id": "L17790543988121",
+      "descMJ": "",
+      "visible": true
+    },
+    {
+      "titre": "Tatemae & Honne",
+      "theme": "Politesse",
+      "contenu": "Le visage public (tatemae) et le sentiment réel (honne) sont distincts. Un samouraï montre toujours tatemae en public. Révéler son honne est un signe d'intimité — ou de faiblesse.",
+      "id": "L17790543988122",
+      "descMJ": "",
+      "visible": true
+    },
+    {
+      "titre": "Le refus impossible",
+      "theme": "Politesse",
+      "contenu": "Refuser frontalement est inconcevable. On répond par \"C'est difficile\" (mu zukashii), \"J'y réfléchirai\", ou un silence. L'art de la cour consiste à comprendre ces refus.",
+      "id": "L17790543988123",
+      "descMJ": "",
+      "visible": true
+    },
+    {
+      "titre": "Cadeaux (Omiyage)",
+      "theme": "Politesse",
+      "contenu": "Offrir un cadeau lors d'une visite est obligatoire. La valeur compte moins que l'attention. Le destinataire le pose sans l'ouvrir devant l'invité, puis le réciproque plus tard.",
+      "id": "L17790543988124",
+      "descMJ": "",
+      "visible": true
+    },
+    {
+      "titre": "Seppuku",
+      "theme": "Rituels",
+      "contenu": "Suicide rituel pour effacer le déshonneur. Vêtu de blanc, le samouraï rédige son poème de la mort (jisei), puis s'ouvre l'abdomen au wakizashi. Un second (kaishakunin) tranche la nuque. Ordonné (oibara) ou choisi (kanshi).",
+      "id": "L17790543988125",
+      "descMJ": "",
+      "visible": true
+    },
+    {
+      "titre": "Genpuku",
+      "theme": "Rituels",
+      "contenu": "Cérémonie de passage à l'âge adulte (~15 ans). Reçoit son daisho, son nom d'adulte, présenté au daimyo. Suivi souvent du Tournoi de Topaze.",
+      "id": "L17790543988126",
+      "descMJ": "",
+      "visible": true
+    },
+    {
+      "titre": "Mariage samouraï",
+      "theme": "Rituels",
+      "contenu": "San-san-kudo : les époux boivent trois fois dans trois coupes de saké, scellant l'union devant les ancêtres et un shugenja. Mariages arrangés par les chefs de famille.",
+      "id": "L17790543988127",
+      "descMJ": "",
+      "visible": true
+    },
+    {
+      "titre": "Funérailles",
+      "theme": "Rituels",
+      "contenu": "Crémation. Les cendres reposent au mausolée familial. Période de deuil de 49 jours durant laquelle les proches portent du blanc et évitent les festivités.",
+      "id": "L17790543988128",
+      "descMJ": "",
+      "visible": true
+    },
+    {
+      "titre": "Cha-no-yu (Cérémonie du thé)",
+      "theme": "Cérémonies",
+      "contenu": "Rituel précis hérité de Shinsei. Préparation, gestes et silences codifiés. Un seul faux geste révèle un samouraï mal éduqué. Souvent utilisée à la cour pour évaluer un visiteur.",
+      "id": "L17790543988129",
+      "descMJ": "",
+      "visible": true
+    },
+    {
+      "titre": "Ikebana",
+      "theme": "Cérémonies",
+      "contenu": "Art floral. Trois branches symbolisent Ciel, Homme, Terre. Pratiqué surtout chez les Grues. Composition silencieuse, méditative.",
+      "id": "L177905439881210",
+      "descMJ": "",
+      "visible": true
+    },
+    {
+      "titre": "Cérémonie d'investiture",
+      "theme": "Cérémonies",
+      "contenu": "Nomination officielle à une fonction (daimyo, magistrat). Devant son seigneur, le récipiendaire reçoit un objet symbolique (sceau, éventail, parchemin).",
+      "id": "L177905439881211",
+      "descMJ": "",
+      "visible": true
+    },
+    {
+      "titre": "Bon Festival",
+      "theme": "Festivités",
+      "contenu": "Festival des morts (été). On allume des lanternes flottantes pour guider les esprits ancestraux qui reviennent visiter les vivants. Danses bon-odori.",
+      "id": "L177905439881212",
+      "descMJ": "",
+      "visible": true
+    },
+    {
+      "titre": "Setsubun",
+      "theme": "Festivités",
+      "contenu": "Passage à la saison nouvelle (printemps). On lance des graines de soja en criant \"Oni wa soto, fuku wa uchi !\" (démons dehors, chance dedans). Important chez les Crabes.",
+      "id": "L177905439881213",
+      "descMJ": "",
+      "visible": true
+    },
+    {
+      "titre": "Hanami",
+      "theme": "Festivités",
+      "contenu": "Contemplation des cerisiers en fleur (printemps). Picnics, poésie, philosophie sur la beauté éphémère (mono no aware). Très prisé des Grues.",
+      "id": "L177905439881214",
+      "descMJ": "",
+      "visible": true
+    },
+    {
+      "titre": "Tournoi de Topaze",
+      "theme": "Festivités",
+      "contenu": "À Tsuma, chaque automne. Jeunes samouraïs récemment passés genpuku s'y affrontent. Vainqueur = Champion du Topaze + renommée immédiate.",
+      "id": "L177905439881215",
+      "descMJ": "",
+      "visible": true
+    },
+    {
+      "titre": "Festival des Esprits Rivière",
+      "theme": "Festivités",
+      "contenu": "Apaisement des kami des rivières avant l'hiver (automne). Offrandes de riz et de saké jetées dans les eaux.",
+      "id": "L177905439881216",
+      "descMJ": "",
+      "visible": true
+    },
+    {
+      "titre": "Shintao (Voie des Kami)",
+      "theme": "Religion",
+      "contenu": "Religion officielle. Vénération des Sept Fortunes (Bishamon, Benten, Daikoku, Ebisu, Fukurokujin, Hotei, Jurojin), des kami élémentaires, et des ancêtres. Shugenja = intermédiaires.",
+      "id": "L177905439881217",
+      "descMJ": "",
+      "visible": true
+    },
+    {
+      "titre": "Voie de Shinsei",
+      "theme": "Religion",
+      "contenu": "Doctrine philosophique du Petit Maître Shinsei. Recherche de l'illumination par méditation, détachement, compréhension du Vide. Suivie par les moines (sohei, henshin).",
+      "id": "L177905439881218",
+      "descMJ": "",
+      "visible": true
+    },
+    {
+      "titre": "Culte de Fu Leng",
+      "theme": "Religion",
+      "contenu": "Vénération du Neuvième Frère Tonnerre devenu Seigneur des Outrelands. Strictement interdit. Pratiqué par maho-tsukai et désespérés. Mène à la corruption inéluctable.",
+      "visible": false,
+      "descMJ": "Tous les pratiquants sont passibles de mort sans procès.",
+      "id": "L177905439881219"
+    },
+    {
+      "titre": "Bloodspeakers (Disciples d'Iuchiban)",
+      "theme": "Religion",
+      "contenu": "Secte secrète fondée par le shugenja maudit Iuchiban. Magie du sang (maho). Cherchent à libérer leur maître emprisonné. Cellules dans tout l'Empire.",
+      "visible": false,
+      "descMJ": "Iuchiban est enterré quelque part au sud, gardé par les Crabes. Difficile à détecter.",
+      "id": "L177905439881220"
+    },
+    {
+      "titre": "Le Conseil Impérial",
+      "theme": "Politique",
+      "contenu": "Cinq Conseillers Élémentaires (Isawa traditionnellement) conseillent l'Empereur. Le Champion d'Émeraude commande la justice et l'armée. Le Chancelier gère l'administration.",
+      "id": "L177905439881221",
+      "descMJ": "",
+      "visible": true
+    },
+    {
+      "titre": "Le Champion d'Émeraude",
+      "theme": "Politique",
+      "contenu": "Plus haute fonction militaire après l'Empereur. Choisi par tournoi tous les cinq ans. Autorité directe du Trône.",
+      "id": "L177905439881222",
+      "descMJ": "",
+      "visible": true
+    },
+    {
+      "titre": "Les Magistrats d'Émeraude",
+      "theme": "Politique",
+      "contenu": "Force de loi impériale, indépendante des clans. Voyagent à travers Rokugan pour faire respecter les édits de l'Empereur.",
+      "id": "L177905439881223",
+      "descMJ": "",
+      "visible": true
+    },
+    {
+      "titre": "Les Kolat",
+      "theme": "Politique",
+      "contenu": "Conspiration séculaire visant à renverser le système impérial. Pensent que samouraïs et Fortunes oppriment l'humanité. Recrutent dans tous les clans.",
+      "visible": false,
+      "descMJ": "Dix Maîtres dirigent l'organisation. Pénétrent tous les clans. Méfiance constante recommandée.",
+      "id": "L177905439881224"
+    },
+    {
+      "titre": "Le Goju (Ninja de l'Ombre)",
+      "theme": "Politique",
+      "contenu": "Ordre secret de ninjas serviteurs de la Mère Sombre. Liens directs avec les Outrelands. Peuvent se déplacer dans les ombres elles-mêmes.",
+      "visible": false,
+      "descMJ": "Très rares mais redoutables. Frappent parfois au cœur même de la capitale.",
+      "id": "L177905439881225"
+    },
+    {
+      "titre": "L'Ordre des Faucons",
+      "theme": "Politique",
+      "contenu": "Société secrète de bushi indépendants traquant les corrupteurs (maho, Bloodspeakers). Reconnaissables à un tatouage de faucon caché.",
+      "visible": false,
+      "descMJ": "Demi-officiel, toléré tant qu'ils restent discrets. Alliés discrets de certains Crabes et Phénix.",
+      "id": "L177905439881226"
+    },
+    {
+      "titre": "Les Sceaux Naga",
+      "theme": "Religion",
+      "contenu": "Sept sceaux mystiques scellent le sommeil des Naga dans Shinomen. Si tous étaient brisés, le peuple-serpent se réveillerait.",
+      "visible": false,
+      "descMJ": "Trois sceaux ont déjà été affaiblis par l'âge. Le réveil approche.",
+      "id": "L177905439881227"
+    }
+  ],
+  "routes": [
+    {
+      "id": "r1779058231868",
+      "from": "l17790543988110",
+      "to": "l17790543988122",
+      "type": "route",
+      "montagne": false,
+      "waypoints": [
+        [
+          1421.0928574371915,
+          1083.0745828467843
+        ],
+        [
+          1435.3966352835473,
+          1071.7224812408592
+        ],
+        [
+          1452.6453085688586,
+          1068.7793437874711
+        ],
+        [
+          1462.3213935825697,
+          1057.8476903891728
+        ],
+        [
+          1498.9222368953037,
+          1047.3364851985016
+        ],
+        [
+          1519.1158056195707,
+          1039.7684174612182
+        ]
+      ]
+    },
+    {
+      "id": "r1779089958432",
+      "from": "l177905439881213",
+      "to": "l17790543988122",
+      "type": "route",
+      "montagne": false,
+      "waypoints": [
+        [
+          1700.3320123061294,
+          930.872331685862
+        ],
+        [
+          1639.751520885541,
+          974.5989452790552
+        ],
+        [
+          1597.681735176799,
+          988.0532879231146
+        ]
+      ],
+      "width": 3
+    }
+  ],
+  "zones": [
+    {
+      "id": "z1779089724035",
+      "nom": "Forêt",
+      "type": "foret",
+      "points": [
+        [
+          1694.7692831002428,
+          846.7826901604906
+        ],
+        [
+          1667.844620246648,
+          844.2600009147294
+        ],
+        [
+          1651.0167059631513,
+          846.7826901604906
+        ],
+        [
+          1635.0301873938292,
+          860.23703280455
+        ],
+        [
+          1641.761353107228,
+          869.4868933723409
+        ],
+        [
+          1647.651123106452,
+          878.7367539401317
+        ],
+        [
+          1647.651123106452,
+          893.8728894146985
+        ],
+        [
+          1651.0167059631513,
+          899.7591643214746
+        ],
+        [
+          1654.3822888198504,
+          920.7815747028175
+        ],
+        [
+          1684.6725345301447,
+          919.9406782875637
+        ],
+        [
+          1696.4520745285924,
+          914.0544033807878
+        ],
+        [
+          1710.7558016695648,
+          905.6454392282506
+        ],
+        [
+          1718.3283630971384,
+          894.7137858299523
+        ],
+        [
+          1711.5971973837395,
+          873.6913754486094
+        ],
+        [
+          1697.2934702427672,
+          853.5098614825203
+        ],
+        [
+          1690.5623045293687,
+          849.3053794062517
+        ]
+      ]
+    }
+  ]
+}
