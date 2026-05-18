@@ -1,0 +1,2207 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Rokugan — Aide de jeu</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1a1410; --paper:#f5ecd9; --paper-dark:#e8dcc0; --paper-darker:#d8c8a8;
+  --red:#8b1a1a; --red-bright:#b8252a; --red-dark:#5a0e0e;
+  --gold:#a07840; --gold-light:#c9a060;
+  --shadow:rgba(26,20,16,.25); --line:#3a2a20;
+  --clan-crab:#1a3a52; --clan-crane:#6b9bc7; --clan-dragon:#2d5a3d; --clan-lion:#b8842a;
+  --clan-phoenix:#c44a1a; --clan-scorpion:#7a1a2a; --clan-unicorn:#5a3a7a; --clan-mantis:#3a7a3a;
+  --clan-imperial:#7a4a8a;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;font-family:'Cormorant Garamond',serif;background:var(--paper);color:var(--ink);overflow:hidden;font-size:16px}
+
+/* Texture parchemin */
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:
+    radial-gradient(ellipse at top left,rgba(160,120,64,.12),transparent 50%),
+    radial-gradient(ellipse at bottom right,rgba(139,26,26,.08),transparent 50%),
+    repeating-linear-gradient(45deg,transparent,transparent 60px,rgba(160,120,64,.03) 60px,rgba(160,120,64,.03) 61px);
+}
+
+/* ===== HEADER ===== */
+header{
+  display:flex;align-items:center;gap:8px;padding:10px 16px;background:linear-gradient(180deg,#0f0a08 0%,var(--ink) 100%);
+  color:var(--paper);border-bottom:3px double var(--red);flex-wrap:wrap;position:relative;z-index:10;
+}
+header::after{content:"";position:absolute;left:0;right:0;bottom:-3px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+header h1{font-family:'Cinzel',serif;font-size:20px;letter-spacing:.2em;color:var(--paper);font-weight:700}
+header h1::before{content:"⛩ ";color:var(--red-bright)}
+header h1::after{content:" 之 道";font-size:13px;color:var(--gold);letter-spacing:0;margin-left:6px;opacity:.7}
+
+.mode-badge{margin-left:auto;padding:4px 10px;border:1px solid var(--gold);font-size:11px;letter-spacing:.15em;text-transform:uppercase;background:rgba(160,120,64,.1)}
+.mode-mj{color:var(--red-bright);border-color:var(--red-bright);background:rgba(184,37,42,.1)}
+.mode-pj{color:var(--gold-light)}
+
+header button{
+  background:transparent;color:var(--paper);border:1px solid var(--gold);padding:5px 10px;cursor:pointer;
+  font-family:'Cinzel',serif;font-size:10px;letter-spacing:.1em;transition:.2s;text-transform:uppercase
+}
+header button:hover,header button:active{background:var(--red);border-color:var(--red);color:var(--paper)}
+
+.burger{display:none;background:transparent;color:var(--paper);border:1px solid var(--gold);padding:8px 12px;font-size:18px;cursor:pointer}
+
+/* ===== LAYOUT ===== */
+.app{display:grid;grid-template-columns:340px 1fr;height:calc(100vh - 56px);position:relative;z-index:1}
+
+aside{
+  background:linear-gradient(180deg,var(--paper-dark) 0%,var(--paper-darker) 100%);
+  border-right:2px solid var(--line);overflow:hidden;display:flex;flex-direction:column;height:100%;
+  box-shadow:inset -4px 0 8px rgba(0,0,0,.08)
+}
+
+.tabs{display:flex;flex-wrap:wrap;background:var(--ink);border-bottom:2px solid var(--gold)}
+.tabs button{
+  flex:1;min-width:25%;padding:11px 3px;background:transparent;color:var(--paper);border:none;
+  border-bottom:3px solid transparent;cursor:pointer;font-family:'Cinzel',serif;font-size:10px;letter-spacing:.08em;
+  transition:.2s;text-transform:uppercase
+}
+.tabs button.active{border-bottom-color:var(--red-bright);color:var(--red-bright);background:rgba(184,37,42,.1)}
+.tabs button:hover{background:rgba(255,255,255,.06)}
+
+.tab-content{padding:14px;flex:1;overflow-y:auto;overflow-x:hidden}
+.tab-content h2{
+  font-family:'Cinzel',serif;font-size:15px;letter-spacing:.15em;color:var(--red-dark);
+  border-bottom:2px solid var(--gold);padding-bottom:8px;margin-bottom:12px;
+  display:flex;justify-content:space-between;align-items:center;text-transform:uppercase
+}
+.tab-content h2::before{content:"❖ ";color:var(--gold);font-size:12px}
+.tab-content h2 button{
+  background:linear-gradient(180deg,var(--red-bright),var(--red));color:var(--paper);border:1px solid var(--gold);
+  padding:5px 12px;cursor:pointer;font-size:11px;font-family:'Cinzel',serif;letter-spacing:.08em;text-transform:uppercase
+}
+.tab-content h2 button:hover{background:linear-gradient(180deg,var(--red),var(--red-dark))}
+
+.search{
+  width:100%;padding:8px 10px;border:1px solid var(--line);background:rgba(255,255,255,.6);
+  font-family:inherit;font-size:14px;margin-bottom:8px;border-radius:0
+}
+.search:focus{outline:1px solid var(--gold);background:#fff}
+
+.filters{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:12px}
+.filters select{
+  padding:6px;border:1px solid var(--line);background:rgba(255,255,255,.7);
+  font-family:inherit;font-size:12px;border-radius:0
+}
+
+/* ===== LISTE ENTITES ===== */
+.entity-list{list-style:none}
+.entity-list li{
+  padding:10px 12px;border-bottom:1px solid rgba(58,42,32,.2);cursor:pointer;
+  font-size:14px;transition:.15s;background:rgba(255,255,255,.3);margin-bottom:2px;
+  position:relative;border-left:3px solid transparent
+}
+.entity-list li:hover,.entity-list li:active{
+  background:rgba(184,37,42,.1);border-left-color:var(--red);transform:translateX(2px)
+}
+.entity-list .name{font-weight:600;font-size:15px}
+.entity-list .meta{font-size:11px;color:#6a5040;font-style:italic;margin-top:2px}
+.entity-list .hidden-tag{font-size:10px;color:var(--red);margin-left:6px;background:rgba(139,26,26,.15);padding:1px 5px}
+
+/* Badge clan dans liste PNJ */
+.clan-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;vertical-align:middle}
+.clan-Crabe{background:var(--clan-crab)}
+.clan-Grue{background:var(--clan-crane)}
+.clan-Dragon{background:var(--clan-dragon)}
+.clan-Lion{background:var(--clan-lion)}
+.clan-Phénix{background:var(--clan-phoenix)}
+.clan-Scorpion{background:var(--clan-scorpion)}
+.clan-Licorne{background:var(--clan-unicorn)}
+.clan-Mante{background:var(--clan-mantis)}
+.clan-Impérial{background:var(--clan-imperial)}
+
+/* ===== MAP ===== */
+#mapWrap{position:relative;height:100%;width:100%}
+#map{height:100%;width:100%;background:#2a3640}
+.leaflet-container{background:#2a3640;font-family:'Cormorant Garamond',serif}
+.leaflet-popup-content-wrapper{
+  background:linear-gradient(180deg,var(--paper) 0%,var(--paper-dark) 100%);
+  color:var(--ink);border-radius:0;border:1px solid var(--line);
+  box-shadow:0 4px 16px rgba(0,0,0,.4),inset 0 0 0 1px var(--gold)
+}
+.leaflet-popup-content{font-family:'Cormorant Garamond',serif;font-size:14px;line-height:1.5;margin:12px 16px;min-width:200px}
+.leaflet-popup-content h3{font-family:'Cinzel',serif;font-size:14px;letter-spacing:.1em;color:var(--red-dark);margin-bottom:6px;border-bottom:1px solid var(--gold);padding-bottom:4px}
+.leaflet-popup-content .pop-section{margin-top:8px;padding-top:6px;border-top:1px dashed rgba(58,42,32,.3)}
+.leaflet-popup-content .mj-only{color:var(--red);font-size:11px;text-transform:uppercase;letter-spacing:.08em}
+.leaflet-popup-tip{background:var(--paper)}
+
+/* ===== MODALES ===== */
+.modal-bg{position:fixed;inset:0;background:rgba(26,20,16,.78);display:none;align-items:center;justify-content:center;z-index:1000;padding:10px}
+.modal-bg.show{display:flex}
+.modal{
+  background:linear-gradient(180deg,var(--paper) 0%,var(--paper-dark) 100%);
+  padding:24px;border:2px solid var(--line);max-width:720px;width:100%;max-height:92vh;overflow-y:auto;
+  position:relative;box-shadow:0 12px 50px rgba(0,0,0,.6)
+}
+.modal::before{content:"";position:absolute;inset:5px;border:1px solid var(--gold);pointer-events:none}
+.modal::after{content:"❖";position:absolute;top:-12px;left:50%;transform:translateX(-50%);color:var(--gold);background:var(--paper);padding:0 8px;font-size:14px}
+.modal h2{
+  font-family:'Cinzel',serif;color:var(--red-dark);margin-bottom:14px;letter-spacing:.12em;font-size:18px;
+  text-transform:uppercase;text-align:center;padding-bottom:8px;border-bottom:2px solid var(--gold)
+}
+.modal h3{
+  font-family:'Cinzel',serif;color:var(--ink);font-size:13px;letter-spacing:.1em;margin-top:18px;
+  border-bottom:1px solid var(--line);padding-bottom:5px;text-transform:uppercase
+}
+.modal h3::before{content:"⌘ ";color:var(--gold);font-size:11px}
+.modal label{display:block;margin-top:10px;font-size:12px;font-weight:600;color:var(--line);letter-spacing:.05em;text-transform:uppercase}
+.modal input,.modal textarea,.modal select{
+  width:100%;padding:8px 10px;border:1px solid var(--line);background:rgba(255,255,255,.85);
+  font-family:inherit;font-size:14px;margin-top:4px;border-radius:0
+}
+.modal input:focus,.modal textarea:focus,.modal select:focus{outline:1px solid var(--gold);background:#fff}
+.modal textarea{resize:vertical;min-height:70px;line-height:1.5}
+.modal .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.modal .actions{display:flex;gap:8px;margin-top:24px;justify-content:flex-end;flex-wrap:wrap;padding-top:14px;border-top:1px solid rgba(58,42,32,.2)}
+.modal .actions button{
+  padding:9px 18px;border:1px solid var(--line);background:var(--paper-dark);cursor:pointer;
+  font-family:'Cinzel',serif;font-size:12px;letter-spacing:.08em;text-transform:uppercase;transition:.15s
+}
+.modal .actions button:hover{background:var(--paper-darker)}
+.modal .actions button.primary{background:linear-gradient(180deg,var(--red-bright),var(--red));color:var(--paper);border-color:var(--gold)}
+.modal .actions button.primary:hover{background:linear-gradient(180deg,var(--red),var(--red-dark))}
+.modal .actions button.danger{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+
+/* Fiche character header */
+.fiche-header{
+  display:flex;align-items:center;gap:14px;margin:-24px -24px 18px -24px;padding:18px 24px;
+  background:linear-gradient(135deg,var(--ink) 0%,#2a1810 100%);color:var(--paper);
+  border-bottom:3px solid var(--gold);position:relative
+}
+.fiche-header.clan-Crabe{background:linear-gradient(135deg,var(--clan-crab),#0a1f2e)}
+.fiche-header.clan-Grue{background:linear-gradient(135deg,#3a5a7a,#1a2a3a);color:#f0f5fa}
+.fiche-header.clan-Dragon{background:linear-gradient(135deg,var(--clan-dragon),#0a2a18)}
+.fiche-header.clan-Lion{background:linear-gradient(135deg,var(--clan-lion),#5a3a0a)}
+.fiche-header.clan-Phénix{background:linear-gradient(135deg,var(--clan-phoenix),#5a1a0a)}
+.fiche-header.clan-Scorpion{background:linear-gradient(135deg,var(--clan-scorpion),#3a0a1a)}
+.fiche-header.clan-Licorne{background:linear-gradient(135deg,var(--clan-unicorn),#2a1a3a)}
+.fiche-header.clan-Mante{background:linear-gradient(135deg,var(--clan-mantis),#0a2a0a)}
+.fiche-header.clan-Impérial{background:linear-gradient(135deg,var(--clan-imperial),#2a1a3a)}
+.fiche-header .seal{
+  width:50px;height:50px;border-radius:50%;background:rgba(255,255,255,.1);border:2px solid var(--gold);
+  display:flex;align-items:center;justify-content:center;font-family:'Cinzel',serif;font-size:20px;flex-shrink:0
+}
+.fiche-header .titles{flex:1;min-width:0}
+.fiche-header .fullname{font-family:'Cinzel',serif;font-size:18px;letter-spacing:.1em;font-weight:700}
+.fiche-header .subtitle{font-size:12px;font-style:italic;color:var(--gold-light);margin-top:2px;letter-spacing:.05em}
+
+/* Tags */
+.tag-input{display:flex;flex-wrap:wrap;gap:5px;padding:6px;border:1px solid var(--line);background:rgba(255,255,255,.85);min-height:38px}
+.tag{background:linear-gradient(180deg,var(--red-bright),var(--red));color:var(--paper);padding:3px 10px;font-size:12px;display:flex;align-items:center;gap:5px;border:1px solid var(--gold)}
+.tag span{cursor:pointer;font-weight:bold;margin-left:2px}
+
+.visible-toggle{display:flex;align-items:center;gap:8px;margin-top:10px;padding:8px 10px;background:rgba(160,120,64,.18);border:1px dashed var(--gold)}
+.visible-toggle input{width:auto;margin:0}
+.visible-toggle label{margin:0;font-size:12px;text-transform:none;font-weight:500}
+
+/* Liens row */
+.lien-row{
+  display:grid;grid-template-columns:1.3fr 1fr 1.3fr auto auto;gap:6px;margin-top:6px;padding:8px;
+  background:rgba(255,255,255,.7);border:1px solid var(--line);align-items:center
+}
+.lien-row select,.lien-row input{margin-top:0;font-size:12px;padding:5px}
+.lien-row .vis-cell{display:flex;align-items:center;gap:4px;font-size:11px;font-weight:400;margin:0;text-transform:none}
+.lien-row .vis-cell input{width:auto;margin:0}
+.lien-row .rm{background:var(--ink);color:var(--paper);border:none;padding:5px 9px;cursor:pointer;font-size:11px}
+.btn-add-lien{margin-top:10px;background:linear-gradient(180deg,var(--gold-light),var(--gold));color:var(--paper);border:1px solid var(--ink);padding:7px 14px;cursor:pointer;font-family:'Cinzel',serif;font-size:11px;letter-spacing:.08em;text-transform:uppercase}
+
+/* Login */
+.login-content{text-align:center}
+.login-content h2{font-size:20px}
+
+/* Markers */
+.l5r-marker{
+  background:linear-gradient(180deg,var(--red-bright),var(--red));
+  width:16px;height:16px;border-radius:50%;border:2px solid var(--paper);
+  box-shadow:0 0 0 1px var(--ink),0 2px 6px rgba(0,0,0,.5)
+}
+.l5r-marker.temple{background:linear-gradient(180deg,var(--gold-light),var(--gold))}
+.l5r-marker.shiro{background:linear-gradient(180deg,#2a1810,var(--ink));border-color:var(--gold)}
+.l5r-marker.obstacle{background:#444;width:20px;height:20px;border-radius:0;transform:rotate(45deg)}
+
+/* Map tools */
+.map-tools{position:absolute;top:10px;right:10px;z-index:500;display:flex;flex-direction:column;gap:4px;max-width:180px}
+.map-tools button{
+  background:linear-gradient(180deg,var(--paper),var(--paper-dark));border:1px solid var(--line);
+  padding:9px 14px;cursor:pointer;font-family:'Cinzel',serif;font-size:11px;letter-spacing:.06em;
+  box-shadow:0 2px 6px var(--shadow);text-transform:uppercase
+}
+.map-tools button:hover{background:linear-gradient(180deg,var(--red-bright),var(--red));color:var(--paper)}
+.map-tools button.active{background:linear-gradient(180deg,var(--red-bright),var(--red));color:var(--paper);border-color:var(--gold)}
+
+#btnTrajet{
+  position:absolute;top:10px;left:10px;z-index:500;
+  background:linear-gradient(180deg,var(--red-bright),var(--red));color:var(--paper);
+  border:1px solid var(--gold);padding:9px 16px;cursor:pointer;
+  font-family:'Cinzel',serif;font-size:12px;letter-spacing:.1em;
+  box-shadow:0 2px 10px rgba(0,0,0,.5);text-transform:uppercase
+}
+
+/* First load */
+.first-load{
+  position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;
+  gap:20px;padding:40px;text-align:center;background:var(--paper);z-index:600
+}
+.first-load.show{display:flex}
+.first-load h2{font-family:'Cinzel',serif;color:var(--red);font-size:22px;letter-spacing:.1em}
+.first-load p{max-width:500px;font-size:15px;line-height:1.6}
+.first-load input[type=file]{padding:14px;border:2px dashed var(--gold);background:var(--paper-dark);cursor:pointer}
+
+/* Organigramme */
+.org-clan{margin-bottom:24px;background:rgba(255,255,255,.5);border:1px solid var(--line);padding:14px;position:relative}
+.org-clan h3{
+  font-family:'Cinzel',serif;color:var(--red-dark);font-size:15px;letter-spacing:.15em;text-align:center;
+  border-bottom:2px solid var(--gold);padding-bottom:8px;margin-bottom:14px;text-transform:uppercase
+}
+.org-tier{margin:10px 0}
+.org-tier-label{
+  font-family:'Cinzel',serif;font-size:10px;letter-spacing:.15em;color:var(--gold);
+  text-transform:uppercase;text-align:center;margin-bottom:8px;
+  position:relative;display:flex;align-items:center;gap:8px
+}
+.org-tier-label::before,.org-tier-label::after{content:"";flex:1;height:1px;background:var(--gold);opacity:.4}
+.org-cards{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.org-card{
+  background:linear-gradient(180deg,var(--paper),var(--paper-dark));border:1px solid var(--line);
+  padding:8px 14px;min-width:150px;text-align:center;cursor:pointer;transition:.15s;
+  box-shadow:0 1px 3px rgba(0,0,0,.1)
+}
+.org-card:hover,.org-card:active{
+  background:linear-gradient(180deg,var(--red-bright),var(--red));color:var(--paper);border-color:var(--gold);
+  transform:translateY(-1px);box-shadow:0 3px 8px rgba(0,0,0,.3)
+}
+.org-card .nm{font-weight:600;font-size:14px;font-family:'Cinzel',serif;letter-spacing:.03em}
+.org-card .ps{font-size:11px;font-style:italic;color:#6a5040}
+.org-card:hover .ps{color:var(--paper)}
+
+/* Waypoint bar */
+#wpBar{
+  position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--paper);
+  padding:12px 20px;border:2px solid var(--gold);box-shadow:0 4px 16px rgba(0,0,0,.5);z-index:2000;
+  font-family:Cinzel,serif;font-size:13px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;max-width:90vw
+}
+
+::-webkit-scrollbar{width:8px;height:8px}
+::-webkit-scrollbar-track{background:var(--paper-dark)}
+::-webkit-scrollbar-thumb{background:var(--line)}
+
+/* ===== MOBILE ===== */
+@media (max-width:768px){
+  header{padding:8px 12px;gap:6px}
+  header h1{font-size:16px;letter-spacing:.12em}
+  header h1::after{display:none}
+  header button{padding:6px 8px;font-size:9px}
+  .mode-badge{font-size:9px;padding:3px 8px;margin-left:auto}
+  .burger{display:block}
+
+  .app{grid-template-columns:1fr;height:calc(100vh - 50px)}
+  aside{
+    position:fixed;top:50px;left:-100%;width:88%;max-width:380px;height:calc(100vh - 50px);
+    z-index:900;transition:left .25s;box-shadow:4px 0 16px rgba(0,0,0,.4);border-right:3px solid var(--gold)
+  }
+  aside.open{left:0}
+  .tabs button{min-width:33%;padding:12px 3px;font-size:9px}
+
+  .modal{padding:18px;max-height:96vh}
+  .modal::after{display:none}
+  .modal h2{font-size:15px}
+  .modal .row{grid-template-columns:1fr}
+  .lien-row{grid-template-columns:1fr;gap:4px;padding:10px}
+  .lien-row .rm{justify-self:end}
+  .filters{grid-template-columns:1fr}
+
+  .fiche-header{margin:-18px -18px 14px -18px;padding:14px 18px;gap:10px}
+  .fiche-header .seal{width:40px;height:40px;font-size:16px}
+  .fiche-header .fullname{font-size:15px}
+
+  .map-tools{top:8px;right:8px;max-width:150px}
+  .map-tools button{padding:8px 10px;font-size:10px}
+  #btnTrajet{top:8px;left:8px;padding:8px 12px;font-size:10px}
+
+  .leaflet-popup-content{font-size:13px;margin:10px 12px;min-width:180px}
+  .entity-list li{padding:12px}
+  .org-cards{flex-direction:column}
+  .org-card{min-width:auto;width:100%}
+}
+
+/* Scrim mobile */
+.scrim{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:800}
+.scrim.show{display:block}
+</style>
+</head>
+<body>
+
+<header>
+  <button class="burger" id="burger">☰</button>
+  <h1>Rokugan</h1>
+  <span class="mode-badge mode-pj" id="modeBadge">Mode Joueur</span>
+  <button id="btnMode">Mode MJ</button>
+  <button id="btnCode" style="display:none">Code MJ</button>
+  <button id="btnExport">Exporter</button>
+  <button id="btnImport">Importer</button>
+  <input type="file" id="fileImport" accept=".json" style="display:none">
+  <button id="btnChangeMap">Carte</button>
+  <input type="file" id="fileMap" accept="image/*" style="display:none">
+  <button id="btnAutoPlace" style="display:none" title="Place automatiquement les lieux canoniques sur la carte">📍 Auto-placer</button>
+  <button id="btnSeedRoutes" style="display:none" title="Trace les routes canoniques">🛤 Routes initiales</button>
+  <button id="btnReset" style="display:none" title="Efface tout et recharge les données par défaut">⟲ Reset BDD</button>
+  <button id="btnGithub" title="Synchronisation via GitHub">☁ GitHub</button>
+  <span id="ghStatus" style="font-size:11px;color:var(--gold-light);margin-left:4px"></span>
+</header>
+
+<div class="scrim" id="scrim"></div>
+
+<div class="app">
+  <aside>
+    <div class="tabs">
+      <button data-tab="lieux" class="active">⛩ Lieux</button>
+      <button data-tab="pnj">人 PNJ</button>
+      <button data-tab="cour">⚜ Cour</button>
+      <button data-tab="bestiaire">妖 Bestiaire</button>
+      <button data-tab="nemuranai">器 Nemuranai</button>
+      <button data-tab="lore">📖 Lore</button>
+      <button data-tab="obstacles">⚔ Obstacles</button>
+    </div>
+    <div class="tab-content" id="tabContent"></div>
+  </aside>
+
+  <div id="mapWrap">
+    <div id="map"></div>
+    <div class="map-tools" id="mapTools" style="display:none">
+      <button id="toolAddLieu">+ Lieu</button>
+      <button id="toolAddObstacle">+ Obstacle</button>
+      <button id="toolAddRoute">+ Route</button>
+      <button id="toolAddZone">+ Zone</button>
+      <button id="toolEchelle">Échelle</button>
+    </div>
+    <button id="btnTrajet" style="position:absolute;top:10px;left:10px;z-index:500;background:var(--red);color:var(--paper);border:1px solid var(--gold);padding:8px 14px;cursor:pointer;font-family:'Cinzel',serif;font-size:12px;letter-spacing:.05em;box-shadow:0 2px 8px rgba(0,0,0,.4)">⚐ Calculer un trajet</button>
+    <div class="first-load" id="firstLoad">
+      <h2>⛩ Bienvenue, Maître du Jeu</h2>
+      <p>Chargez la carte de Rokugan (image). Elle sera mémorisée pour vos prochaines sessions.</p>
+      <input type="file" id="firstLoadFile" accept="image/*">
+    </div>
+  </div>
+</div>
+
+<div class="modal-bg" id="loginModal">
+  <div class="modal login-content">
+    <h2>⛩ Mode Maître du Jeu</h2>
+    <label>Code d'accès</label>
+    <input type="password" id="loginCode" placeholder="••••••">
+    <div class="actions">
+      <button onclick="closeModal('loginModal')">Annuler</button>
+      <button class="primary" onclick="tryLogin()">Entrer</button>
+    </div>
+    <p style="margin-top:14px;font-size:11px;color:#888;font-style:italic">Code par défaut : <strong>rokugan</strong></p>
+  </div>
+</div>
+
+<div class="modal-bg" id="codeModal">
+  <div class="modal login-content">
+    <h2>Modifier le code MJ</h2>
+    <label>Code actuel</label>
+    <input type="password" id="curCode">
+    <label>Nouveau code</label>
+    <input type="password" id="newCode">
+    <label>Confirmer</label>
+    <input type="password" id="newCode2">
+    <div class="actions">
+      <button onclick="closeModal('codeModal')">Annuler</button>
+      <button class="primary" onclick="changeCode()">Valider</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-bg" id="githubModal">
+  <div class="modal login-content" style="max-width:560px">
+    <h2>☁ Synchronisation via GitHub</h2>
+    <p style="font-size:12px;color:#666;margin-bottom:10px" id="ghCurrentInfo">Configurez l'URL du fichier <code>data.json</code> hébergé sur GitHub Pages ou GitHub raw.</p>
+    <label>URL du data.json (raw)</label>
+    <input type="text" id="ghDataUrl" placeholder="https://raw.githubusercontent.com/USER/REPO/main/data.json" style="font-family:monospace;font-size:11px">
+    <p style="font-size:11px;color:#888;margin-top:6px;font-style:italic">
+      ℹ Sur GitHub, ouvre data.json → bouton "Raw" → copie l'URL. Ou via Pages : <code>https://USER.github.io/REPO/data.json</code>
+    </p>
+    <div class="actions" style="margin-top:14px;flex-wrap:wrap;gap:8px;justify-content:flex-start">
+      <button onclick="closeModal('githubModal')">Fermer</button>
+      <button class="primary" onclick="ghReload()" title="Récupère les données depuis GitHub">⬇ Recharger depuis GitHub</button>
+    </div>
+    <div id="ghMjActions" style="display:none;margin-top:14px;padding-top:14px;border-top:1px dashed var(--gold)">
+      <p style="font-size:12px;color:#666;margin-bottom:10px"><strong>Actions MJ</strong> — exportez puis uploadez sur GitHub</p>
+      <div class="actions" style="flex-wrap:wrap;gap:8px;justify-content:flex-start">
+        <button onclick="ghDownloadPlayers()" title="JSON filtré pour les joueurs (sans descMJ ni éléments cachés)">⬇ Télécharger data.json (joueurs)</button>
+        <button onclick="ghDownloadMJ()" title="Backup complet MJ">⬇ Backup MJ complet</button>
+      </div>
+      <p style="font-size:11px;color:#888;margin-top:10px;font-style:italic">
+        📤 Va sur ton repo GitHub → clique sur <code>data.json</code> → ✏ crayon (Edit) → copie-colle le contenu du fichier téléchargé → "Commit changes". Les joueurs verront la MAJ en rafraîchissant.
+      </p>
+    </div>
+  </div>
+</div>
+
+<div class="modal-bg" id="editModal">
+  <div class="modal" id="editModalContent"></div>
+</div>
+
+<script>
+// Fallback localStorage si window.storage absent (utilisation hors Claude)
+if(!window.storage){
+  window.storage = {
+    async get(k){ try{const v=localStorage.getItem(k); return v!==null?{value:v}:null;}catch(e){return null;} },
+    async set(k,v){
+      try{ localStorage.setItem(k,v); return {value:v}; }
+      catch(e){
+        if(e.name==='QuotaExceededError' || e.code===22){
+          alert('⚠ Stockage navigateur plein.\n\nL\'image de la carte est probablement trop volumineuse. Essayez de réduire sa taille (< 500 KB recommandé) ou videz vos données : F12 → Console → localStorage.clear()');
+        }
+        return null;
+      }
+    },
+    async delete(k){ try{localStorage.removeItem(k);return true;}catch(e){return false;} }
+  };
+}
+
+let state = {
+  isMJ:false, mjCode:'rokugan',
+  data:{lieux:[],pnj:[],bestiaire:[],nemuranai:[],obstacles:[],lore:[],routes:[],zones:[]},
+  echelle:0.45,
+  customPostes:[],
+  mapImage:null, currentTab:'lieux', placingMode:null, map:null, markers:[],
+  routeDrawing:null, routeLines:[], trajetLine:null, placingLieuId:null, waypointEditing:null,
+  zonePolygons:[], zoneDrawing:null, zoneTempPoints:[], zoneTempLine:null,
+  filters:{clan:'',poste:'',grade:'',theme:''}
+};
+
+// ============ SYNC GITHUB ============
+const github = {
+  getUrl(){ return localStorage.getItem('l5r_gh_url') || ''; },
+  setUrl(u){ if(u) localStorage.setItem('l5r_gh_url', u); else localStorage.removeItem('l5r_gh_url'); },
+
+  // Filtre données pour joueurs : retire descMJ + items non visibles
+  filterForPlayers(data){
+    const f = JSON.parse(JSON.stringify(data||{}));
+    ['lieux','pnj','bestiaire','nemuranai','obstacles','lore','zones','routes'].forEach(k=>{
+      if(!Array.isArray(f[k])) return;
+      f[k] = f[k]
+        .filter(it => it.visible !== false)
+        .map(it => {
+          const c = {...it};
+          delete c.descMJ;
+          if(Array.isArray(c.liens)) c.liens = c.liens.filter(l => l.visible !== false).map(l=>{const x={...l};delete x.descMJ;return x;});
+          return c;
+        });
+    });
+    return f;
+  },
+
+  async fetch(){
+    const url = this.getUrl();
+    if(!url) return null;
+    // cache-buster pour éviter cache navigateur
+    const sep = url.includes('?') ? '&' : '?';
+    const r = await fetch(url + sep + 't=' + Date.now(), {cache:'no-store'});
+    if(!r.ok) throw new Error('HTTP '+r.status);
+    return await r.json();
+  },
+
+  async autoLoadForPlayers(){
+    // Joueurs : récupère auto au démarrage. MJ : pas auto (préserve ses données locales).
+    if(state.isMJ) return;
+    if(!this.getUrl()) return;
+    try{
+      const d = await this.fetch();
+      if(d && (d.lieux || d.pnj)){
+        state.data = {
+          lieux:d.lieux||[], pnj:d.pnj||[], bestiaire:d.bestiaire||[],
+          nemuranai:d.nemuranai||[], obstacles:d.obstacles||[], lore:d.lore||[],
+          routes:d.routes||[], zones:d.zones||[]
+        };
+        updateGhStatus('à jour ('+new Date().toLocaleTimeString()+')');
+      }
+    } catch(e){ updateGhStatus('erreur: '+e.message); console.warn('GH fetch fail',e); }
+  }
+};
+
+function updateGhStatus(s){
+  const el = document.getElementById('ghStatus');
+  if(el) el.textContent = s ? '☁ '+s : '';
+}
+
+function openGithubModal(){
+  document.getElementById('ghDataUrl').value = github.getUrl();
+  document.getElementById('ghMjActions').style.display = state.isMJ ? '' : 'none';
+  document.getElementById('githubModal').classList.add('show');
+}
+
+async function ghReload(){
+  const url = document.getElementById('ghDataUrl').value.trim();
+  if(!url){ alert('Saisissez une URL.'); return; }
+  github.setUrl(url);
+  if(state.isMJ){
+    if(!confirm('Vous êtes en mode MJ. Recharger depuis GitHub va ÉCRASER vos données locales. Continuer ?')) return;
+  }
+  try{
+    const d = await github.fetch();
+    if(!d) throw new Error('Réponse vide');
+    state.data = {
+      lieux:d.lieux||[], pnj:d.pnj||[], bestiaire:d.bestiaire||[],
+      nemuranai:d.nemuranai||[], obstacles:d.obstacles||[], lore:d.lore||[],
+      routes:d.routes||[], zones:d.zones||[]
+    };
+    await saveData();
+    try{
+      if(typeof renderTab==='function') renderTab();
+      if(typeof renderMarkers==='function') renderMarkers();
+      if(typeof renderRoutes==='function') renderRoutes();
+      if(typeof renderZones==='function') renderZones();
+    }catch(e){}
+    updateGhStatus('à jour ('+new Date().toLocaleTimeString()+')');
+    alert('✓ Données chargées depuis GitHub.');
+    closeModal('githubModal');
+  }catch(e){
+    alert('Erreur : '+e.message+'\n\nVérifiez :\n- L\'URL est correcte (raw GitHub)\n- Le fichier data.json existe\n- Le repo est public');
+    updateGhStatus('erreur');
+  }
+}
+
+function ghDownload(data, filename){
+  const blob = new Blob([JSON.stringify(data,null,2)], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = filename;
+  a.click();
+}
+
+function ghDownloadPlayers(){
+  ghDownload(github.filterForPlayers(state.data), 'data.json');
+}
+
+function ghDownloadMJ(){
+  ghDownload(state.data, 'data-mj-backup-'+new Date().toISOString().slice(0,10)+'.json');
+}
+
+const FAMILIES = {
+  Impérial:['Hantei','Otomo','Seppun','Miya'],
+  Crabe:['Hida','Hiruma','Kaiu','Kuni','Toritaka','Yasuki'],
+  Grue:['Doji','Asahina','Daidoji','Kakita'],
+  Dragon:['Togashi','Kitsuki','Mirumoto','Agasha','Tamori'],
+  Lion:['Akodo','Ikoma','Kitsu','Matsu'],
+  Phénix:['Shiba','Asako','Isawa'],
+  Scorpion:['Bayushi','Shosuro','Soshi','Yogo'],
+  Licorne:['Shinjo','Iuchi','Moto','Utaku','Ide'],
+  Mante:['Yoritomo','Moshi','Tsuruchi','Kitsune']
+};
+const CLANS = ['Impérial','Crabe','Grue','Dragon','Lion','Phénix','Scorpion','Licorne','Mante','Rônin','Autre'];
+const POSTES = ['','Empereur','Régent','Champion d\'Émeraude','Champion de Jade','Champion de Clan','Daimyo de Famille','Daimyo','Magistrat','Conseiller Impérial','Diplomate','Sensei','Shugenja','Yojimbo','Moine','Courtisan','Autre'];
+const GRADES = ['','Shogun','Rikugun-shokan (Général)','Taisa (Colonel)','Shireikan (Capitaine)','Gunso (Sergent)','Nikutai (Caporal)','Ashigaru (Soldat)','Aucun'];
+const LIENS_TYPES = ['Familial','Vassalité','Amitié','Rivalité','Ennemi','Amour','Maître/Disciple'];
+
+// ============ PATHFINDING ============
+const ROUTE_TYPES = {
+  route:    {label:'Route',         color:'#5a3a1a', width:3, dash:''},
+  sentier:  {label:'Sentier',       color:'#7a5a3a', width:2, dash:'5,5'},
+  fleuve:   {label:'Fleuve',        color:'#3a7ab8', width:4, dash:''},
+  mer:      {label:'Mer',           color:'#1f5a8a', width:5, dash:''}
+};
+const ZONE_TYPES = {
+  foret:    {label:'Forêt',     color:'#2d5a2d', fillOpacity:0.25, penalite:1.5},
+  montagne: {label:'Montagne',  color:'#5a4a3a', fillOpacity:0.30, penalite:2.0},
+  marais:   {label:'Marais',    color:'#3a4a2a', fillOpacity:0.30, penalite:1.8},
+  desert:   {label:'Désert',    color:'#a08050', fillOpacity:0.20, penalite:1.4}
+};
+// Vitesses miles/jour selon mode
+const SPEEDS = {
+  pieds:        {route:20, sentier:15, fleuve:0,  mer:0},
+  poney:        {route:30, sentier:20, fleuve:0,  mer:0},
+  cheval_otaku: {route:50, sentier:30, fleuve:0,  mer:0},
+  bateau_riv:   {route:0,  sentier:0,  fleuve:40, mer:0},
+  bateau_mer:   {route:0,  sentier:0,  fleuve:0,  mer:60}
+};
+// Modificateurs saison sur le temps (×temps)
+function seasonMultiplier(saison, routeType, montagne){
+  if(saison==='hiver'){
+    if(routeType==='sentier'){
+      if(montagne) return Infinity;
+      return 3;
+    }
+    if(routeType==='route')  return 2;
+    if(routeType==='fleuve') return 1.5;
+    if(routeType==='mer')    return 1.3;
+  }
+  if(saison==='printemps' || saison==='automne'){
+    if(routeType==='sentier') return 1.3;
+    if(routeType==='route')   return 1.1;
+    return 1;
+  }
+  return 1;
+}
+
+// Coordonnées Leaflet [y,x] pour image 896×1372 (y = 1372 - pixelY) — positions affinées
+const MAP_COORDS = {
+  'Otosan Uchi':[677,790],
+  'Kyuden Bayushi':[462,475],
+  'Shiro Akodo':[797,685],
+  'Kyuden Doji':[482,790],
+  'Kyuden Hida':[62,305],
+  'Kyuden Shiba':[1127,845],
+  'Shiro Mirumoto':[1157,520],
+  'Shiro Shinjo':[1207,180],
+  'Kyuden Gotei':[187,770],
+  'Forêt de Shinomen':[502,200],
+  'Mur Kaiu':[92,210],
+  'Outrelands (Terres d\'Ombre)':[10,180],
+  'Mont Seikitsu':[812,340],
+  'Toshi Ranbo (Cité des Mensonges)':[947,630],
+  'Temple d\'Osano-Wo':[502,375],
+  'Lac de l\'Esprit Endormi':[522,650],
+  'Mont Otosan (sacré)':[637,730],
+  'Académie Kakita':[652,660],
+  'Académie de Guerre Akodo':[777,695],
+  'Mont du Tonnerre':[1197,700],
+  'Forêt Kitsune':[197,570],
+  'Yasuki Yashiki':[32,385],
+  'Shiro no Soshi':[682,450],
+  'Plaines de l\'Os':[172,450]
+};
+
+// Routes initiales d'après la carte canon
+const DEFAULT_ROUTES = [
+  ['Otosan Uchi','Shiro Akodo','route',false],
+  ['Shiro Akodo','Toshi Ranbo (Cité des Mensonges)','route',false],
+  ['Toshi Ranbo (Cité des Mensonges)','Kyuden Bayushi','route',false],
+  ['Kyuden Bayushi','Académie Kakita','route',false],
+  ['Otosan Uchi','Académie Kakita','route',false],
+  ['Académie Kakita','Kyuden Doji','route',false],
+  ['Shiro Akodo','Académie de Guerre Akodo','route',false],
+  ['Otosan Uchi','Académie de Guerre Akodo','route',false],
+  ['Shiro no Soshi','Kyuden Bayushi','route',false],
+  ['Kyuden Bayushi','Temple d\'Osano-Wo','sentier',false],
+  ['Kyuden Hida','Mur Kaiu','sentier',true],
+  ['Kyuden Hida','Yasuki Yashiki','route',false],
+  ['Yasuki Yashiki','Forêt Kitsune','route',false],
+  ['Forêt Kitsune','Kyuden Bayushi','sentier',false],
+  ['Shiro Mirumoto','Otosan Uchi','sentier',true],
+  ['Shiro Mirumoto','Kyuden Shiba','sentier',true],
+  ['Kyuden Shiba','Mont du Tonnerre','sentier',true],
+  ['Kyuden Shiba','Otosan Uchi','route',false],
+  ['Shiro Shinjo','Shiro Mirumoto','sentier',true],
+  ['Shiro Shinjo','Toshi Ranbo (Cité des Mensonges)','route',false],
+  // Fleuves
+  ['Toshi Ranbo (Cité des Mensonges)','Kyuden Bayushi','fleuve',false],
+  ['Kyuden Bayushi','Lac de l\'Esprit Endormi','fleuve',false],
+  // Mers (côtes Est et îles)
+  ['Otosan Uchi','Kyuden Doji','mer',false],
+  ['Kyuden Doji','Kyuden Gotei','mer',false],
+  ['Kyuden Gotei','Kyuden Shiba','mer',false]
+];
+
+const DEFAULT_PNJ = [
+  {nom:'Hantei XXXVIII',famille:'Hantei',clan:'Impérial',posteCour:'Empereur',gradeMilitaire:'',fonctions:['Empereur de Rokugan'],desc:'Le Fils du Ciel.'},
+  {nom:'Sotorii',famille:'Hantei',clan:'Impérial',posteCour:'Autre',gradeMilitaire:'',fonctions:['Prince Héritier'],desc:'Fils aîné de l\'Empereur, hautain.'},
+  {nom:'Banuken',famille:'Otomo',clan:'Impérial',posteCour:'Daimyo de Famille',gradeMilitaire:'',fonctions:['Manipulateur','Courtisan'],desc:'Daimyo Otomo, maître des intrigues de cour.'},
+  {nom:'Yorihisa',famille:'Otomo',clan:'Impérial',posteCour:'Courtisan',gradeMilitaire:'',fonctions:['Médiateur des clans'],desc:'Diplomate impérial réputé pour ses ruses.'},
+  {nom:'Daiori',famille:'Seppun',clan:'Impérial',posteCour:'Daimyo de Famille',gradeMilitaire:'Taisa (Colonel)',fonctions:['Garde Impériale'],desc:'Daimyo Seppun, chef des gardes du corps de l\'Empereur.'},
+  {nom:'Toshiken',famille:'Seppun',clan:'Impérial',posteCour:'Yojimbo',gradeMilitaire:'Shireikan (Capitaine)',fonctions:['Yojimbo Impérial'],desc:'Bushi élite, juré protecteur du Trône.'},
+  {nom:'Satoshi',famille:'Miya',clan:'Impérial',posteCour:'Daimyo de Famille',gradeMilitaire:'',fonctions:['Héraut Impérial','Diplomate'],desc:'Daimyo Miya, porte-parole de l\'Empereur.'},
+  {nom:'Yoto',famille:'Miya',clan:'Impérial',posteCour:'Diplomate',gradeMilitaire:'',fonctions:['Héraut','Messager Impérial'],desc:'Voyage à travers Rokugan pour porter les édits.'},
+  {nom:'Toturi',famille:'Akodo',clan:'Lion',posteCour:'Champion de Clan',gradeMilitaire:'Rikugun-shokan (Général)',fonctions:['Champion d\'Émeraude','Daimyo Akodo'],desc:'Stratège brillant.'},
+  {nom:'Tsuko',famille:'Matsu',clan:'Lion',posteCour:'Daimyo de Famille',gradeMilitaire:'Rikugun-shokan (Général)',fonctions:[],desc:'Femme guerrière au tempérament de feu.'},
+  {nom:'Sume',famille:'Ikoma',clan:'Lion',posteCour:'Daimyo de Famille',gradeMilitaire:'Taisa (Colonel)',fonctions:[],desc:'Daimyo Ikoma, conteur historien.'},
+  {nom:'Motso',famille:'Kitsu',clan:'Lion',posteCour:'Daimyo de Famille',gradeMilitaire:'',fonctions:['Shugenja'],desc:'Daimyo Kitsu.'},
+  {nom:'Hoturi',famille:'Doji',clan:'Grue',posteCour:'Champion de Clan',gradeMilitaire:'',fonctions:['Daimyo Doji','Le Pinacle de la Grue'],desc:'Paragon de la courtoisie.'},
+  {nom:'Toshimoko',famille:'Kakita',clan:'Grue',posteCour:'Daimyo de Famille',gradeMilitaire:'',fonctions:['Sensei Académie Kakita','Le Grizzli Gris'],desc:'Maître escrimeur.'},
+  {nom:'Uji',famille:'Daidoji',clan:'Grue',posteCour:'Daimyo de Famille',gradeMilitaire:'Taisa (Colonel)',fonctions:['Chef des Fers de Lance'],desc:'Maître des opérations clandestines.'},
+  {nom:'Yoshi',famille:'Asahina',clan:'Grue',posteCour:'Daimyo de Famille',gradeMilitaire:'',fonctions:['Shugenja'],desc:'Daimyo Asahina, pacifiste.'},
+  {nom:'Kisada',famille:'Hida',clan:'Crabe',posteCour:'Champion de Clan',gradeMilitaire:'Rikugun-shokan (Général)',fonctions:['La Grande Montagne'],desc:'Seigneur de guerre inflexible.'},
+  {nom:'Yakamo',famille:'Hida',clan:'Crabe',posteCour:'Daimyo',gradeMilitaire:'Taisa (Colonel)',fonctions:['Héritier Hida'],desc:'Terreur des Outrelands.'},
+  {nom:'Yori',famille:'Kuni',clan:'Crabe',posteCour:'Daimyo de Famille',gradeMilitaire:'',fonctions:['Sorcier-Chasseur','Shugenja'],desc:'Expert magie de la Terre.'},
+  {nom:'Sukune',famille:'Hiruma',clan:'Crabe',posteCour:'Daimyo de Famille',gradeMilitaire:'Taisa (Colonel)',fonctions:[],desc:'Daimyo Hiruma, éclaireur.'},
+  {nom:'Yokuni',famille:'Togashi',clan:'Dragon',posteCour:'Champion de Clan',gradeMilitaire:'',fonctions:['Le Dragon Mystérieux'],desc:'Parle rarement.'},
+  {nom:'Hitomi',famille:'Mirumoto',clan:'Dragon',posteCour:'Daimyo de Famille',gradeMilitaire:'',fonctions:['Héritière Mirumoto'],desc:'Rivale de Hoturi.'},
+  {nom:'Yasu',famille:'Kitsuki',clan:'Dragon',posteCour:'Magistrat',gradeMilitaire:'',fonctions:['Méthode Kitsuki'],desc:'Enquêteur rigoureux.'},
+  {nom:'Tamori',famille:'Agasha',clan:'Dragon',posteCour:'Daimyo de Famille',gradeMilitaire:'',fonctions:['Shugenja'],desc:'Daimyo Agasha.'},
+  {nom:'Ujimitsu',famille:'Shiba',clan:'Phénix',posteCour:'Champion de Clan',gradeMilitaire:'',fonctions:['Gardien des Isawa'],desc:'Le Champion silencieux.'},
+  {nom:'Tadaka',famille:'Isawa',clan:'Phénix',posteCour:'Conseiller Impérial',gradeMilitaire:'',fonctions:['Maître de la Terre'],desc:'Conseil Élémentaire.'},
+  {nom:'Tomo',famille:'Asako',clan:'Phénix',posteCour:'Daimyo de Famille',gradeMilitaire:'',fonctions:['Henshin'],desc:'Moine philosophe.'},
+  {nom:'Kaede',famille:'Isawa',clan:'Phénix',posteCour:'Conseiller Impérial',gradeMilitaire:'',fonctions:['Maître du Vide'],desc:'Fille d\'Isawa Ujina.'},
+  {nom:'Shoju',famille:'Bayushi',clan:'Scorpion',posteCour:'Champion de Clan',gradeMilitaire:'',fonctions:['Visage Masqué'],desc:'Héritier d\'un terrible secret.'},
+  {nom:'Kachiko',famille:'Bayushi',clan:'Scorpion',posteCour:'Courtisan',gradeMilitaire:'',fonctions:['Maîtresse des Secrets'],desc:'La Dame du Scorpion.'},
+  {nom:'Aramoro',famille:'Bayushi',clan:'Scorpion',posteCour:'Daimyo',gradeMilitaire:'',fonctions:['Hattori-Ninja'],desc:'Frère de Shoju, assassin.'},
+  {nom:'Bantaro',famille:'Soshi',clan:'Scorpion',posteCour:'Daimyo de Famille',gradeMilitaire:'',fonctions:['Shugenja'],desc:'Daimyo Soshi.'},
+  {nom:'Yokatsu',famille:'Shinjo',clan:'Licorne',posteCour:'Champion de Clan',gradeMilitaire:'Rikugun-shokan (Général)',fonctions:[],desc:'Diplomate des steppes.'},
+  {nom:'Kamoko',famille:'Utaku',clan:'Licorne',posteCour:'Daimyo de Famille',gradeMilitaire:'Taisa (Colonel)',fonctions:['Cheffe Battle Maidens'],desc:'Otaku Kamoko, guerrière.'},
+  {nom:'Daiyu',famille:'Iuchi',clan:'Licorne',posteCour:'Daimyo de Famille',gradeMilitaire:'',fonctions:['Maître de Meishodo'],desc:'Daimyo Iuchi.'},
+  {nom:'Tsume',famille:'Moto',clan:'Licorne',posteCour:'Daimyo de Famille',gradeMilitaire:'Taisa (Colonel)',fonctions:[],desc:'Cavalier inflexible.'},
+  {nom:'Yoritomo',famille:'Yoritomo',clan:'Mante',posteCour:'Champion de Clan',gradeMilitaire:'Rikugun-shokan (Général)',fonctions:['Roi des Mers'],desc:'Fondateur du Grand Clan Mante.'}
+];
+
+const DEFAULT_BESTIAIRE = [
+  {nom:'Bakemono',type:'Outreland',desc:'Petites créatures gobelinoïdes corrompues des Terres d\'Ombre. Lâches en solo, dangereux en meute. Peau verdâtre, crocs, pillent les corps.'},
+  {nom:'Goblin (Outreland)',type:'Outreland',desc:'Cousins plus grands des Bakemono. Servent souvent les Oni comme troupes de choc.'},
+  {nom:'Ogre (Outreland)',type:'Outreland',desc:'Brutes massives au sang noir. Force colossale, intelligence limitée. Souvent capturés et asservis par les Oni.'},
+  {nom:'Oni no Akuma',type:'Démon (Oni)',desc:'Démon majeur incarnant la haine pure. Apparence reptilienne, crachant un feu noir. Sert directement les Maîtres de l\'Outreland.'},
+  {nom:'Oni no Tsuburu',type:'Démon (Oni)',desc:'Démon enveloppé d\'yeux multiples, voit ce que craignent ses victimes. Manipulateur, frappe les esprits avant les corps.'},
+  {nom:'Oni no Hatsu',type:'Démon (Oni)',desc:'Démon d\'humiliation, prend l\'apparence de proches défunts pour briser la volonté des samouraïs.'},
+  {nom:'Goryo',type:'Esprit',desc:'Esprit vengeur d\'un samouraï mort dans le déshonneur. Hante un lieu précis. Ne peut être apaisé que par la réparation de l\'offense.'},
+  {nom:'Yurei',type:'Esprit',desc:'Fantôme féminin aux longs cheveux noirs, vêtue de blanc. Liée à un drame d\'amour ou de trahison. Apparaît la nuit près des points d\'eau.'},
+  {nom:'Gaki',type:'Esprit',desc:'Esprit affamé condamné à errer pour ses péchés de gourmandise. Bouche minuscule, ventre énorme. Dévore vivres et parfois âmes.'},
+  {nom:'Onibaba',type:'Surnaturelle',desc:'Sorcière démoniaque vivant en ermite dans les montagnes ou marais. Attire les voyageurs égarés pour les dévorer.'},
+  {nom:'Tengu',type:'Surnaturelle',desc:'Yokai des montagnes, mi-corbeau mi-humain. Maîtres d\'escrime et de stratégie. Capricieux : peuvent enseigner ou tourmenter les samouraïs orgueilleux.'},
+  {nom:'Kappa',type:'Surnaturelle',desc:'Yokai aquatique au sommet du crâne creux rempli d\'eau. Salue-le poliment : il s\'inclinera, renversant son eau et perdant ses pouvoirs.'},
+  {nom:'Kitsune (esprit-renard)',type:'Surnaturelle',desc:'Renard-esprit doué de magie. Plus il a de queues (jusqu\'à neuf), plus il est puissant. Peut prendre forme humaine pour séduire ou conseiller.'},
+  {nom:'Tanuki',type:'Surnaturelle',desc:'Esprit-blaireau farceur. Métamorphe, amateur de saké et de mauvaises plaisanteries. Rarement malveillant.'},
+  {nom:'Penanggalan',type:'Surnaturelle',desc:'Tête volante traînant ses entrailles, ancienne sorcière maudite. Suce le sang des nouveau-nés. Folklore importé du sud.'},
+  {nom:'Nezumi (Ratling)',type:'Naturelle',desc:'Peuple rat sentient vivant dans les Terres d\'Ombre. Pas corrompus malgré leur habitat. Survivants méfiants, parfois alliés des Crabes.'},
+  {nom:'Tsuno',type:'Outreland',desc:'Race cornue déchue, autrefois mortels, désormais piégés dans l\'Outreland. Cherchent à briser les barrières entre les royaumes.'},
+  {nom:'Maho-tsukai',type:'Surnaturelle',desc:'Shugenja corrompu pratiquant la magie du sang (Maho). N\'est plus tout à fait humain : l\'âme s\'effiloche à chaque sort.'},
+  {nom:'Inugami',type:'Esprit',desc:'Esprit-chien lié à une famille par un pacte sombre. Sert fidèlement mais réclame son tribut. Vengeur si trahi.'},
+  {nom:'Mujina',type:'Surnaturelle',desc:'Yokai sans visage, prend l\'apparence d\'humains croisés. Effraie sans tuer. Reconnaissable à sa peau lisse au lieu d\'un visage.'},
+  {nom:'Oni no Okura',type:'Démon (Oni)',desc:'Démon massif aux trois yeux, gardien des trésors de l\'Outreland. Cupide, marchande parfois avec les humains... à ses propres conditions.'}
+];
+
+const DEFAULT_LIEUX = [
+  {nom:'Otosan Uchi',type:'Capitale',clan:'Impérial',desc:'Cité Impériale, demeure de l\'Empereur Hantei. Centre politique de Rokugan.'},
+  {nom:'Kyuden Bayushi',type:'Kyuden',clan:'Scorpion',desc:'Palais du Clan Scorpion, dissimulé dans les montagnes.'},
+  {nom:'Shiro Akodo',type:'Shiro',clan:'Lion',desc:'Château de la Loyauté, siège du Clan Lion.'},
+  {nom:'Kyuden Doji',type:'Kyuden',clan:'Grue',desc:'Palais du Clan Grue, joyau d\'architecture sur la côte.'},
+  {nom:'Kyuden Hida',type:'Kyuden',clan:'Crabe',desc:'Forteresse austère face aux Outrelands.'},
+  {nom:'Kyuden Shiba',type:'Kyuden',clan:'Phénix',desc:'Palais Shiba, près des terres sacrées Isawa.'},
+  {nom:'Shiro Mirumoto',type:'Shiro',clan:'Dragon',desc:'Citadelle Mirumoto perchée dans les montagnes Dragon.'},
+  {nom:'Shiro Shinjo',type:'Shiro',clan:'Licorne',desc:'Bastion Shinjo, à l\'orée des steppes occidentales.'},
+  {nom:'Kyuden Gotei',type:'Kyuden',clan:'Mante',desc:'Palais du Clan Mante, sur les Îles de la Soie.'},
+  {nom:'Forêt de Shinomen',type:'Lieu Sacré',clan:'Aucun',desc:'Immense forêt mystérieuse au sud-ouest. Abrite les ruines de la civilisation Naga endormie. Refuge des esprits anciens. Les voyageurs s\'y perdent souvent à jamais.'},
+  {nom:'Mur Kaiu',type:'Forteresse',clan:'Crabe',desc:'Muraille colossale construite par les Kaiu pour contenir les Outrelands. Plus de 100 km de pierre et de sang. Gardée jour et nuit.'},
+  {nom:'Outrelands (Terres d\'Ombre)',type:'Lieu Sacré',clan:'Outrelands',desc:'Territoire corrompu au sud du Mur Kaiu. Source de la Souillure. Royaume des Oni et de Fu Leng. Toute terre ou être qui y séjourne est souillé.'},
+  {nom:'Mont Seikitsu',type:'Lieu Sacré',clan:'Aucun',desc:'Montagne sacrée séparant les terres centrales des steppes Licornes. Habitée par des esprits puissants et des ermites Yamabushi.'},
+  {nom:'Toshi Ranbo (Cité des Mensonges)',type:'Cité',clan:'Aucun',desc:'Cité disputée entre Lion et Grue depuis des siècles. Nom complet : Toshi Ranbo wo Shien Shite Reigisaho. Chaque clan y voit sa capitale légitime.'},
+  {nom:'Temple d\'Osano-Wo',type:'Temple',clan:'Aucun',desc:'Sanctuaire dédié à la Fortune du Feu, du Tonnerre et de la Guerre. Lieu de pèlerinage pour les bushi avant les batailles.'},
+  {nom:'Temple de Shinsei',type:'Temple',clan:'Aucun',desc:'Lieu de méditation des moines disciples du Petit Maître. Enseigne la Voie des Mille Fortunes et la Vacuité.'},
+  {nom:'Tsuma (Cité du Tournoi)',type:'Cité',clan:'Aucun',desc:'Cité neutre célèbre pour son tournoi de Topaze annuel, rite de passage des jeunes samouraïs.'},
+  {nom:'Plaines de l\'Os',type:'Lieu Sacré',clan:'Aucun',desc:'Vaste plaine au sud où eut lieu la Bataille des Champs d\'Ossements. La terre reste hantée par les esprits des morts.'},
+  {nom:'Lac de l\'Esprit Endormi',type:'Lieu Sacré',clan:'Aucun',desc:'Lac immense aux eaux noires. La légende dit qu\'un Dragon endormi gît au fond. Les pêcheurs y entendent parfois un chant lointain.'},
+  {nom:'Mont Otosan (sacré)',type:'Lieu Sacré',clan:'Impérial',desc:'Montagne sacrée près de la capitale où les Hantei sont enterrés. Accès strictement contrôlé par les Seppun.'},
+  {nom:'Académie Kakita',type:'Temple',clan:'Grue',desc:'École d\'iaijutsu la plus prestigieuse de Rokugan. Fondée par Kakita lui-même. Forme l\'élite des duellistes.'},
+  {nom:'Académie de Guerre Akodo',type:'Forteresse',clan:'Lion',desc:'Académie militaire fondée par Akodo, auteur du "Livre du Lion". Forme les officiers de l\'Empire.'},
+  {nom:'Mont du Tonnerre',type:'Lieu Sacré',clan:'Phénix',desc:'Mont sacré du Clan Phénix où les Isawa communiquent avec les esprits du Ciel.'},
+  {nom:'Forêt Kitsune',type:'Lieu Sacré',clan:'Mante',desc:'Forêt côtière habitée par la famille Kitsune et les esprits-renards. Difficile d\'accès aux étrangers.'},
+  {nom:'Yasuki Yashiki',type:'Cité',clan:'Crabe',desc:'Cité marchande Yasuki, plaque tournante du commerce. Atmosphère de bazar permanent.'},
+  {nom:'Shiro no Soshi',type:'Shiro',clan:'Scorpion',desc:'Forteresse de la famille Soshi, centre d\'apprentissage des shugenja Scorpion et de leurs arts ténébreux.'}
+];
+
+const DEFAULT_NEMURANAI = [
+  {nom:'Chukandomo (Épée Ancestrale du Crabe)',type:'Arme',desc:'Daisho ancestral du Champion du Clan Crabe. Lame forgée avec du sang d\'Oni. Détecte la Souillure à courte distance.'},
+  {nom:'Shori (Épée Ancestrale de la Grue)',type:'Arme',desc:'Katana du Champion Doji. "La Victoire". Étrange éclat lumineux quand brandie pour défendre l\'honneur d\'un autre.'},
+  {nom:'Itsuwari (Épée Ancestrale du Dragon)',type:'Arme',desc:'Lame des Mirumoto. "Le Mensonge". Sa vérité se révèle uniquement aux dignes du Tao.'},
+  {nom:'Shitsui (Épée Ancestrale du Lion)',type:'Arme',desc:'Katana hérité d\'Akodo. Renforce la stratégie de son porteur. Trois fois par jour, donne un conseil mental.'},
+  {nom:'Ofushikai (Épée Ancestrale du Phénix)',type:'Arme',desc:'Lame Shiba, gardienne des Maîtres Élémentaires. Peut couper même les esprits incorporels.'},
+  {nom:'Daisho de Shoju (Scorpion)',type:'Arme',desc:'Daisho ancestral Bayushi. Empoisonné en permanence. Cause des blessures qui ne guérissent jamais complètement.'},
+  {nom:'Utaku no Bushi-do (Licorne)',type:'Arme',desc:'Lame de Shinjo, frappée des steppes occidentales. Brille la nuit quand le danger approche.'},
+  {nom:'Yoritomo no Kama (Mante)',type:'Arme',desc:'Kama de Yoritomo, fondateur du Clan Mante. Maîtrise les vents marins.'},
+  {nom:'Yakamo no Te (Griffe de Yakamo)',type:'Arme',desc:'Tetsubo massif de Hida Yakamo. Inscrit de runes Kaiu. Brise armures et os.'},
+  {nom:'Rouleaux Noirs (Black Scrolls)',type:'Parchemin',desc:'Douze parchemins maudits contenant la prison de Fu Leng. Quiconque les lit voit son âme corrompue. Disséminés à travers l\'Empire.',visible:false,descMJ:'Localisations dispersées : Phénix (2 connus), Scorpion (1, Shoju), divers (perdus).'},
+  {nom:'Heart of the Wolf (Cœur du Loup)',type:'Bijou',desc:'Pendentif ronin légendaire. Détecte les âmes corrompues à proximité (Souillure).'},
+  {nom:'Oeuf de P\'an Ku',type:'Objet',desc:'Artefact mystique très ancien. Modifie les probabilités autour de son porteur. Considéré perdu ou volé.',visible:false,descMJ:'Pourrait être en possession des Kolat.'},
+  {nom:'Dernier Vœu (Last Wish)',type:'Bijou',desc:'Pierre précieuse renfermant l\'âme d\'une concubine impériale. Accorde un souhait à son détenteur — au prix de l\'âme.',visible:false,descMJ:'Tenu secret par Bayushi Kachiko.'},
+  {nom:'Enclume du Désespoir',type:'Objet',desc:'Énorme enclume noire des Outrelands. Toute arme forgée dessus devient corrompue mais surpuissante.',visible:false,descMJ:'Cachée dans les ruines de Shiro no Yajinden.'},
+  {nom:'Masque de Fer (Iron Mask)',type:'Armure',desc:'Masque rituel des Bloodspeakers (Iuchiban). Permet de communiquer entre disciples du sang à distance.',visible:false,descMJ:'Plusieurs exemplaires en circulation chez les sectateurs.'},
+  {nom:'Larmes du Soleil',type:'Bijou',desc:'Collier de perles dorées de l\'Impératrice. Protège des sorts d\'illusion.'},
+  {nom:'Sword of the Dawn (Lame de l\'Aube)',type:'Arme',desc:'Katana forgé à l\'aube d\'un solstice. Brille intensément contre les créatures de l\'Outreland.'},
+  {nom:'Main d\'Obsidienne',type:'Objet',desc:'Prothèse magique permettant à son porteur de manipuler la magie de la Souillure sans en subir les effets... pour un temps.',visible:false,descMJ:'Tenue secrète par certains maho-tsukai influents.'}
+];
+
+const DEFAULT_LORE = [
+  {titre:'Le salut (Rei)',theme:'Politesse',contenu:'Trois niveaux : saikeirei (45°, devant un supérieur impérial), futsurei (30°, égal ou supérieur de clan), eshaku (15°, simple courtoisie). Ne jamais détourner les yeux pendant le salut d\'un supérieur, ni croiser son regard.'},
+  {titre:'Adresse et titres',theme:'Politesse',contenu:'-sama (très respectueux, seigneur), -san (égal courtois), -dono (seigneur chaleureux), -kun (familier, jeune homme), -chan (intime). Utiliser un titre incorrect est une offense sérieuse.'},
+  {titre:'Tatemae & Honne',theme:'Politesse',contenu:'Le visage public (tatemae) et le sentiment réel (honne) sont distincts. Un samouraï montre toujours tatemae en public. Révéler son honne est un signe d\'intimité — ou de faiblesse.'},
+  {titre:'Le refus impossible',theme:'Politesse',contenu:'Refuser frontalement est inconcevable. On répond par "C\'est difficile" (mu zukashii), "J\'y réfléchirai", ou un silence. L\'art de la cour consiste à comprendre ces refus.'},
+  {titre:'Cadeaux (Omiyage)',theme:'Politesse',contenu:'Offrir un cadeau lors d\'une visite est obligatoire. La valeur compte moins que l\'attention. Le destinataire le pose sans l\'ouvrir devant l\'invité, puis le réciproque plus tard.'},
+  {titre:'Seppuku',theme:'Rituels',contenu:'Suicide rituel pour effacer le déshonneur. Vêtu de blanc, le samouraï rédige son poème de la mort (jisei), puis s\'ouvre l\'abdomen au wakizashi. Un second (kaishakunin) tranche la nuque. Ordonné (oibara) ou choisi (kanshi).'},
+  {titre:'Genpuku',theme:'Rituels',contenu:'Cérémonie de passage à l\'âge adulte (~15 ans). Reçoit son daisho, son nom d\'adulte, présenté au daimyo. Suivi souvent du Tournoi de Topaze.'},
+  {titre:'Mariage samouraï',theme:'Rituels',contenu:'San-san-kudo : les époux boivent trois fois dans trois coupes de saké, scellant l\'union devant les ancêtres et un shugenja. Mariages arrangés par les chefs de famille.'},
+  {titre:'Funérailles',theme:'Rituels',contenu:'Crémation. Les cendres reposent au mausolée familial. Période de deuil de 49 jours durant laquelle les proches portent du blanc et évitent les festivités.'},
+  {titre:'Cha-no-yu (Cérémonie du thé)',theme:'Cérémonies',contenu:'Rituel précis hérité de Shinsei. Préparation, gestes et silences codifiés. Un seul faux geste révèle un samouraï mal éduqué. Souvent utilisée à la cour pour évaluer un visiteur.'},
+  {titre:'Ikebana',theme:'Cérémonies',contenu:'Art floral. Trois branches symbolisent Ciel, Homme, Terre. Pratiqué surtout chez les Grues. Composition silencieuse, méditative.'},
+  {titre:'Cérémonie d\'investiture',theme:'Cérémonies',contenu:'Nomination officielle à une fonction (daimyo, magistrat). Devant son seigneur, le récipiendaire reçoit un objet symbolique (sceau, éventail, parchemin).'},
+  {titre:'Bon Festival',theme:'Festivités',contenu:'Festival des morts (été). On allume des lanternes flottantes pour guider les esprits ancestraux qui reviennent visiter les vivants. Danses bon-odori.'},
+  {titre:'Setsubun',theme:'Festivités',contenu:'Passage à la saison nouvelle (printemps). On lance des graines de soja en criant "Oni wa soto, fuku wa uchi !" (démons dehors, chance dedans). Important chez les Crabes.'},
+  {titre:'Hanami',theme:'Festivités',contenu:'Contemplation des cerisiers en fleur (printemps). Picnics, poésie, philosophie sur la beauté éphémère (mono no aware). Très prisé des Grues.'},
+  {titre:'Tournoi de Topaze',theme:'Festivités',contenu:'À Tsuma, chaque automne. Jeunes samouraïs récemment passés genpuku s\'y affrontent. Vainqueur = Champion du Topaze + renommée immédiate.'},
+  {titre:'Festival des Esprits Rivière',theme:'Festivités',contenu:'Apaisement des kami des rivières avant l\'hiver (automne). Offrandes de riz et de saké jetées dans les eaux.'},
+  {titre:'Shintao (Voie des Kami)',theme:'Religion',contenu:'Religion officielle. Vénération des Sept Fortunes (Bishamon, Benten, Daikoku, Ebisu, Fukurokujin, Hotei, Jurojin), des kami élémentaires, et des ancêtres. Shugenja = intermédiaires.'},
+  {titre:'Voie de Shinsei',theme:'Religion',contenu:'Doctrine philosophique du Petit Maître Shinsei. Recherche de l\'illumination par méditation, détachement, compréhension du Vide. Suivie par les moines (sohei, henshin).'},
+  {titre:'Culte de Fu Leng',theme:'Religion',contenu:'Vénération du Neuvième Frère Tonnerre devenu Seigneur des Outrelands. Strictement interdit. Pratiqué par maho-tsukai et désespérés. Mène à la corruption inéluctable.',visible:false,descMJ:'Tous les pratiquants sont passibles de mort sans procès.'},
+  {titre:'Bloodspeakers (Disciples d\'Iuchiban)',theme:'Religion',contenu:'Secte secrète fondée par le shugenja maudit Iuchiban. Magie du sang (maho). Cherchent à libérer leur maître emprisonné. Cellules dans tout l\'Empire.',visible:false,descMJ:'Iuchiban est enterré quelque part au sud, gardé par les Crabes. Difficile à détecter.'},
+  {titre:'Le Conseil Impérial',theme:'Politique',contenu:'Cinq Conseillers Élémentaires (Isawa traditionnellement) conseillent l\'Empereur. Le Champion d\'Émeraude commande la justice et l\'armée. Le Chancelier gère l\'administration.'},
+  {titre:'Le Champion d\'Émeraude',theme:'Politique',contenu:'Plus haute fonction militaire après l\'Empereur. Choisi par tournoi tous les cinq ans. Autorité directe du Trône.'},
+  {titre:'Les Magistrats d\'Émeraude',theme:'Politique',contenu:'Force de loi impériale, indépendante des clans. Voyagent à travers Rokugan pour faire respecter les édits de l\'Empereur.'},
+  {titre:'Les Kolat',theme:'Politique',contenu:'Conspiration séculaire visant à renverser le système impérial. Pensent que samouraïs et Fortunes oppriment l\'humanité. Recrutent dans tous les clans.',visible:false,descMJ:'Dix Maîtres dirigent l\'organisation. Pénétrent tous les clans. Méfiance constante recommandée.'},
+  {titre:'Le Goju (Ninja de l\'Ombre)',theme:'Politique',contenu:'Ordre secret de ninjas serviteurs de la Mère Sombre. Liens directs avec les Outrelands. Peuvent se déplacer dans les ombres elles-mêmes.',visible:false,descMJ:'Très rares mais redoutables. Frappent parfois au cœur même de la capitale.'},
+  {titre:'L\'Ordre des Faucons',theme:'Politique',contenu:'Société secrète de bushi indépendants traquant les corrupteurs (maho, Bloodspeakers). Reconnaissables à un tatouage de faucon caché.',visible:false,descMJ:'Demi-officiel, toléré tant qu\'ils restent discrets. Alliés discrets de certains Crabes et Phénix.'},
+  {titre:'Les Sceaux Naga',theme:'Religion',contenu:'Sept sceaux mystiques scellent le sommeil des Naga dans Shinomen. Si tous étaient brisés, le peuple-serpent se réveillerait.',visible:false,descMJ:'Trois sceaux ont déjà été affaiblis par l\'âge. Le réveil approche.'}
+];
+
+async function loadAll(){
+  try{const r=await window.storage.get('l5r_data');if(r)state.data=JSON.parse(r.value);}catch(e){}
+  try{const c=await window.storage.get('l5r_mjcode');if(c)state.mjCode=c.value;}catch(e){}
+  try{const m=await window.storage.get('l5r_map');if(m)state.mapImage=m.value;}catch(e){}
+  try{const p=await window.storage.get('l5r_postes');if(p){try{const parsed=JSON.parse(p.value);if(Array.isArray(parsed))state.customPostes=parsed;}catch(e){}}}catch(e){}
+  if(!Array.isArray(state.customPostes))state.customPostes=[];
+
+  if(!state.data.lieux.length && !state.data.pnj.length){
+    state.data.lieux = DEFAULT_LIEUX.map((l,i)=>({...l,id:'l'+Date.now()+i,coords:null,descMJ:'',visible:true}));
+    state.data.pnj = DEFAULT_PNJ.map((p,i)=>{
+      const obj={...p,id:'p'+Date.now()+i,lieuId:null,liens:[],descMJ:'',visible:true};
+      obj.postesCour = p.posteCour ? [p.posteCour] : [];
+      delete obj.posteCour;
+      return obj;
+    });
+    state.data.bestiaire = DEFAULT_BESTIAIRE.map((b,i)=>({...b,id:'b'+Date.now()+i,lieuId:null,descMJ:'',visible:true}));
+    state.data.nemuranai = DEFAULT_NEMURANAI.map((n,i)=>({...n,id:'n'+Date.now()+i,lieuId:null,pnjId:null,descMJ:n.descMJ||'',visible:n.visible!==false}));
+    state.data.lore = DEFAULT_LORE.map((l,i)=>({...l,id:'L'+Date.now()+i,descMJ:l.descMJ||'',visible:l.visible!==false}));
+    const find=(f,n)=>state.data.pnj.find(p=>p.famille===f && p.nom===n);
+    const addL=(a,b,t,d)=>{const A=find(a[0],a[1]),B=find(b[0],b[1]);if(A&&B)A.liens.push({id:'k'+Math.random().toString(36).slice(2,9),to:B.id,type:t,desc:d,visible:true});};
+    addL(['Bayushi','Shoju'],['Bayushi','Kachiko'],'Amour','Mariés');
+    addL(['Bayushi','Shoju'],['Bayushi','Aramoro'],'Familial','Frères');
+    addL(['Hida','Kisada'],['Hida','Yakamo'],'Familial','Père et fils');
+    addL(['Doji','Hoturi'],['Mirumoto','Hitomi'],'Rivalité','Rivaux');
+    addL(['Akodo','Toturi'],['Bayushi','Kachiko'],'Amour','Sentiments cachés');
+    addL(['Hantei','Hantei XXXVIII'],['Hantei','Sotorii'],'Familial','Père et fils');
+    addL(['Seppun','Daiori'],['Hantei','Hantei XXXVIII'],'Vassalité','Garde Impériale');
+    saveData();
+  }
+  // Migration
+  if(!state.data.lore) state.data.lore=[];
+  if(!state.data.nemuranai) state.data.nemuranai=[];
+  if(!state.data.routes) state.data.routes=[];
+  if(!state.data.zones) state.data.zones=[];
+  state.data.pnj.forEach(p=>{
+    if(!p.liens)p.liens=[];
+    if(p.gradeMilitaire===undefined)p.gradeMilitaire='';
+    // Migration posteCour (string) -> postesCour (array)
+    if(!Array.isArray(p.postesCour)){
+      if(typeof p.posteCour==='string' && p.posteCour) p.postesCour=[p.posteCour];
+      else p.postesCour=[];
+    }
+    delete p.posteCour;
+  });
+  state.data.nemuranai.forEach(n=>{if(n.pnjId===undefined)n.pnjId=null;});
+  try{const ech=await window.storage.get('l5r_echelle');if(ech)state.echelle=parseFloat(ech.value);}catch(e){}
+}
+async function saveData(){try{await window.storage.set('l5r_data',JSON.stringify(state.data));}catch(e){}}
+async function saveCode(){try{await window.storage.set('l5r_mjcode',state.mjCode);}catch(e){}}
+async function saveMap(){try{await window.storage.set('l5r_map',state.mapImage);}catch(e){}}
+async function savePostes(){try{await window.storage.set('l5r_postes',JSON.stringify(state.customPostes));}catch(e){}}
+async function saveEchelle(){try{await window.storage.set('l5r_echelle',String(state.echelle));}catch(e){}}
+function getAllPostes(){return [...POSTES,...(Array.isArray(state.customPostes)?state.customPostes:[])];}
+
+document.getElementById('btnMode').onclick=()=>{
+  if(state.isMJ){state.isMJ=false;updateMode();}
+  else{document.getElementById('loginModal').classList.add('show');setTimeout(()=>document.getElementById('loginCode').focus(),50);}
+};
+function tryLogin(){
+  const v=document.getElementById('loginCode').value;
+  if(v===state.mjCode){state.isMJ=true;closeModal('loginModal');document.getElementById('loginCode').value='';updateMode();}
+  else alert('Code incorrect.');
+}
+document.getElementById('loginCode').addEventListener('keydown',e=>{if(e.key==='Enter')tryLogin()});
+
+document.getElementById('btnCode').onclick=()=>{
+  ['curCode','newCode','newCode2'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('codeModal').classList.add('show');
+};
+function changeCode(){
+  const cur=document.getElementById('curCode').value,n1=document.getElementById('newCode').value,n2=document.getElementById('newCode2').value;
+  if(cur!==state.mjCode)return alert('Code actuel incorrect.');
+  if(!n1||n1.length<3)return alert('Nouveau code trop court (min 3).');
+  if(n1!==n2)return alert('La confirmation ne correspond pas.');
+  state.mjCode=n1;saveCode();closeModal('codeModal');alert('Code MJ modifié.');
+}
+
+function updateMode(){
+  const badge=document.getElementById('modeBadge'),btn=document.getElementById('btnMode');
+  if(state.isMJ){
+    badge.textContent='Mode MJ';badge.className='mode-badge mode-mj';btn.textContent='Quitter MJ';
+    document.getElementById('mapTools').style.display='flex';
+    document.getElementById('btnCode').style.display='inline-block';
+    document.getElementById('btnAutoPlace').style.display='inline-block';
+    document.getElementById('btnSeedRoutes').style.display='inline-block';
+    document.getElementById('btnReset').style.display='inline-block';
+  }else{
+    badge.textContent='Mode Joueur';badge.className='mode-badge mode-pj';btn.textContent='Mode MJ';
+    document.getElementById('mapTools').style.display='none';
+    document.getElementById('btnCode').style.display='none';
+    document.getElementById('btnAutoPlace').style.display='none';
+    document.getElementById('btnSeedRoutes').style.display='none';
+    document.getElementById('btnReset').style.display='none';
+  }
+  renderTab();renderMap();
+}
+function closeModal(id){document.getElementById(id).classList.remove('show');}
+
+document.querySelectorAll('.tabs button').forEach(b=>{
+  b.onclick=()=>{
+    document.querySelectorAll('.tabs button').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    state.currentTab=b.dataset.tab;
+    state.filters={clan:'',poste:'',grade:'',theme:''};
+    renderTab();
+  };
+});
+
+function renderTab(){
+  const c=document.getElementById('tabContent'),t=state.currentTab;
+  if(t==='cour')return renderCour();
+  const titles={lieux:'Lieux',pnj:'Personnages',bestiaire:'Bestiaire',nemuranai:'Nemuranai',obstacles:'Obstacles',lore:'Lore & Coutumes'};
+  const items=state.data[t]||[];
+  const visibleItems=state.isMJ?items:items.filter(x=>x.visible!==false);
+
+  let html=`<h2>${titles[t]}`;
+  if(state.isMJ)html+=`<button onclick="openCreate('${t}')">+ Ajouter</button>`;
+  html+=`</h2><input class="search" placeholder="Rechercher..." oninput="filterList(this.value)">`;
+
+  if(t==='pnj'){
+    html+=`<div class="filters">
+      <select onchange="state.filters.clan=this.value;renderTab()">
+        <option value="">Tous clans</option>
+        ${CLANS.map(c=>`<option value="${c}" ${state.filters.clan===c?'selected':''}>${c}</option>`).join('')}
+      </select>
+      <select onchange="state.filters.poste=this.value;renderTab()">
+        <option value="">Tous postes</option>
+        ${getAllPostes().filter(p=>p).map(p=>`<option value="${p}" ${state.filters.poste===p?'selected':''}>${p}</option>`).join('')}
+      </select>
+      <select onchange="state.filters.grade=this.value;renderTab()" style="grid-column:span 2">
+        <option value="">Tous grades militaires</option>
+        ${GRADES.filter(g=>g).map(g=>`<option value="${g}" ${state.filters.grade===g?'selected':''}>${g}</option>`).join('')}
+      </select>
+    </div>`;
+  }
+
+  if(t==='lore'){
+    const themes=['Politesse','Rituels','Cérémonies','Festivités','Religion','Politique','Histoire','Autre'];
+    html+=`<div class="filters"><select onchange="state.filters.theme=this.value;renderTab()" style="grid-column:span 2">
+      <option value="">Tous thèmes</option>
+      ${themes.map(th=>`<option value="${th}" ${state.filters.theme===th?'selected':''}>${th}</option>`).join('')}
+    </select></div>`;
+  }
+
+  let filtered=visibleItems;
+  if(t==='pnj'){
+    if(state.filters.clan)filtered=filtered.filter(p=>p.clan===state.filters.clan);
+    if(state.filters.poste)filtered=filtered.filter(p=>Array.isArray(p.postesCour)&&p.postesCour.includes(state.filters.poste));
+    if(state.filters.grade)filtered=filtered.filter(p=>p.gradeMilitaire===state.filters.grade);
+  }
+  if(t==='lore' && state.filters.theme){
+    filtered=filtered.filter(l=>l.theme===state.filters.theme);
+  }
+
+  // For lore, group by theme
+  if(t==='lore' && !state.filters.theme){
+    const grouped={};
+    filtered.forEach(l=>{const th=l.theme||'Autre';(grouped[th]=grouped[th]||[]).push(l);});
+    const themeOrder=['Politesse','Rituels','Cérémonies','Festivités','Religion','Politique','Histoire','Autre'];
+    html+=`<div id="entityList">`;
+    themeOrder.forEach(th=>{
+      if(!grouped[th])return;
+      html+=`<div style="margin-top:10px"><div style="font-family:'Cinzel',serif;font-size:11px;letter-spacing:.1em;color:var(--gold);text-transform:uppercase;border-bottom:1px solid var(--gold);padding-bottom:3px;margin-bottom:4px">${th}</div><ul class="entity-list">`;
+      grouped[th].forEach(item=>{
+        const hiddenTag=(state.isMJ&&item.visible===false)?'<span class="hidden-tag">[caché]</span>':'';
+        html+=`<li onclick="openEdit('lore','${item.id}')"><div class="name">${escapeHtml(item.titre||'(sans titre)')}${hiddenTag}</div></li>`;
+      });
+      html+=`</ul></div>`;
+    });
+    html+=`</div>`;
+    c.innerHTML=html;return;
+  }
+
+  html+=`<ul class="entity-list" id="entityList">`;
+  filtered.forEach(item=>{
+    let label=item.nom||item.titre||'(sans nom)';
+    if(t==='pnj'){
+      const cl=item.clan||'';
+      label=`<span class="clan-dot clan-${cl}"></span>${escapeHtml((item.famille||'')+' '+(item.nom||''))}`;
+    } else {
+      label=escapeHtml(label);
+    }
+    let meta='';
+    if(t==='pnj'){const postesStr=(Array.isArray(item.postesCour)?item.postesCour:[]).join(', ');const parts=[item.clan,postesStr,item.gradeMilitaire].filter(x=>x);meta=parts.join(' · ');}
+    if(t==='lieux'){
+      meta=`${item.type||''} ${item.clan?'· '+item.clan:''}`;
+      if(state.isMJ && !item.coords) meta = '⚠ Non placé · ' + meta;
+    }
+    if(t==='bestiaire'||t==='obstacles')meta=item.type||'';
+    if(t==='nemuranai'){
+      const parts=[item.type];
+      if(item.pnjId){const p=state.data.pnj.find(x=>x.id===item.pnjId);if(p)parts.push('porté par '+p.famille+' '+p.nom);}
+      meta=parts.filter(x=>x).join(' · ');
+    }
+    if(t==='lore')meta=item.theme||'';
+    const hiddenTag=(state.isMJ&&item.visible===false)?'<span class="hidden-tag">[caché]</span>':'';
+    html+=`<li onclick="openEdit('${t}','${item.id}')"><div class="name">${label}${hiddenTag}</div><div class="meta">${escapeHtml(meta)}</div></li>`;
+  });
+  html+=`</ul>`;
+  c.innerHTML=html;
+}
+
+function filterList(q){
+  q=q.toLowerCase();
+  document.querySelectorAll('#entityList li').forEach(li=>{li.style.display=li.textContent.toLowerCase().includes(q)?'block':'none';});
+}
+
+function renderCour(){
+  const c=document.getElementById('tabContent');
+  let html=`<h2>Cour & Organigramme</h2>`;
+  html+=`<div class="filters">
+    <select onchange="state.filters.clan=this.value;renderCour()" style="grid-column:span 2">
+      <option value="">Tous les clans</option>
+      ${CLANS.map(c=>`<option value="${c}" ${state.filters.clan===c?'selected':''}>${c}</option>`).join('')}
+    </select>
+  </div>`;
+
+  const all=state.data.pnj.filter(p=>state.isMJ||p.visible!==false);
+  const hasPoste=(p,poste)=>Array.isArray(p.postesCour)&&p.postesCour.includes(poste);
+  const filterByPoste=(arr,poste)=>arr.filter(p=>hasPoste(p,poste));
+
+  if(!state.filters.clan||state.filters.clan==='Impérial'){
+    const inImp=all.filter(p=>p.clan==='Impérial');
+    const emp=filterByPoste(inImp,'Empereur');
+    const reg=filterByPoste(inImp,'Régent');
+    const ce=filterByPoste(all,'Champion d\'Émeraude');
+    const cj=filterByPoste(all,'Champion de Jade');
+    const cs=filterByPoste(all,'Conseiller Impérial');
+    const df=filterByPoste(inImp,'Daimyo de Famille');
+    const aut=inImp.filter(p=>!['Empereur','Régent','Daimyo de Famille'].some(po=>hasPoste(p,po)));
+    if(emp.length||reg.length||ce.length||cj.length||cs.length||df.length||aut.length){
+      html+=`<div class="org-clan"><h3>⚜ Cour Impériale</h3>`;
+      if(emp.length)html+=orgTier('Empereur',emp);
+      if(reg.length)html+=orgTier('Régent',reg);
+      if(ce.length)html+=orgTier('Champion d\'Émeraude',ce);
+      if(cj.length)html+=orgTier('Champion de Jade',cj);
+      if(cs.length)html+=orgTier('Conseillers Impériaux',cs);
+      if(df.length)html+=orgTier('Daimyo des Familles Impériales (Otomo · Seppun · Miya)',df);
+      if(aut.length)html+=orgTier('Cour & Vassaux Impériaux',aut);
+      html+=`</div>`;
+    }
+  }
+
+  CLANS.filter(cl=>cl!=='Impérial'&&cl!=='Rônin'&&cl!=='Autre').forEach(clan=>{
+    if(state.filters.clan&&state.filters.clan!==clan)return;
+    const inClan=all.filter(p=>p.clan===clan);
+    if(!inClan.length)return;
+    const champ=filterByPoste(inClan,'Champion de Clan');
+    const df=filterByPoste(inClan,'Daimyo de Famille');
+    const dy=filterByPoste(inClan,'Daimyo');
+    const aut=inClan.filter(p=>!['Champion de Clan','Daimyo de Famille','Daimyo','Empereur','Régent'].some(po=>hasPoste(p,po)));
+    html+=`<div class="org-clan"><h3>Clan ${clan}</h3>`;
+    if(champ.length)html+=orgTier('Champion de Clan',champ);
+    if(df.length)html+=orgTier('Daimyo de Famille',df);
+    if(dy.length)html+=orgTier('Daimyo / Vassaux',dy);
+    if(aut.length)html+=orgTier('Autres',aut);
+    html+=`</div>`;
+  });
+  c.innerHTML=html;
+}
+
+function orgTier(label,arr){
+  let h=`<div class="org-tier"><div class="org-tier-label">${label}</div><div class="org-cards">`;
+  arr.forEach(p=>{
+    const fns=(p.fonctions||[]).slice(0,2).join(' · ');
+    h+=`<div class="org-card" onclick="openEdit('pnj','${p.id}')">
+      <div class="nm">${escapeHtml((p.famille||'')+' '+(p.nom||''))}</div>
+      <div class="ps">${escapeHtml(fns||p.gradeMilitaire||'')}</div>
+    </div>`;
+  });
+  h+=`</div></div>`;
+  return h;
+}
+
+const FIELDS={
+  lieux:[
+    {k:'nom',l:'Nom',t:'text'},
+    {k:'type',l:'Type',t:'select',opts:['Capitale','Kyuden','Shiro','Village','Temple','Cité','Forteresse','Autre']},
+    {k:'clan',l:'Clan',t:'select',opts:CLANS},
+    {k:'desc',l:'Description (visible)',t:'textarea'},
+    {k:'descMJ',l:'Notes MJ (cachées)',t:'textarea',mjOnly:true}
+  ],
+  bestiaire:[
+    {k:'nom',l:'Nom',t:'text'},
+    {k:'type',l:'Type',t:'select',opts:['Naturelle','Surnaturelle','Outreland','Esprit','Démon (Oni)','Autre']},
+    {k:'lieuId',l:'Lieu',t:'lieuSelect'},
+    {k:'desc',l:'Description (visible)',t:'textarea'},
+    {k:'descMJ',l:'Stats / Notes MJ',t:'textarea',mjOnly:true}
+  ],
+  nemuranai:[
+    {k:'nom',l:'Nom',t:'text'},
+    {k:'type',l:'Type',t:'select',opts:['Arme','Armure','Objet','Parchemin','Bijou','Autre']},
+    {k:'lieuId',l:'Lieu actuel',t:'lieuSelect'},
+    {k:'pnjId',l:'Porté par (PNJ)',t:'pnjSelect'},
+    {k:'desc',l:'Description (visible)',t:'textarea'},
+    {k:'descMJ',l:'Pouvoirs / Notes MJ',t:'textarea',mjOnly:true}
+  ],
+  lore:[
+    {k:'titre',l:'Titre',t:'text'},
+    {k:'theme',l:'Thème',t:'select',opts:['Politesse','Rituels','Cérémonies','Festivités','Religion','Politique','Histoire','Autre']},
+    {k:'contenu',l:'Contenu (visible joueurs)',t:'textarea'},
+    {k:'descMJ',l:'Notes MJ (cachées)',t:'textarea',mjOnly:true}
+  ],
+  obstacles:[
+    {k:'nom',l:'Nom',t:'text'},
+    {k:'type',l:'Type',t:'select',opts:['Armée','Naturel','Magique','Autre']},
+    {k:'desc',l:'Description (visible pour tous)',t:'textarea'}
+  ]
+};
+
+function openCreate(tab){if(!state.isMJ)return;if(tab==='pnj')return renderPnjForm(null);renderEditForm(tab,null);}
+function openEdit(tab,id){
+  const item=state.data[tab].find(x=>x.id===id);
+  if(!item)return;
+  if(tab==='pnj')return renderPnjForm(item);
+  renderEditForm(tab,item);
+}
+
+function renderEditForm(tab,item){
+  const fields=FIELDS[tab],isNew=!item,data=item?{...item}:{};
+  if(isNew)data.id=tab[0]+Date.now();
+  const ro=state.isMJ?'':'readonly',dis=state.isMJ?'':'disabled';
+
+  const titles={lieux:'Lieu',bestiaire:'Créature',nemuranai:'Nemuranai',obstacles:'Obstacle',lore:'Lore'};
+  const seals={lieux:'⛩',bestiaire:'妖',nemuranai:'器',obstacles:'⚔',lore:'巻'};
+  const subt={
+    lieux:data.type||'',
+    bestiaire:data.type||'Créature de Rokugan',
+    nemuranai:data.type||'Objet endormi',
+    obstacles:data.type||'',
+    lore:data.theme||''
+  };
+
+  let html=`<div class="fiche-header">
+    <div class="seal">${seals[tab]||'❖'}</div>
+    <div class="titles">
+      <div class="fullname">${escapeHtml(data.nom||data.titre||(isNew?'Nouveau '+titles[tab]:titles[tab]))}</div>
+      <div class="subtitle">${escapeHtml(subt[tab])}</div>
+    </div>
+  </div>`;
+
+  fields.forEach(f=>{
+    if(f.mjOnly&&!state.isMJ)return;
+    const v=data[f.k]??'';
+    html+=`<label>${f.l}</label>`;
+    if(f.t==='text')html+=`<input id="f_${f.k}" value="${escapeHtml(v)}" ${ro}>`;
+    else if(f.t==='textarea')html+=`<textarea id="f_${f.k}" ${ro}>${escapeHtml(v)}</textarea>`;
+    else if(f.t==='select'){
+      html+=`<select id="f_${f.k}" ${dis}>`;
+      f.opts.forEach(o=>html+=`<option value="${escapeHtml(o)}" ${o===v?'selected':''}>${escapeHtml(o||'—')}</option>`);
+      html+=`</select>`;
+    }else if(f.t==='lieuSelect'){
+      html+=`<select id="f_${f.k}" ${dis}><option value="">— Aucun —</option>`;
+      state.data.lieux.forEach(l=>html+=`<option value="${l.id}" ${l.id===v?'selected':''}>${escapeHtml(l.nom)}</option>`);
+      html+=`</select>`;
+    }else if(f.t==='pnjSelect'){
+      html+=`<select id="f_${f.k}" ${dis}><option value="">— Aucun —</option>`;
+      state.data.pnj.forEach(p=>html+=`<option value="${p.id}" ${p.id===v?'selected':''}>${escapeHtml((p.famille||'')+' '+(p.nom||''))}</option>`);
+      html+=`</select>`;
+    }
+  });
+  if(tab!=='obstacles'){
+    html+=`<div class="visible-toggle"><input type="checkbox" id="f_visible" ${data.visible!==false?'checked':''} ${dis}><label for="f_visible">Visible par les joueurs</label></div>`;
+  }
+  if(tab==='lieux' && state.isMJ && !isNew){
+    const placed=data.coords;
+    html+=`<div style="margin-top:10px;padding:10px;background:${placed?'rgba(160,120,64,.15)':'rgba(139,26,26,.1)'};border:1px dashed ${placed?'var(--gold)':'var(--red)'}">
+      <strong>${placed?'📍 Placé sur la carte':'⚠ Non placé sur la carte'}</strong>
+      <div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap">
+        ${placed?`<button type="button" onclick="focusOnLieu('${data.id}')" style="background:linear-gradient(180deg,var(--gold-light),var(--gold));color:var(--paper);border:1px solid var(--ink);padding:6px 12px;cursor:pointer;font-family:'Cinzel',serif;font-size:11px">🔍 Voir sur la carte</button>`:''}
+        <button type="button" onclick="startPlaceLieu('${data.id}')" style="background:var(--red);color:var(--paper);border:none;padding:6px 12px;cursor:pointer;font-family:'Cinzel',serif;font-size:11px">${placed?'Repositionner':'📍 Placer sur la carte'}</button>
+        ${placed?`<button type="button" onclick="unplaceLieu('${data.id}')" style="background:var(--ink);color:var(--paper);border:none;padding:6px 12px;cursor:pointer;font-family:'Cinzel',serif;font-size:11px">Retirer de la carte</button>`:''}
+      </div>
+    </div>`;
+  }
+  // Aussi pour les joueurs : bouton voir si placé (sans options MJ)
+  if(tab==='lieux' && !state.isMJ && data.coords){
+    html+=`<div style="margin-top:10px;padding:10px;background:rgba(160,120,64,.15);border:1px dashed var(--gold);text-align:center">
+      <button type="button" onclick="focusOnLieu('${data.id}')" style="background:linear-gradient(180deg,var(--gold-light),var(--gold));color:var(--paper);border:1px solid var(--ink);padding:8px 16px;cursor:pointer;font-family:'Cinzel',serif;font-size:12px;letter-spacing:.08em;text-transform:uppercase">🔍 Voir sur la carte</button>
+    </div>`;
+  }
+  html+=`<div class="actions">`;
+  if(!isNew&&state.isMJ)html+=`<button class="danger" onclick="deleteItem('${tab}','${data.id}')">Supprimer</button>`;
+  html+=`<button onclick="closeModal('editModal')">Fermer</button>`;
+  if(state.isMJ)html+=`<button class="primary" onclick="saveItem('${tab}','${data.id}',${isNew})">Enregistrer</button>`;
+  html+=`</div>`;
+  document.getElementById('editModalContent').innerHTML=html;
+  document.getElementById('editModal').classList.add('show');
+}
+
+function renderPnjForm(item){
+  const isNew=!item,data=item?{...item,liens:[...(item.liens||[])]}:{liens:[]};
+  if(isNew)data.id='p'+Date.now();
+  const ro=state.isMJ?'':'readonly',dis=state.isMJ?'':'disabled';
+  const clan=data.clan||'';
+  const fullname=`${data.famille||''} ${data.nom||''}`.trim()||'Nouveau personnage';
+  const postesArr=Array.isArray(data.postesCour)?data.postesCour:[];
+  const subtitle=[...postesArr,data.gradeMilitaire].filter(x=>x).join(' · ')||'Samouraï de Rokugan';
+
+  let html=`<div class="fiche-header clan-${clan}">
+    <div class="seal">人</div>
+    <div class="titles">
+      <div class="fullname">${escapeHtml(fullname)}</div>
+      <div class="subtitle">${escapeHtml(clan?'Clan '+clan:'')}${clan&&subtitle?' — ':''}${escapeHtml(subtitle)}</div>
+    </div>
+  </div>`;
+
+  html+=`<div class="row">
+    <div><label>Famille</label><select id="f_famille" ${dis}>
+      <option value="">—</option>
+      ${Object.values(FAMILIES).flat().map(f=>`<option value="${f}" ${f===data.famille?'selected':''}>${f}</option>`).join('')}
+    </select></div>
+    <div><label>Prénom</label><input id="f_nom" value="${escapeHtml(data.nom||'')}" ${ro}></div>
+  </div>`;
+  html+=`<div class="row">
+    <div><label>Clan</label><select id="f_clan" ${dis}>
+      ${CLANS.map(c=>`<option value="${c}" ${c===data.clan?'selected':''}>${c}</option>`).join('')}
+    </select></div>
+    <div><label>Lieu</label><select id="f_lieuId" ${dis}>
+      <option value="">— Aucun —</option>
+      ${state.data.lieux.map(l=>`<option value="${l.id}" ${l.id===data.lieuId?'selected':''}>${escapeHtml(l.nom)}</option>`).join('')}
+    </select>${data.lieuId&&state.data.lieux.find(l=>l.id===data.lieuId&&l.coords)?`<button type="button" onclick="focusOnLieu('${data.lieuId}')" style="margin-top:4px;background:transparent;color:var(--gold);border:1px solid var(--gold);padding:3px 8px;cursor:pointer;font-family:'Cinzel',serif;font-size:10px;letter-spacing:.05em">🔍 Voir sur la carte</button>`:''}</div>
+  </div>`;
+
+  html+=`<h3>Position</h3>`;
+  html+=`<label>Postes à la cour ${state.isMJ?`<button type="button" onclick="openManagePostes()" style="float:right;background:var(--gold);color:var(--paper);border:none;padding:1px 6px;cursor:pointer;font-size:10px">+ Gérer</button>`:''}</label>
+    <div class="tag-input" id="f_postesCour">
+      ${(data.postesCour||[]).map(p=>`<span class="tag" data-val="${escapeHtml(p)}">${escapeHtml(p)}<span onclick="this.parentNode.remove()">×</span></span>`).join('')}
+    </div>
+    ${state.isMJ?`<select id="f_postesAdd" onchange="addPosteTag(this)" style="margin-top:4px">
+      <option value="">+ Ajouter un poste...</option>
+      ${getAllPostes().filter(p=>p && !(data.postesCour||[]).includes(p)).map(p=>`<option value="${escapeHtml(p)}">${escapeHtml(p)}</option>`).join('')}
+    </select>`:''}`;
+  html+=`<label style="margin-top:14px">Grade militaire</label><select id="f_gradeMilitaire" ${dis}>
+      ${GRADES.map(g=>`<option value="${g}" ${g===data.gradeMilitaire?'selected':''}>${g||'— Aucun —'}</option>`).join('')}
+    </select>`;
+  html+=`<label>Autres fonctions</label>
+    <div class="tag-input" id="f_fonctions">
+      ${(data.fonctions||[]).map(t=>`<span class="tag">${escapeHtml(t)}<span onclick="this.parentNode.remove()">×</span></span>`).join('')}
+      ${state.isMJ?'<input style="border:none;flex:1;min-width:120px;background:transparent" placeholder="+ Entrée pour ajouter" onkeydown="addTag(event)">':''}
+    </div>`;
+
+  html+=`<h3>Description</h3>`;
+  html+=`<label>Visible joueurs</label><textarea id="f_desc" ${ro}>${escapeHtml(data.desc||'')}</textarea>`;
+  if(state.isMJ)html+=`<label style="color:var(--red)">Notes MJ (cachées)</label><textarea id="f_descMJ">${escapeHtml(data.descMJ||'')}</textarea>`;
+  html+=`<div class="visible-toggle"><input type="checkbox" id="f_visible" ${data.visible!==false?'checked':''} ${dis}><label for="f_visible">Personnage visible par les joueurs</label></div>`;
+
+  // Nemuranai portés
+  const nemPortes=state.data.nemuranai.filter(n=>n.pnjId===data.id && (state.isMJ||n.visible!==false));
+  if(nemPortes.length){
+    html+=`<h3>器 Nemuranai portés</h3>`;
+    nemPortes.forEach(n=>{
+      const vis=n.visible===false?' <span style="color:var(--red);font-size:11px">[caché]</span>':'';
+      html+=`<div style="padding:8px 12px;background:rgba(255,255,255,.7);border:1px solid var(--line);border-left:3px solid var(--gold);margin-top:6px;font-size:13px;cursor:pointer" onclick="closeModal('editModal');setTimeout(()=>openEdit('nemuranai','${n.id}'),100)">
+        <strong>${escapeHtml(n.nom)}</strong>${vis} <span style="font-style:italic;color:#666">— ${escapeHtml(n.type||'')}</span>
+      </div>`;
+    });
+  }
+
+  html+=`<h3>縁 Liens</h3>`;
+  html+=`<div id="liensContainer">`;
+  (data.liens||[]).forEach((lk,idx)=>{
+    if(!state.isMJ&&lk.visible===false)return;
+    html+=renderLienRow(lk,idx,data.id);
+  });
+  html+=`</div>`;
+
+  const incoming=[];
+  state.data.pnj.forEach(p=>{
+    if(p.id===data.id)return;
+    (p.liens||[]).forEach(lk=>{
+      if(lk.to===data.id){
+        if(!state.isMJ&&lk.visible===false)return;
+        incoming.push({from:p,lien:lk});
+      }
+    });
+  });
+  if(incoming.length){
+    html+=`<div style="margin-top:10px;font-size:12px;font-style:italic;color:#666">Liens depuis d'autres fiches :</div>`;
+    incoming.forEach(i=>{
+      const vis=i.lien.visible===false?' <span style="color:var(--red)">[caché]</span>':'';
+      html+=`<div style="padding:8px 12px;background:rgba(255,255,255,.7);border:1px solid var(--line);border-left:3px solid var(--red);margin-top:4px;font-size:13px">
+        <strong>${escapeHtml(i.from.famille+' '+i.from.nom)}</strong> → ${escapeHtml(i.lien.type)}${vis}
+        ${i.lien.desc?` <em>(${escapeHtml(i.lien.desc)})</em>`:''}
+      </div>`;
+    });
+  }
+  if(state.isMJ)html+=`<button class="btn-add-lien" onclick="addLienRow('${data.id}')">+ Ajouter un lien</button>`;
+
+  html+=`<div class="actions">`;
+  if(!isNew&&state.isMJ)html+=`<button class="danger" onclick="deleteItem('pnj','${data.id}')">Supprimer</button>`;
+  html+=`<button onclick="closeModal('editModal')">Fermer</button>`;
+  if(state.isMJ)html+=`<button class="primary" onclick="savePnj('${data.id}',${isNew})">Enregistrer</button>`;
+  html+=`</div>`;
+  document.getElementById('editModalContent').innerHTML=html;
+  document.getElementById('editModal').classList.add('show');
+}
+
+function renderLienRow(lk,idx,ownerId){
+  const dis=state.isMJ?'':'disabled';
+  return `<div class="lien-row">
+    <select ${dis} class="lk-to">
+      <option value="">— PNJ —</option>
+      ${state.data.pnj.filter(p=>p.id!==ownerId).map(p=>`<option value="${p.id}" ${p.id===lk.to?'selected':''}>${escapeHtml(p.famille+' '+p.nom)}</option>`).join('')}
+    </select>
+    <select ${dis} class="lk-type">
+      ${LIENS_TYPES.map(t=>`<option value="${t}" ${t===lk.type?'selected':''}>${t}</option>`).join('')}
+    </select>
+    <input ${dis} class="lk-desc" placeholder="Détail" value="${escapeHtml(lk.desc||'')}">
+    <label class="vis-cell"><input type="checkbox" class="lk-vis" ${lk.visible!==false?'checked':''} ${dis}>Visible</label>
+    ${state.isMJ?`<button class="rm" onclick="this.parentNode.remove()">×</button>`:'<span></span>'}
+  </div>`;
+}
+
+function addLienRow(ownerId){
+  const container=document.getElementById('liensContainer');
+  const newLien={to:'',type:'Amitié',desc:'',visible:true};
+  const tempDiv=document.createElement('div');
+  tempDiv.innerHTML=renderLienRow(newLien,Date.now(),ownerId);
+  container.appendChild(tempDiv.firstChild);
+}
+
+function savePnj(id,isNew){
+  const obj={id};
+  ['famille','nom','clan','lieuId','gradeMilitaire','desc','descMJ'].forEach(k=>{
+    const el=document.getElementById('f_'+k);
+    if(el)obj[k]=el.value;
+  });
+  obj.postesCour=Array.from(document.querySelectorAll('#f_postesCour .tag')).map(t=>t.dataset.val||t.childNodes[0].textContent);
+  obj.fonctions=Array.from(document.querySelectorAll('#f_fonctions .tag')).map(t=>t.childNodes[0].textContent);
+  obj.visible=document.getElementById('f_visible').checked;
+  obj.liens=[];
+  document.querySelectorAll('#liensContainer .lien-row').forEach(row=>{
+    const to=row.querySelector('.lk-to').value;
+    if(!to)return;
+    obj.liens.push({
+      id:'k'+Math.random().toString(36).slice(2,9),
+      to, type:row.querySelector('.lk-type').value,
+      desc:row.querySelector('.lk-desc').value,
+      visible:row.querySelector('.lk-vis').checked
+    });
+  });
+  if(isNew)state.data.pnj.push(obj);
+  else{const i=state.data.pnj.findIndex(x=>x.id===id);state.data.pnj[i]={...state.data.pnj[i],...obj};}
+  saveData();closeModal('editModal');renderTab();renderMap();
+}
+
+function escapeHtml(s){return String(s||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[m]);}
+
+function startPlaceLieu(id){
+  const l=state.data.lieux.find(x=>x.id===id);
+  if(!l)return;
+  state.placingLieuId=id;
+  state.placingMode='placeExisting';
+  closeModal('editModal');
+  alert(`Cliquez sur la carte pour placer "${l.nom}".`);
+}
+function unplaceLieu(id){
+  if(!confirm('Retirer ce lieu de la carte ?'))return;
+  const l=state.data.lieux.find(x=>x.id===id);
+  if(l){l.coords=null;saveData();closeModal('editModal');renderTab();renderMap();}
+}
+function focusOnLieu(id){
+  const l=state.data.lieux.find(x=>x.id===id);
+  if(!l||!l.coords){alert('Ce lieu n\'est pas placé sur la carte.');return;}
+  closeModal('editModal');
+  if(window.innerWidth<=768)toggleSidebar(false);
+  if(state.map){
+    state.map.flyTo(l.coords,1,{animate:true,duration:.8});
+    // Trouver le marker et ouvrir le popup
+    setTimeout(()=>{
+      const m=state.markers.find(mk=>{
+        const ll=mk.getLatLng();
+        return Math.abs(ll.lat-l.coords[0])<.5 && Math.abs(ll.lng-l.coords[1])<.5;
+      });
+      if(m)m.openPopup();
+    },900);
+  }
+}
+
+function openManagePostes(){
+  let html=`<h2>Gérer les postes de la cour</h2>
+    <p style="font-size:13px;color:#666;margin-bottom:10px">Postes par défaut non modifiables. Ajoutez vos propres titres (Chancelier, Héraut, Régisseur, etc.)</p>
+    <h3>Postes par défaut</h3>
+    <div style="font-size:12px;color:#666;padding:6px;background:#fff;border:1px solid var(--line)">${POSTES.filter(p=>p).join(' · ')}</div>
+    <h3>Postes personnalisés</h3>
+    <div id="customPostesList">`;
+  if(!state.customPostes.length) html+=`<div style="padding:6px;font-style:italic;color:#888">Aucun poste personnalisé.</div>`;
+  state.customPostes.forEach((p,i)=>{
+    html+=`<div style="display:flex;gap:6px;align-items:center;padding:4px 0">
+      <span style="flex:1;background:#fff;padding:4px 8px;border:1px solid var(--line)">${escapeHtml(p)}</span>
+      <button onclick="removePoste(${i})" style="background:var(--ink);color:var(--paper);border:none;padding:4px 10px;cursor:pointer">×</button>
+    </div>`;
+  });
+  html+=`</div>
+    <label>Nouveau poste</label>
+    <div style="display:flex;gap:6px">
+      <input id="newPosteInput" placeholder="Ex: Chancelier, Héraut, Régisseur..." style="flex:1" onkeydown="if(event.key==='Enter'){addPoste();event.preventDefault()}">
+      <button onclick="addPoste()" style="background:var(--red);color:var(--paper);border:none;padding:7px 14px;cursor:pointer;font-family:'Cinzel',serif;font-size:11px">Ajouter</button>
+    </div>
+    <div class="actions"><button class="primary" onclick="closeModal('editModal');renderTab()">Fermer</button></div>`;
+  document.getElementById('editModalContent').innerHTML=html;
+  document.getElementById('editModal').classList.add('show');
+}
+function addPoste(){
+  const inp=document.getElementById('newPosteInput');
+  const v=inp.value.trim();
+  if(!v)return;
+  if(getAllPostes().includes(v))return alert('Ce poste existe déjà.');
+  state.customPostes.push(v);
+  savePostes();
+  openManagePostes();
+}
+function removePoste(i){
+  if(!confirm('Retirer ce poste ? Les PNJ qui l\'utilisent garderont la valeur en mémoire.'))return;
+  state.customPostes.splice(i,1);
+  savePostes();
+  openManagePostes();
+}
+
+function addTag(e){
+  if(e.key==='Enter'){
+    e.preventDefault();
+    const v=e.target.value.trim();if(!v)return;
+    const span=document.createElement('span');span.className='tag';
+    span.innerHTML=escapeHtml(v)+`<span onclick="this.parentNode.remove()">×</span>`;
+    e.target.parentNode.insertBefore(span,e.target);e.target.value='';
+  }
+}
+function addPosteTag(sel){
+  const v=sel.value;
+  if(!v)return;
+  const container=document.getElementById('f_postesCour');
+  if(Array.from(container.querySelectorAll('.tag')).some(t=>t.dataset.val===v)){sel.value='';return;}
+  const span=document.createElement('span');
+  span.className='tag';span.dataset.val=v;
+  span.innerHTML=escapeHtml(v)+`<span onclick="this.parentNode.remove()">×</span>`;
+  container.appendChild(span);
+  // Retirer de la liste déroulante
+  Array.from(sel.options).forEach(o=>{if(o.value===v)o.remove();});
+  sel.value='';
+}
+function saveItem(tab,id,isNew){
+  const obj={id};
+  FIELDS[tab].forEach(f=>{
+    if(f.mjOnly&&!state.isMJ)return;
+    const el=document.getElementById('f_'+f.k);
+    if(el)obj[f.k]=el.value;
+  });
+  const vis=document.getElementById('f_visible');
+  if(vis)obj.visible=vis.checked;
+  if(isNew)state.data[tab].push(obj);
+  else{const i=state.data[tab].findIndex(x=>x.id===id);state.data[tab][i]={...state.data[tab][i],...obj};}
+  saveData();closeModal('editModal');renderTab();renderMap();
+}
+function deleteItem(tab,id){
+  if(!confirm('Supprimer définitivement ?'))return;
+  state.data[tab]=state.data[tab].filter(x=>x.id!==id);
+  if(tab==='pnj'){
+    state.data.pnj.forEach(p=>{p.liens=(p.liens||[]).filter(l=>l.to!==id);});
+    state.data.nemuranai.forEach(n=>{if(n.pnjId===id)n.pnjId=null;});
+  }
+  if(tab==='lieux'){
+    state.data.pnj.forEach(p=>{if(p.lieuId===id)p.lieuId=null;});
+    state.data.nemuranai.forEach(n=>{if(n.lieuId===id)n.lieuId=null;});
+    state.data.bestiaire.forEach(b=>{if(b.lieuId===id)b.lieuId=null;});
+  }
+  saveData();closeModal('editModal');renderTab();renderMap();
+}
+
+function initMap(){
+  if(!state.mapImage){document.getElementById('firstLoad').classList.add('show');return;}
+  document.getElementById('firstLoad').classList.remove('show');
+  const img=new Image();
+  img.onload=()=>{
+    const w=img.width,h=img.height;
+    if(state.map){state.map.remove();state.map=null;}
+    state.map=L.map('map',{crs:L.CRS.Simple,minZoom:-3,maxZoom:2,zoomSnap:0.25,attributionControl:false});
+    const bounds=[[0,0],[h,w]];
+    L.imageOverlay(state.mapImage,bounds).addTo(state.map);
+    state.map.fitBounds(bounds);
+    state.map.setMaxBounds([[-h*0.3,-w*0.3],[h*1.3,w*1.3]]);
+    setTimeout(()=>state.map.invalidateSize(),100);
+    state.map.on('click',e=>{
+      if(!state.isMJ)return;
+      if(state.placingMode==='zone'){
+        state.zoneTempPoints.push([e.latlng.lat,e.latlng.lng]);
+        refreshZoneTemp();
+        const c=document.getElementById('zpCount');if(c)c.textContent=state.zoneTempPoints.length;
+        return;
+      }
+      if(state.placingMode==='waypoint' && state.waypointEditing){
+        const r=state.data.routes.find(x=>x.id===state.waypointEditing);
+        if(r){
+          if(!Array.isArray(r.waypoints))r.waypoints=[];
+          r.waypoints.push([e.latlng.lat,e.latlng.lng]);
+          document.getElementById('wpCount').textContent=r.waypoints.length;
+          renderRoutes();
+        }
+        return;
+      }
+      if(state.placingMode==='placeExisting' && state.placingLieuId){
+        const l=state.data.lieux.find(x=>x.id===state.placingLieuId);
+        if(l){
+          l.coords=[e.latlng.lat,e.latlng.lng];
+          saveData();renderTab();renderMap();
+        }
+        state.placingLieuId=null;
+        state.placingMode=null;
+        return;
+      }
+      if(state.placingMode==='lieu'){
+        const nom=prompt('Nom du lieu :');
+        if(nom){
+          state.data.lieux.push({id:'l'+Date.now(),nom,type:'Village',clan:'Aucun',desc:'',descMJ:'',coords:[e.latlng.lat,e.latlng.lng],visible:true});
+          saveData();renderTab();renderMap();
+        }
+        state.placingMode=null;
+        document.querySelectorAll('.map-tools button').forEach(b=>b.classList.remove('active'));
+      }else if(state.placingMode==='obstacle'){
+        const nom=prompt('Nom de l\'obstacle :');
+        if(nom){
+          state.data.obstacles.push({id:'o'+Date.now(),nom,type:'Naturel',desc:'',coords:[e.latlng.lat,e.latlng.lng]});
+          saveData();renderTab();renderMap();
+        }
+        state.placingMode=null;
+        document.querySelectorAll('.map-tools button').forEach(b=>b.classList.remove('active'));
+      }
+    });
+    renderMap();
+  };
+  img.onerror=()=>alert('Erreur de chargement de la carte.');
+  img.src=state.mapImage;
+}
+
+function renderMap(){
+  if(!state.map)return;
+  state.markers.forEach(m=>state.map.removeLayer(m));
+  state.markers=[];
+  state.data.lieux.forEach(l=>{
+    if(!l.coords)return;
+    if(!state.isMJ&&l.visible===false)return;
+    const cls=(l.type||'').toLowerCase().includes('shiro')?'shiro':(l.type||'').toLowerCase().includes('temple')?'temple':'';
+    const icon=L.divIcon({className:'',html:`<div class="l5r-marker ${cls}"></div>`,iconSize:[14,14],iconAnchor:[7,7]});
+    const m=L.marker(l.coords,{icon,draggable:state.isMJ}).addTo(state.map);
+    m.bindPopup(buildLieuPopup(l));
+    m.on('click',e=>{
+      if(state.placingMode==='route' && state.isMJ){
+        L.DomEvent.stopPropagation(e);
+        if(!state.routeDrawing){
+          state.routeDrawing=l.id;
+          alert('1er lieu sélectionné : '+l.nom+'\nCliquez sur le 2nd lieu.');
+        } else if(state.routeDrawing===l.id){
+          alert('Choisissez un lieu différent.');
+        } else {
+          const type=prompt('Type de route (route / sentier / fleuve / mer) :','route');
+          if(type && ROUTE_TYPES[type]){
+            const montagne=type==='sentier'?confirm('Cette route traverse-t-elle une montagne ? (Bloquée en hiver)'):false;
+            state.data.routes.push({id:'r'+Date.now(),from:state.routeDrawing,to:l.id,type,montagne});
+            saveData();renderRoutes();
+          }
+          state.routeDrawing=null;
+          state.placingMode=null;
+          document.querySelectorAll('.map-tools button').forEach(b=>b.classList.remove('active'));
+        }
+      }
+    });
+    if(state.isMJ){
+      m.on('dragend',e=>{
+        const ll=e.target.getLatLng();
+        l.coords=[ll.lat,ll.lng];
+        saveData();
+        renderRoutes();
+      });
+    }
+    state.markers.push(m);
+  });
+  state.data.obstacles.forEach(o=>{
+    if(!o.coords)return;
+    const icon=L.divIcon({className:'',html:`<div class="l5r-marker obstacle"></div>`,iconSize:[18,18],iconAnchor:[9,9]});
+    const m=L.marker(o.coords,{icon,draggable:state.isMJ}).addTo(state.map);
+    m.bindPopup(`<h3>⚔ ${escapeHtml(o.nom)}</h3><div><em>${escapeHtml(o.type||'')}</em></div><div>${escapeHtml(o.desc||'')}</div>`);
+    if(state.isMJ){
+      m.on('dragend',e=>{
+        const ll=e.target.getLatLng();
+        o.coords=[ll.lat,ll.lng];
+        saveData();
+      });
+    }
+    state.markers.push(m);
+  });
+  renderRoutes();
+  renderZones();
+}
+
+function buildLieuPopup(l){
+  let html=`<h3>${escapeHtml(l.nom)}</h3>`;
+  html+=`<div><em>${escapeHtml(l.type||'')} · ${escapeHtml(l.clan||'')}</em></div>`;
+  if(l.desc)html+=`<div class="pop-section">${escapeHtml(l.desc)}</div>`;
+  const pnjIci=state.data.pnj.filter(p=>p.lieuId===l.id&&(state.isMJ||p.visible!==false));
+  if(pnjIci.length){
+    html+=`<div class="pop-section"><strong>Personnages :</strong><br>`;
+    html+=pnjIci.map(p=>`${escapeHtml(p.famille+' '+p.nom)}${p.visible===false?' <span class="mj-only">[caché]</span>':''}`).join('<br>');
+    html+=`</div>`;
+  }
+  // Nemuranai visibles aux joueurs OU tout au MJ
+  const nem=state.data.nemuranai.filter(n=>n.lieuId===l.id&&(state.isMJ||n.visible!==false));
+  if(nem.length){
+    html+=`<div class="pop-section"><strong>Nemuranai :</strong><br>`;
+    html+=nem.map(n=>`${escapeHtml(n.nom)}${n.visible===false?' <span class="mj-only">[caché]</span>':''}`).join('<br>');
+    html+=`</div>`;
+  }
+  // Bestiaire (créatures dans le lieu) — visibles selon flag
+  const cre=state.data.bestiaire.filter(b=>b.lieuId===l.id&&(state.isMJ||b.visible!==false));
+  if(cre.length){
+    html+=`<div class="pop-section"><strong>Créatures :</strong><br>`;
+    html+=cre.map(c=>`${escapeHtml(c.nom)}${c.visible===false?' <span class="mj-only">[caché]</span>':''}`).join('<br>');
+    html+=`</div>`;
+  }
+  if(state.isMJ&&l.descMJ)html+=`<div class="pop-section mj-only">${escapeHtml(l.descMJ)}</div>`;
+  return html;
+}
+
+document.getElementById('btnAutoPlace').onclick=async()=>{
+  let placed=0,skipped=0;
+  state.data.lieux.forEach(l=>{
+    if(MAP_COORDS[l.nom]){
+      l.coords=[...MAP_COORDS[l.nom]];
+      placed++;
+    } else skipped++;
+  });
+  await saveData();
+  renderTab();renderMap();
+  alert(`✓ ${placed} lieux placés automatiquement.\n${skipped} lieux non reconnus (à placer manuellement).`);
+};
+
+document.getElementById('btnSeedRoutes').onclick=async()=>{
+  if(state.data.routes.length && !confirm(`${state.data.routes.length} route(s) existent déjà. Ajouter les routes canoniques en plus ? (Annuler pour ignorer)`))return;
+  let added=0,missing=0;
+  DEFAULT_ROUTES.forEach(([a,b,type,mont])=>{
+    const fa=state.data.lieux.find(l=>l.nom===a);
+    const fb=state.data.lieux.find(l=>l.nom===b);
+    if(!fa||!fb||!fa.coords||!fb.coords){missing++;return;}
+    // Évite doublon exact
+    if(state.data.routes.some(r=>((r.from===fa.id&&r.to===fb.id)||(r.from===fb.id&&r.to===fa.id))&&r.type===type))return;
+    state.data.routes.push({id:'r'+Date.now()+Math.random().toString(36).slice(2,6),from:fa.id,to:fb.id,type,montagne:mont});
+    added++;
+  });
+  await saveData();
+  renderRoutes();
+  alert(`✓ ${added} routes ajoutées.\n${missing} routes ignorées (lieux non placés sur la carte — fais d'abord "Auto-placer").`);
+};
+
+document.getElementById('btnReset').onclick=async()=>{
+  if(!confirm('⚠ EFFACER toutes les données (PNJ, lieux, nemuranai, lore, routes) et recharger les valeurs par défaut ?\n\nLa carte uploadée et le code MJ seront conservés.'))return;
+  if(!confirm('Confirmer ? Cette action est irréversible.'))return;
+  await window.storage.delete('l5r_data');
+  state.data={lieux:[],pnj:[],bestiaire:[],nemuranai:[],obstacles:[],lore:[],routes:[]};
+  await loadAll();
+  renderTab();renderMap();
+  alert('✓ Base de données réinitialisée avec les valeurs par défaut.');
+};
+
+document.getElementById('toolAddLieu').onclick=function(){
+  state.placingMode=state.placingMode==='lieu'?null:'lieu';
+  document.querySelectorAll('.map-tools button').forEach(b=>b.classList.remove('active'));
+  if(state.placingMode)this.classList.add('active');
+};
+document.getElementById('toolAddObstacle').onclick=function(){
+  state.placingMode=state.placingMode==='obstacle'?null:'obstacle';
+  document.querySelectorAll('.map-tools button').forEach(b=>b.classList.remove('active'));
+  if(state.placingMode)this.classList.add('active');
+};
+document.getElementById('toolAddRoute').onclick=function(){
+  state.placingMode=state.placingMode==='route'?null:'route';
+  state.routeDrawing=null;
+  document.querySelectorAll('.map-tools button').forEach(b=>b.classList.remove('active'));
+  if(state.placingMode){this.classList.add('active');alert('Cliquez sur le 1er lieu, puis sur le 2nd lieu pour créer une route entre eux.');}
+  renderMap();
+};
+document.getElementById('toolAddZone').onclick=function(){
+  if(state.placingMode==='zone'){
+    finishZoneDrawing();
+    return;
+  }
+  state.placingMode='zone';
+  state.zoneTempPoints=[];
+  document.querySelectorAll('.map-tools button').forEach(b=>b.classList.remove('active'));
+  this.classList.add('active');
+  showZoneBar();
+};
+function showZoneBar(){
+  let bar=document.getElementById('zoneBar');
+  if(!bar){
+    bar=document.createElement('div');
+    bar.id='zoneBar';
+    bar.style.cssText='position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--paper);padding:12px 20px;border:2px solid var(--gold);box-shadow:0 4px 16px rgba(0,0,0,.5);z-index:2000;font-family:Cinzel,serif;font-size:13px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;max-width:90vw';
+    document.body.appendChild(bar);
+  }
+  bar.innerHTML=`Mode polygone : <strong id="zpCount">${state.zoneTempPoints.length}</strong> point(s).
+    Clique sur la carte pour ajouter,
+    <button onclick="undoZonePoint()" style="background:var(--paper-dark);color:var(--ink);border:none;padding:4px 10px;cursor:pointer;font-family:Cinzel,serif;font-size:11px">⟲ Dernier</button>
+    <button onclick="finishZoneDrawing()" style="background:var(--red);color:var(--paper);border:none;padding:4px 12px;cursor:pointer;font-family:Cinzel,serif;font-size:11px">✓ Fermer</button>
+    <button onclick="cancelZoneDrawing()" style="background:var(--ink);color:var(--paper);border:1px solid var(--paper);padding:4px 10px;cursor:pointer;font-family:Cinzel,serif;font-size:11px">Annuler</button>`;
+  bar.style.display='flex';
+}
+function hideZoneBar(){const b=document.getElementById('zoneBar');if(b)b.style.display='none';}
+function undoZonePoint(){
+  if(!state.zoneTempPoints.length)return;
+  state.zoneTempPoints.pop();
+  refreshZoneTemp();
+  const c=document.getElementById('zpCount');if(c)c.textContent=state.zoneTempPoints.length;
+}
+function refreshZoneTemp(){
+  if(state.zoneTempLine){state.map.removeLayer(state.zoneTempLine);state.zoneTempLine=null;}
+  if(state.zoneTempPoints.length>=2){
+    state.zoneTempLine=L.polyline(state.zoneTempPoints,{color:'#b8252a',weight:3,dashArray:'4,4'}).addTo(state.map);
+  }
+}
+function cancelZoneDrawing(){
+  state.zoneTempPoints=[];
+  state.placingMode=null;
+  refreshZoneTemp();
+  hideZoneBar();
+  document.querySelectorAll('.map-tools button').forEach(b=>b.classList.remove('active'));
+}
+function finishZoneDrawing(){
+  if(state.zoneTempPoints.length<3){alert('Une zone nécessite au moins 3 points.');return;}
+  const type=prompt('Type de zone (foret / montagne / marais / desert) :','foret');
+  if(!type||!ZONE_TYPES[type]){cancelZoneDrawing();return;}
+  const nom=prompt('Nom de la zone (optionnel) :',ZONE_TYPES[type].label)||ZONE_TYPES[type].label;
+  state.data.zones.push({id:'z'+Date.now(),nom,type,points:[...state.zoneTempPoints]});
+  state.zoneTempPoints=[];
+  state.placingMode=null;
+  refreshZoneTemp();
+  hideZoneBar();
+  document.querySelectorAll('.map-tools button').forEach(b=>b.classList.remove('active'));
+  saveData();
+  renderZones();
+}
+
+function renderZones(){
+  state.zonePolygons.forEach(p=>state.map.removeLayer(p));
+  state.zonePolygons=[];
+  state.data.zones.forEach(z=>{
+    const cfg=ZONE_TYPES[z.type]||ZONE_TYPES.foret;
+    const poly=L.polygon(z.points,{color:cfg.color,fillColor:cfg.color,fillOpacity:cfg.fillOpacity,weight:2,opacity:0.7}).addTo(state.map);
+    poly.bindTooltip(`${cfg.label} — ${escapeHtml(z.nom||'')}`,{sticky:true});
+    if(state.isMJ){
+      poly.on('click',e=>{
+        L.DomEvent.stopPropagation(e);
+        openZoneEdit(z);
+      });
+    }
+    state.zonePolygons.push(poly);
+  });
+}
+function openZoneEdit(z){
+  let html=`<h2>Modifier zone</h2>
+    <label>Nom</label><input id="zn_nom" value="${escapeHtml(z.nom||'')}">
+    <label>Type</label>
+    <select id="zn_type">${Object.keys(ZONE_TYPES).map(k=>`<option value="${k}" ${k===z.type?'selected':''}>${ZONE_TYPES[k].label}</option>`).join('')}</select>
+    <p style="font-size:12px;font-style:italic;color:#666;margin-top:10px">Pénalité automatique en traversée : forêt ×1.5, montagne ×2, marais ×1.8, désert ×1.4</p>
+    <div class="actions">
+      <button class="danger" onclick="deleteZone('${z.id}')">Supprimer</button>
+      <button onclick="closeModal('editModal')">Fermer</button>
+      <button class="primary" onclick="saveZone('${z.id}')">Enregistrer</button>
+    </div>`;
+  document.getElementById('editModalContent').innerHTML=html;
+  document.getElementById('editModal').classList.add('show');
+}
+function saveZone(id){
+  const z=state.data.zones.find(x=>x.id===id);
+  z.nom=document.getElementById('zn_nom').value;
+  z.type=document.getElementById('zn_type').value;
+  saveData();closeModal('editModal');renderZones();
+}
+function deleteZone(id){
+  if(!confirm('Supprimer cette zone ?'))return;
+  state.data.zones=state.data.zones.filter(z=>z.id!==id);
+  saveData();closeModal('editModal');renderZones();
+}
+
+// Point-in-polygon
+function pointInPolygon(point,poly){
+  let inside=false;
+  const x=point[0],y=point[1];
+  for(let i=0,j=poly.length-1;i<poly.length;j=i++){
+    const xi=poly[i][0],yi=poly[i][1],xj=poly[j][0],yj=poly[j][1];
+    const intersect=((yi>y)!=(yj>y))&&(x<(xj-xi)*(y-yi)/(yj-yi+0.00001)+xi);
+    if(intersect)inside=!inside;
+  }
+  return inside;
+}
+// Ratio d'un segment dans les zones (samples)
+function segmentZoneMultiplier(a,b){
+  let mult=1;
+  state.data.zones.forEach(z=>{
+    const cfg=ZONE_TYPES[z.type];
+    if(!cfg)return;
+    const N=10;
+    let inCount=0;
+    for(let i=1;i<N;i++){
+      const t=i/N;
+      const p=[a[0]+(b[0]-a[0])*t, a[1]+(b[1]-a[1])*t];
+      if(pointInPolygon(p,z.points))inCount++;
+    }
+    const ratio=inCount/(N-1);
+    if(ratio>0){
+      mult *= (1-ratio) + ratio*cfg.penalite;
+    }
+  });
+  return mult;
+}
+document.getElementById('toolEchelle').onclick=()=>{
+  const v=prompt('Échelle (miles par pixel). Actuel: '+state.echelle,state.echelle);
+  if(v && !isNaN(parseFloat(v))){
+    state.echelle=parseFloat(v);
+    saveEchelle();
+    alert('Échelle mise à jour : '+state.echelle+' mi/px');
+  }
+};
+document.getElementById('btnTrajet').onclick=openTrajetModal;
+
+// ============ ROUTES ============
+function distancePx(a,b){const dx=a[0]-b[0],dy=a[1]-b[1];return Math.sqrt(dx*dx+dy*dy);}
+
+function renderRoutes(){
+  state.routeLines.forEach(l=>state.map.removeLayer(l));
+  state.routeLines=[];
+  state.data.routes.forEach(r=>{
+    const a=state.data.lieux.find(l=>l.id===r.from);
+    const b=state.data.lieux.find(l=>l.id===r.to);
+    if(!a||!b||!a.coords||!b.coords)return;
+    const cfg=ROUTE_TYPES[r.type]||ROUTE_TYPES.route;
+    const dash=r.montagne?'8,6':cfg.dash;
+    const wp=Array.isArray(r.waypoints)?r.waypoints:[];
+    const path=[a.coords,...wp,b.coords];
+    const width=r.width||cfg.width;
+    const line=L.polyline(path,{color:cfg.color,weight:width,dashArray:dash,opacity:.85}).addTo(state.map);
+    if(state.isMJ){
+      line.on('click',e=>{
+        L.DomEvent.stopPropagation(e);
+        openRouteEdit(r);
+      });
+    }
+    let totalPx=0;
+    for(let i=0;i<path.length-1;i++) totalPx+=distancePx(path[i],path[i+1]);
+    line.bindTooltip(`${cfg.label}${r.montagne?' (montagne)':''} · ${Math.round(totalPx*state.echelle)} mi`,{sticky:true});
+    state.routeLines.push(line);
+  });
+}
+
+function openRouteEdit(r){
+  const a=state.data.lieux.find(l=>l.id===r.from);
+  const b=state.data.lieux.find(l=>l.id===r.to);
+  const wp=Array.isArray(r.waypoints)?r.waypoints:[];
+  const cfg=ROUTE_TYPES[r.type]||ROUTE_TYPES.route;
+  const curWidth=r.width||cfg.width;
+  let html=`<h2>Modifier route</h2>
+    <p style="text-align:center"><strong>${escapeHtml(a?a.nom:'?')} ↔ ${escapeHtml(b?b.nom:'?')}</strong></p>
+    <label>Type</label>
+    <select id="rt_type" onchange="document.getElementById('rt_width').value=ROUTE_TYPES[this.value].width">${Object.keys(ROUTE_TYPES).map(k=>`<option value="${k}" ${k===r.type?'selected':''}>${ROUTE_TYPES[k].label}</option>`).join('')}</select>
+    <label>Épaisseur du trait : <span id="rt_wval">${curWidth}</span> px</label>
+    <input type="range" id="rt_width" min="1" max="10" step="1" value="${curWidth}" oninput="document.getElementById('rt_wval').textContent=this.value">
+    <label><input type="checkbox" id="rt_mont" ${r.montagne?'checked':''}> Traverse une montagne (sentier infranchissable en hiver)</label>
+    <div style="margin-top:14px;padding:10px;background:rgba(160,120,64,.15);border:1px dashed var(--gold)">
+      <strong>Tracé du chemin</strong> — ${wp.length} point(s) intermédiaire(s)
+      <p style="font-size:12px;margin:6px 0">Pour suivre les courbes de la carte, ajoute des points intermédiaires.</p>
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
+        <button type="button" onclick="startWaypointEdit('${r.id}')" style="background:var(--red);color:var(--paper);border:none;padding:6px 12px;cursor:pointer;font-family:'Cinzel',serif;font-size:11px">✏ Tracer le chemin</button>
+        ${wp.length?`<button type="button" onclick="clearWaypoints('${r.id}')" style="background:var(--ink);color:var(--paper);border:none;padding:6px 12px;cursor:pointer;font-family:'Cinzel',serif;font-size:11px">Effacer points</button>`:''}
+      </div>
+    </div>
+    <div class="actions">
+      <button class="danger" onclick="deleteRoute('${r.id}')">Supprimer</button>
+      <button onclick="closeModal('editModal')">Fermer</button>
+      <button class="primary" onclick="saveRoute('${r.id}')">Enregistrer</button>
+    </div>`;
+  document.getElementById('editModalContent').innerHTML=html;
+  document.getElementById('editModal').classList.add('show');
+}
+
+function startWaypointEdit(routeId){
+  state.waypointEditing=routeId;
+  state.placingMode='waypoint';
+  closeModal('editModal');
+  const r=state.data.routes.find(x=>x.id===routeId);
+  if(!Array.isArray(r.waypoints))r.waypoints=[];
+  // Affiche un toast en bas
+  showWaypointBar(r);
+}
+function showWaypointBar(r){
+  let bar=document.getElementById('wpBar');
+  if(!bar){
+    bar=document.createElement('div');
+    bar.id='wpBar';
+    bar.style.cssText='position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--paper);padding:12px 20px;border:2px solid var(--gold);box-shadow:0 4px 16px rgba(0,0,0,.5);z-index:2000;font-family:Cinzel,serif;font-size:13px;display:flex;gap:12px;align-items:center';
+    document.body.appendChild(bar);
+  }
+  bar.innerHTML=`Mode tracé : <strong id="wpCount">${r.waypoints.length}</strong> point(s).
+    Clique sur la carte pour ajouter, ou
+    <button onclick="undoWaypoint()" style="background:var(--paper-dark);color:var(--ink);border:none;padding:4px 10px;cursor:pointer;font-family:Cinzel,serif;font-size:11px">⟲ Dernier</button>
+    <button onclick="finishWaypointEdit()" style="background:var(--red);color:var(--paper);border:none;padding:4px 12px;cursor:pointer;font-family:Cinzel,serif;font-size:11px">✓ Terminer</button>`;
+  bar.style.display='flex';
+}
+function hideWaypointBar(){const bar=document.getElementById('wpBar');if(bar)bar.style.display='none';}
+function undoWaypoint(){
+  const r=state.data.routes.find(x=>x.id===state.waypointEditing);
+  if(!r||!r.waypoints||!r.waypoints.length)return;
+  r.waypoints.pop();
+  document.getElementById('wpCount').textContent=r.waypoints.length;
+  renderRoutes();
+}
+function finishWaypointEdit(){
+  const r=state.data.routes.find(x=>x.id===state.waypointEditing);
+  state.waypointEditing=null;
+  state.placingMode=null;
+  hideWaypointBar();
+  saveData();
+  renderRoutes();
+  if(r)openRouteEdit(r);
+}
+function clearWaypoints(id){
+  if(!confirm('Effacer tous les points intermédiaires ?'))return;
+  const r=state.data.routes.find(x=>x.id===id);
+  if(r){r.waypoints=[];saveData();renderRoutes();openRouteEdit(r);}
+}
+function saveRoute(id){
+  const r=state.data.routes.find(x=>x.id===id);
+  r.type=document.getElementById('rt_type').value;
+  r.montagne=document.getElementById('rt_mont').checked;
+  r.width=parseInt(document.getElementById('rt_width').value)||3;
+  saveData();closeModal('editModal');renderRoutes();
+}
+function deleteRoute(id){
+  if(!confirm('Supprimer cette route ?'))return;
+  state.data.routes=state.data.routes.filter(r=>r.id!==id);
+  saveData();closeModal('editModal');renderRoutes();
+}
+
+// ============ DIJKSTRA MULTIMODAL ============
+function findRoute(fromId,toId,saison,otaku){
+  // Modes disponibles
+  const modes=['pieds','poney','bateau_riv','bateau_mer'];
+  if(otaku)modes.push('cheval_otaku');
+
+  // Construire graphe d'adjacence
+  const adj={};
+  state.data.lieux.forEach(l=>{adj[l.id]=[];});
+  state.data.routes.forEach(r=>{
+    const a=state.data.lieux.find(l=>l.id===r.from);
+    const b=state.data.lieux.find(l=>l.id===r.to);
+    if(!a||!b||!a.coords||!b.coords)return;
+    // Distance totale (waypoints) + multiplicateur zones par segment
+    const wp=Array.isArray(r.waypoints)?r.waypoints:[];
+    const path=[a.coords,...wp,b.coords];
+    let distMi=0, zoneWeighted=0;
+    for(let i=0;i<path.length-1;i++){
+      const seg=distancePx(path[i],path[i+1])*state.echelle;
+      distMi+=seg;
+      // Pour fleuves/mer, ne pas appliquer pénalité zones (eau)
+      if(r.type==='fleuve'||r.type==='mer') zoneWeighted+=seg;
+      else zoneWeighted+=seg*segmentZoneMultiplier(path[i],path[i+1]);
+    }
+    let best={time:Infinity,mode:null};
+    modes.forEach(m=>{
+      const speed=SPEEDS[m][r.type];
+      if(speed<=0)return;
+      const mult=seasonMultiplier(saison,r.type,r.montagne);
+      if(!isFinite(mult))return;
+      const t=(zoneWeighted/speed)*mult;
+      if(t<best.time){best.time=t;best.mode=m;}
+    });
+    if(best.mode){
+      adj[r.from].push({to:r.to,time:best.time,mode:best.mode,routeId:r.id,distMi});
+      adj[r.to].push({to:r.from,time:best.time,mode:best.mode,routeId:r.id,distMi});
+    }
+  });
+
+  // Dijkstra
+  const dist={},prev={};
+  state.data.lieux.forEach(l=>{dist[l.id]=Infinity;prev[l.id]=null;});
+  dist[fromId]=0;
+  const queue=new Set(state.data.lieux.map(l=>l.id));
+  while(queue.size){
+    let u=null,min=Infinity;
+    queue.forEach(id=>{if(dist[id]<min){min=dist[id];u=id;}});
+    if(u===null||min===Infinity)break;
+    if(u===toId)break;
+    queue.delete(u);
+    (adj[u]||[]).forEach(e=>{
+      if(!queue.has(e.to))return;
+      const alt=dist[u]+e.time;
+      if(alt<dist[e.to]){dist[e.to]=alt;prev[e.to]={from:u,edge:e};}
+    });
+  }
+  if(dist[toId]===Infinity)return null;
+
+  // Reconstruire le chemin
+  const steps=[];
+  let cur=toId;
+  while(prev[cur]){
+    const p=prev[cur];
+    steps.unshift({from:p.from,to:cur,mode:p.edge.mode,time:p.edge.time,distMi:p.edge.distMi,routeId:p.edge.routeId});
+    cur=p.from;
+  }
+  return {totalTime:dist[toId],steps};
+}
+
+function openTrajetModal(){
+  const lieuxOK=state.data.lieux.filter(l=>l.coords);
+  let html=`<h2>⚐ Calculer un trajet</h2>`;
+  html+=`<label>Lieu de départ</label><select id="tr_from">${lieuxOK.map(l=>`<option value="${l.id}">${escapeHtml(l.nom)}</option>`).join('')}</select>`;
+  html+=`<label>Lieu d'arrivée</label><select id="tr_to">${lieuxOK.map(l=>`<option value="${l.id}">${escapeHtml(l.nom)}</option>`).join('')}</select>`;
+  html+=`<label>Saison</label>
+    <select id="tr_saison">
+      <option value="ete">Été (mobilité idéale)</option>
+      <option value="printemps">Printemps (dégel)</option>
+      <option value="automne">Automne (boue)</option>
+      <option value="hiver">Hiver (montagnes infranchissables)</option>
+    </select>`;
+  html+=`<label><input type="checkbox" id="tr_otaku"> Accès aux chevaux Otaku (Licorne)</label>`;
+  html+=`<div id="trResult" style="margin-top:14px"></div>`;
+  html+=`<div class="actions">
+    <button onclick="clearTrajet();closeModal('editModal')">Fermer</button>
+    <button class="primary" onclick="computeTrajet()">Calculer</button>
+  </div>`;
+  document.getElementById('editModalContent').innerHTML=html;
+  document.getElementById('editModal').classList.add('show');
+}
+
+function computeTrajet(){
+  const from=document.getElementById('tr_from').value;
+  const to=document.getElementById('tr_to').value;
+  const saison=document.getElementById('tr_saison').value;
+  const otaku=document.getElementById('tr_otaku').checked;
+  if(from===to){document.getElementById('trResult').innerHTML='<p style="color:var(--red)">Choisir 2 lieux différents.</p>';return;}
+  const res=findRoute(from,to,saison,otaku);
+  const result=document.getElementById('trResult');
+  if(!res){
+    result.innerHTML='<p style="color:var(--red);padding:8px;background:#fee;border:1px solid var(--red)">Aucun trajet possible avec ces paramètres. Vérifiez : routes existantes, saison (hiver bloque les montagnes), accès Otaku.</p>';
+    clearTrajet();
+    return;
+  }
+  const modeLabels={pieds:'À pied',poney:'Poney',cheval_otaku:'Cheval Otaku',bateau_riv:'Bateau fluvial',bateau_mer:'Bateau de mer'};
+  let totalMi=0,coords=[];
+  let stepsHtml=res.steps.map((s,i)=>{
+    const a=state.data.lieux.find(l=>l.id===s.from);
+    const b=state.data.lieux.find(l=>l.id===s.to);
+    totalMi+=s.distMi;
+    if(i===0)coords.push(a.coords);
+    coords.push(b.coords);
+    return `<div style="padding:6px;background:#fff;border-left:3px solid var(--gold);margin-top:4px;font-size:13px">
+      <strong>${escapeHtml(a.nom)} → ${escapeHtml(b.nom)}</strong><br>
+      ${modeLabels[s.mode]} · ${Math.round(s.distMi)} mi · ${s.time.toFixed(1)} jour${s.time>=1.5?'s':''}
+    </div>`;
+  }).join('');
+  result.innerHTML=`
+    <div style="padding:10px;background:var(--paper-dark);border:1px solid var(--gold)">
+      <strong>Temps total :</strong> ${res.totalTime.toFixed(1)} jours · <strong>Distance :</strong> ${Math.round(totalMi)} miles
+    </div>
+    <h3 style="margin-top:10px">Étapes</h3>
+    ${stepsHtml}`;
+  // Tracer sur la carte
+  clearTrajet();
+  state.trajetLine=L.polyline(coords,{color:'#b8252a',weight:5,opacity:.9}).addTo(state.map);
+  state.map.fitBounds(state.trajetLine.getBounds(),{padding:[40,40]});
+}
+function clearTrajet(){
+  if(state.trajetLine){state.map.removeLayer(state.trajetLine);state.trajetLine=null;}
+}
+
+function handleMapUpload(file){
+  const reader=new FileReader();
+  reader.onload=e=>{state.mapImage=e.target.result;saveMap();initMap();};
+  reader.readAsDataURL(file);
+}
+document.getElementById('firstLoadFile').onchange=e=>{if(e.target.files[0])handleMapUpload(e.target.files[0]);};
+document.getElementById('btnChangeMap').onclick=()=>{
+  if(!state.isMJ){alert('Réservé au MJ.');return;}
+  document.getElementById('fileMap').click();
+};
+document.getElementById('fileMap').onchange=e=>{if(e.target.files[0])handleMapUpload(e.target.files[0]);};
+
+document.getElementById('btnGithub').onclick=openGithubModal;
+
+document.getElementById('btnExport').onclick=()=>{
+  const d=state.isMJ?state.data:filterDataForPlayers(state.data);
+  const blob=new Blob([JSON.stringify(d,null,2)],{type:'application/json'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download=`rokugan-${state.isMJ?'mj':'joueur'}-${Date.now()}.json`;
+  a.click();
+};
+function filterDataForPlayers(d){
+  const stripMJ=o=>{const c={...o};delete c.descMJ;return c;};
+  const stripPnj=p=>{const c=stripMJ(p);c.liens=(c.liens||[]).filter(l=>l.visible!==false);return c;};
+  return {
+    lieux:d.lieux.filter(x=>x.visible!==false).map(stripMJ),
+    pnj:d.pnj.filter(x=>x.visible!==false).map(stripPnj),
+    bestiaire:d.bestiaire.filter(x=>x.visible!==false).map(stripMJ),
+    nemuranai:d.nemuranai.filter(x=>x.visible!==false).map(stripMJ),
+    lore:(d.lore||[]).filter(x=>x.visible!==false).map(stripMJ),
+    obstacles:d.obstacles,
+    routes:d.routes||[],
+    zones:d.zones||[]
+  };
+}
+document.getElementById('btnImport').onclick=()=>{
+  if(!state.isMJ){alert('Réservé au MJ.');return;}
+  document.getElementById('fileImport').click();
+};
+document.getElementById('fileImport').onchange=e=>{
+  const f=e.target.files[0];if(!f)return;
+  const r=new FileReader();
+  r.onload=ev=>{
+    try{
+      const d=JSON.parse(ev.target.result);
+      if(confirm('Remplacer toutes les données actuelles ?')){
+        state.data={lieux:d.lieux||[],pnj:d.pnj||[],bestiaire:d.bestiaire||[],nemuranai:d.nemuranai||[],obstacles:d.obstacles||[],lore:d.lore||[],routes:d.routes||[],zones:d.zones||[]};
+        saveData();renderTab();renderMap();
+      }
+    }catch(e){alert('JSON invalide.');}
+  };
+  r.readAsText(f);
+};
+
+// ============ MOBILE BURGER ============
+function toggleSidebar(open){
+  const aside=document.querySelector('aside');
+  const scrim=document.getElementById('scrim');
+  if(open===undefined)open=!aside.classList.contains('open');
+  aside.classList.toggle('open',open);
+  scrim.classList.toggle('show',open);
+}
+document.getElementById('burger').onclick=()=>toggleSidebar();
+document.getElementById('scrim').onclick=()=>toggleSidebar(false);
+// Auto close on tab change in mobile
+document.querySelectorAll('.tabs button').forEach(b=>{
+  b.addEventListener('click',()=>{if(window.innerWidth<=768)setTimeout(()=>toggleSidebar(false),100);});
+});
+
+(async()=>{
+  await loadAll();
+  updateMode();
+  // Joueurs : récupérer auto depuis GitHub si URL configurée
+  if(!state.isMJ && github.getUrl()){
+    await github.autoLoadForPlayers();
+  }
+  renderTab();
+  initMap();
+})();
+</script>
+</body>
+</html>
