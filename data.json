@@ -19,7 +19,10 @@
       "clan": "Scorpion",
       "desc": "Palais du Clan Scorpion, dissimulé dans les montagnes.",
       "id": "l17790543988121",
-      "coords": null,
+      "coords": [
+        1168.8969617409678,
+        653.3765146521362
+      ],
       "descMJ": "",
       "visible": true
     },
@@ -268,6 +271,71 @@
       "coords": null,
       "descMJ": "",
       "visible": true
+    },
+    {
+      "id": "l1779312252336",
+      "nom": "Shiro Matsu",
+      "type": "Shiro",
+      "clan": "Lion",
+      "desc": "",
+      "descMJ": "",
+      "visible": true,
+      "coords": [
+        1301.9997031150851,
+        788
+      ]
+    },
+    {
+      "id": "l1779312329991",
+      "nom": "Kaeru Toshi",
+      "type": "Cité",
+      "clan": "Lion",
+      "desc": "",
+      "descMJ": "",
+      "visible": true,
+      "coords": [
+        1410.1276700557517,
+        853
+      ]
+    },
+    {
+      "id": "l1779312418115",
+      "nom": "Mura Kita Sushin",
+      "type": "Village",
+      "clan": "Impérial",
+      "desc": "",
+      "descMJ": "",
+      "visible": true,
+      "coords": [
+        1415.5017813094885,
+        973
+      ]
+    },
+    {
+      "id": "l1779312495998",
+      "nom": "Mura nishi Chushin",
+      "type": "Village",
+      "clan": "Impérial",
+      "desc": "",
+      "descMJ": "",
+      "visible": true,
+      "coords": [
+        1412.6291544803255,
+        1044
+      ]
+    },
+    {
+      "id": "l1779312852362",
+      "nom": "Tsuma Shiro Sano no Kakita",
+      "type": "Village",
+      "clan": "Grue",
+      "desc": "",
+      "descMJ": "",
+      "visible": true,
+      "coords": [
+        1375.9994062301705,
+        934
+      ]
     }
   ],
   "pnj": [
@@ -548,13 +616,11 @@
       ],
       "desc": "Maître escrimeur.",
       "id": "p177905439881213",
-      "lieuId": null,
+      "lieuId": "l1779312852362",
       "liens": [],
       "descMJ": "",
       "visible": true,
-      "postesCour": [
-        "Daimyo de Famille"
-      ]
+      "postesCour": []
     },
     {
       "nom": "Uji",
@@ -1393,7 +1459,18 @@
       "pnjId": null
     }
   ],
-  "obstacles": [],
+  "obstacles": [
+    {
+      "id": "o1779313058944",
+      "nom": "Armée Lion ",
+      "type": "Armée",
+      "desc": "20 000 hommes ",
+      "coords": [
+        1735.0059376982952,
+        857
+      ]
+    }
+  ],
   "lore": [
     {
       "titre": "Le salut (Rei)",
@@ -1675,6 +1752,96 @@
         ]
       ],
       "width": 3
+    },
+    {
+      "id": "r1779312556035",
+      "from": "l17790543988110",
+      "to": "l1779312495998",
+      "type": "route",
+      "montagne": false,
+      "waypoints": [
+        [
+          1420.6339046389617,
+          1097
+        ],
+        [
+          1422.6350921786207,
+          1068.5
+        ]
+      ],
+      "width": 3
+    },
+    {
+      "id": "r1779312630844",
+      "from": "l1779312495998",
+      "to": "l1779312418115",
+      "type": "route",
+      "montagne": false,
+      "waypoints": [
+        [
+          1404.6244043216893,
+          1009.5
+        ]
+      ],
+      "width": 3
+    },
+    {
+      "id": "r1779312673844",
+      "from": "l1779312418115",
+      "to": "l1779312329991",
+      "type": "route",
+      "montagne": false,
+      "waypoints": [
+        [
+          1425.6368734881091,
+          966
+        ],
+        [
+          1427.6380610277681,
+          934.5
+        ],
+        [
+          1415.1306389048991,
+          898
+        ],
+        [
+          1408.1264825160927,
+          879
+        ]
+      ],
+      "width": 3
+    },
+    {
+      "id": "r1779312732441",
+      "from": "l1779312329991",
+      "to": "l1779312252336",
+      "type": "route",
+      "montagne": false,
+      "waypoints": [
+        [
+          1397.6202479328826,
+          836.5
+        ]
+      ],
+      "width": 3
+    },
+    {
+      "id": "r1779312947595",
+      "from": "l1779312418115",
+      "to": "l1779312852362",
+      "type": "route",
+      "montagne": false,
+      "waypoints": [
+        [
+          1390.8035924983167,
+          966.5
+        ],
+        [
+          1377.5457250480756,
+          953.75
+        ]
+      ],
+      "width": 3
     }
   ],
   "zones": [
@@ -1746,6 +1913,57 @@
         [
           1690.5623045293687,
           849.3053794062517
+        ]
+      ]
+    },
+    {
+      "id": "z1779312819813",
+      "nom": "Forêt",
+      "type": "foret",
+      "points": [
+        [
+          1424.6362797182796,
+          874
+        ],
+        [
+          1445.6487488846994,
+          897
+        ],
+        [
+          1456.655280352824,
+          918
+        ],
+        [
+          1445.6487488846994,
+          937
+        ],
+        [
+          1409.1270762859222,
+          961
+        ],
+        [
+          1389.1152008893318,
+          962
+        ],
+        [
+          1382.1110445005252,
+          947.5
+        ],
+        [
+          1383.6119351552695,
+          928
+        ],
+        [
+          1379.1092631910367,
+          897.5
+        ],
+        [
+          1395.1187635083088,
+          873
+        ],
+        [
+          1417.632123329473,
+          868
         ]
       ]
     }
