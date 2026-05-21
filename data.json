@@ -17,86 +17,104 @@
       "nom": "Kyuden Bayushi",
       "type": "Kyuden",
       "clan": "Scorpion",
-      "desc": "Palais du Clan Scorpion, dissimulé dans les montagnes.",
+      "desc": "Palais du Clan Scorpion, dissimulé dans les montagnes.Un chef-d'œuvre de théâtralité sombre, entouré de douves d'eau noire et de hauts murs d'où pendent des bannières cramoisies. Ses couloirs labyrinthiques, faiblement éclairés par des lanternes de papier, semblent conçus pour dissimuler les silhouettes masquées.\n",
       "id": "l17790543988121",
       "coords": [
         1168.8969617409678,
         653.3765146521362
       ],
-      "descMJ": "",
+      "descMJ": "Secret du MJ : Sous le palais s'étend le véritable Labyrinthe de Bayushi, un réseau truffé de pièges mortels et de salles secrètes où sont enfermés les otages politiques et les documents de chantage les plus dangereux de l'Empire.",
       "visible": true
     },
     {
       "nom": "Shiro Akodo",
       "type": "Shiro",
       "clan": "Lion",
-      "desc": "Château de la Loyauté, siège du Clan Lion.",
+      "desc": "Château de la Loyauté, siège du Clan Lion. Bâtie selon des principes stratégiques parfaits au sommet d'une colline dominant les plaines centrales, cette forteresse est réputée imprenable. Tout y est ordonné, propre et discipliné, incarnant la puissance brute et la rigueur de l'armée du Lion.",
       "id": "l17790543988122",
       "coords": [
         1564.5513352491714,
         1009.0756983044574
       ],
-      "descMJ": "",
+      "descMJ": "Secret du MJ : Les appartements du Champion abritent les commentaires non censurés du Livre de Sun Tao, détaillant comment le Lion prévoit de renverser la dynastie impériale si un Empereur devenait définitivement fou ou corrompu.",
       "visible": true
     },
     {
       "nom": "Kyuden Doji",
       "type": "Kyuden",
       "clan": "Grue",
-      "desc": "Palais du Clan Grue, joyau d'architecture sur la côte.",
+      "desc": "Palais du Clan Grue, joyau d'architecture sur la côte. Cette merveille de nacre et de bois laqué blanc domine l'océan depuis des falaises côtières d'une beauté à couper le souffle. C'est le cœur névralgique de la culture, de l'art et de la haute diplomatie de Rokugan, où chaque geste est régi par une étiquette millimétrée.\n\n",
       "id": "l17790543988123",
-      "coords": null,
-      "descMJ": "",
+      "coords": [
+        1192.4560417378632,
+        1023.3709373637706
+      ],
+      "descMJ": "Secret du MJ : Les coffres cachés du palais contiennent les parchemins originaux de la rupture entre les familles Yasuki et Doji, prouvant que la Grue a falsifié des traités commerciaux pour ruiner le Crabe avant la guerre de sécession.",
       "visible": true
     },
     {
       "nom": "Kyuden Hida",
       "type": "Kyuden",
       "clan": "Crabe",
-      "desc": "Forteresse austère face aux Outrelands.",
+      "desc": "Forteresse austère face aux Outrelands. Une masse cyclopéenne de pierre grise, brute et menaçante, construite pour résister aux assauts des armées de l'Outremonde. Ses cours intérieures sont encombrées de balistes, de réserves de jade et de samouraïs couverts de cicatrices qui ne dorment que d'un œil.",
       "id": "l17790543988124",
-      "coords": null,
-      "descMJ": "",
+      "coords": [
+        299.3616203249281,
+        443.9933072539613
+      ],
+      "descMJ": "Secret du MJ : Le donjon est construit directement au-dessus de la Forge Kaiu, où les ingénieurs du clan tentent en secret de fusionner la technologie des armes de siège avec du jade et de la magie de Terre, repoussant les limites spirituelles de l'Empire.",
       "visible": true
     },
     {
-      "nom": "Kyuden Shiba",
-      "type": "Kyuden",
+      "nom": "Shiro Shiba",
+      "type": "Shiro",
       "clan": "Phénix",
-      "desc": "Palais Shiba, près des terres sacrées Isawa.",
+      "desc": "Palais Shiba, près des terres sacrées Isawa. Un château aux lignes épurées et purement défensives, conçu pour protéger les trésors spirituels et les érudits du clan. Ses gardes, d'une dévotion absolue, s'entraînent dans un silence religieux pour parfaire l'art de la protection rapprochée.",
       "id": "l17790543988125",
-      "coords": null,
-      "descMJ": "",
+      "coords": [
+        1907.278409872977,
+        1331.9799217618838
+      ],
+      "descMJ": "Secret du MJ : Les Gardes de la famille Shiba y entretiennent un réseau de surveillance interne visant à surveiller secrètement le Conseil des Maîtres des Éléments (Isawa), craignant que leur hubris magique ne mette en péril le clan.",
       "visible": true
     },
     {
       "nom": "Shiro Mirumoto",
       "type": "Shiro",
       "clan": "Dragon",
-      "desc": "Citadelle Mirumoto perchée dans les montagnes Dragon.",
+      "desc": "Citadelle Mirumoto perchée dans les montagnes Dragon. Accroché aux flancs d'une montagne abrupte, ce château fortifié garde les cols menant au cœur des terres du Dragon. C'est le foyer de la célèbre école de duellistes à deux sabres, et ses cours intérieures vibrent au son des katanas de bois.",
       "id": "l17790543988126",
-      "coords": null,
-      "descMJ": "",
+      "coords": [
+        1975.2681759255813,
+        883.782132431654
+      ],
+      "descMJ": "Secret du MJ : Les profondeurs du dojo abritent les écrits originaux de Mirumoto qui décrivent des techniques interdites spécifiquement conçues pour abattre les moines tatoués de Togashi, au cas où leur Kami perdrait la raison.",
       "visible": true
     },
     {
       "nom": "Shiro Shinjo",
       "type": "Shiro",
       "clan": "Licorne",
-      "desc": "Bastion Shinjo, à l'orée des steppes occidentales.",
+      "desc": "Bastion Shinjo, à l'orée des steppes occidentales. Le siège historique du Clan de la Licorne, une forteresse tentaculaire combinant de hautes murailles de pierre avec d'immenses écuries pouvant accueillir des milliers de montures. Les bannières violettes y flottent fièrement au vent des plaines de l'ouest.",
       "id": "l17790543988127",
-      "coords": null,
-      "descMJ": "",
+      "coords": [
+        1966.0188146567114,
+        229.56472136426407
+      ],
+      "descMJ": "Secret du MJ : Sous les écuries impériales se trouvent les derniers étalons pur-sang importés des lointaines contrées occidentales, dissimulés aux yeux du Shogun et des autres clans pour conserver leur avantage de vitesse militaire.",
       "visible": true
     },
     {
       "nom": "Kyuden Gotei",
       "type": "Kyuden",
       "clan": "Mante",
-      "desc": "Palais du Clan Mante, sur les Îles de la Soie.",
+      "desc": "Palais du Clan Mante, sur les Îles de la Soie. Situé sur les îles de la Soie au sud-est, ce palais-forteresse maritime exhale une odeur d'épices, de sel et d'or. Ses architectures intègrent du bois de navires exotiques, témoignant de la puissance commerciale et navale insolente de ses seigneurs.",
       "id": "l17790543988128",
-      "coords": null,
-      "descMJ": "",
+      "coords": [
+        550.2626079826763,
+        1108.3014753043958
+      ],
+      "descMJ": "Secret du MJ : C'est depuis ce palais que le clan coordonne ses flottes de piraterie et ses routes commerciales illégales avec les Royaumes d'Ivoire, violant directement les édits impériaux d'isolement.",
       "visible": true
     },
     {
@@ -335,6 +353,71 @@
       "coords": [
         1375.9994062301705,
         934
+      ]
+    },
+    {
+      "id": "l1779321720971",
+      "nom": "Kyuden asako",
+      "type": "Kyuden",
+      "clan": "Phénix",
+      "desc": "Niché dans les montagnes embrumées du nord, ce palais de l'introspection brille par son architecture harmonieuse et ses paisibles jardins de pierres zen. Le silence y est d'or, troublé uniquement par le murmure des moines et des érudits qui étudient les mystères de l'âme humaine.\n\n",
+      "descMJ": "Secret du MJ : Le palais abrite le secret des Henshin (maîtres de la transformation), qui croient que les humains peuvent évoluer pour devenir des Kami, une philosophie considérée comme une hérésie blasphématoire par l'orthodoxie impériale.",
+      "visible": true,
+      "coords": [
+        1866.4140087919102,
+        1211.7317343806028
+      ]
+    },
+    {
+      "id": "l1779322230824",
+      "nom": "Kyuden Ikoma",
+      "type": "Kyuden",
+      "clan": "Lion",
+      "desc": "Ce complexe massif en bois de cèdre abrite les archives historiques et tactiques les plus complètes de Rokugan. Ses vastes salles de réception sont décorées de fresques monumentales narrant les gloires militaires du clan.",
+      "descMJ": "Secret du MJ : Les célèbres historiens Ikoma cachent ici les Histoires Secrètes, des parchemins interdits décrivant les actes les plus déshonorants et les crimes commis par les héros de l'Empire pour préserver le mythe de la pureté du Lion.",
+      "visible": true,
+      "coords": [
+        1569.9561037732908,
+        633.195000686047
+      ]
+    },
+    {
+      "id": "l1779322371899",
+      "nom": "Kyuden Isawa",
+      "type": "Kyuden",
+      "clan": "Phénix",
+      "desc": "Le cœur spirituel de l'Empire, un complexe monumental entouré d'une forêt sacrée où les éléments de la nature semblent s'animer d'eux-mêmes. Les temples aux toits de tuiles vertes résonnent des prières continues des plus puissants maîtres des éléments de Rokugan.",
+      "descMJ": "Secret du MJ : La bibliothèque interdite du palais renferme des parchemins de Maho (magie du sang) confisqués, ainsi que les chroniques de la corruption progressive des Maîtres Éléments successifs par le vide ou l'Ombre.",
+      "visible": true,
+      "coords": [
+        2086.313452886007,
+        1325.2527504398543
+      ]
+    },
+    {
+      "id": "l1779323453374",
+      "nom": "Shiro Daidoji",
+      "type": "Shiro",
+      "clan": "Grue",
+      "desc": "Forteresse Daidoji, Surnommé le Château du Fer, ce bastion fortifié protège les frontières terrestres de la Grue contre ses rivaux héréditaires. Contrairement aux autres palais raffinés du clan, l'accent est mis ici sur la défense lourde, les pièges cachés et l'entraînement militaire intensif.",
+      "descMJ": "Secret du MJ : Cette forteresse est le quartier général secret des Harriers (les Faucheurs Daidoji), des saboteurs d'élite utilisant des méthodes déshonorantes (poison, embuscades, explosifs) dont l'existence même est officiellement niée par les Doji.",
+      "visible": true,
+      "coords": [
+        1274.1430345335482,
+        922.0672426672579
+      ]
+    },
+    {
+      "id": "l1779323731388",
+      "nom": "Miren Mura",
+      "type": "Village",
+      "clan": "Impérial",
+      "desc": "",
+      "descMJ": "",
+      "visible": true,
+      "coords": [
+        1325.0849526034294,
+        1105.2078989945737
       ]
     }
   ],
@@ -1842,6 +1925,174 @@
         ]
       ],
       "width": 3
+    },
+    {
+      "id": "r1779322983570",
+      "from": "l17790543988127",
+      "to": "l1779322230824",
+      "type": "fleuve",
+      "montagne": false,
+      "waypoints": [
+        [
+          1939.9245789893764,
+          200.97424324563778
+        ],
+        [
+          1928.1450389909285,
+          236.2918926862938
+        ],
+        [
+          1931.5106218476278,
+          264.8823708049201
+        ],
+        [
+          1929.8278304192781,
+          292.63195250829267
+        ],
+        [
+          1897.854793280634,
+          312.8134664743818
+        ],
+        [
+          1875.9785047120886,
+          317.8588449659041
+        ],
+        [
+          1882.709670425487,
+          366.63083705061956
+        ],
+        [
+          1787.6319547237301,
+          430.5389646099019
+        ],
+        [
+          1563.8206947532228,
+          556.6734268979591
+        ],
+        [
+          1552.0411547547749,
+          583.5821121860779
+        ]
+      ],
+      "width": 4
+    },
+    {
+      "id": "r1779323174051",
+      "from": "l1779322230824",
+      "to": "l17790543988123",
+      "type": "fleuve",
+      "montagne": false,
+      "waypoints": [
+        [
+          1548.141245020393,
+          634.0358971013007
+        ],
+        [
+          1517.0096035959239,
+          638.2403791775694
+        ],
+        [
+          1461.4774864603844,
+          677.7625106944939
+        ],
+        [
+          1424.4560750366916,
+          705.5120923978666
+        ],
+        [
+          1404.2625778964953,
+          713.9210565504037
+        ],
+        [
+          1397.5314121830966,
+          771.94290920291
+        ],
+        [
+          1352.93743933183,
+          798.8515944910289
+        ],
+        [
+          1310.0262579089133,
+          824.0784869486403
+        ],
+        [
+          1293.1983436254166,
+          834.1692439316848
+        ],
+        [
+          1229.2522693481285,
+          942.644881499414
+        ],
+        [
+          1190.548066496086,
+          956.0992241434735
+        ],
+        [
+          1181.2927136401627,
+          972.076256033294
+        ],
+        [
+          1198.1206279236596,
+          997.3031484909055
+        ]
+      ],
+      "width": 4
+    },
+    {
+      "id": "r1779323308120",
+      "from": "l17790543988110",
+      "to": "l17790543988123",
+      "type": "fleuve",
+      "montagne": false,
+      "waypoints": [
+        [
+          1418.5663050374676,
+          1222.663387778901
+        ],
+        [
+          1363.8755836161029,
+          1237.799523253468
+        ],
+        [
+          1307.5020707663887,
+          1216.777112872125
+        ],
+        [
+          1253.6527450591989,
+          1171.3687064484243
+        ],
+        [
+          1230.0936650623034,
+          1133.5283677620073
+        ],
+        [
+          1184.658296496862,
+          1060.3703796349341
+        ]
+      ],
+      "width": 4
+    },
+    {
+      "id": "r1779323572260",
+      "from": "l1779322230824",
+      "to": "l17790543988122",
+      "type": "route",
+      "montagne": false,
+      "waypoints": [
+        [
+          1559.8518817677254,
+          708.8756780588814
+        ],
+        [
+          1550.5965289118021,
+          781.1927697707008
+        ],
+        [
+          1544.7067589125784,
+          906.4863356435043
+        ]
+      ],
+      "width": 3
     }
   ],
   "zones": [
@@ -1966,6 +2217,81 @@
           868
         ]
       ]
+    }
+  ],
+  "transportModes": [
+    {
+      "id": "pieds",
+      "nom": "À pied",
+      "emoji": "🚶",
+      "speeds": {
+        "route": 20,
+        "sentier": 15,
+        "fleuve": 0,
+        "mer": 0
+      },
+      "ordre": 1
+    },
+    {
+      "id": "poney",
+      "nom": "Poney",
+      "emoji": "🐎",
+      "speeds": {
+        "route": 30,
+        "sentier": 20,
+        "fleuve": 0,
+        "mer": 0
+      },
+      "ordre": 2
+    },
+    {
+      "id": "cheval",
+      "nom": "Cheval",
+      "emoji": "🐴",
+      "speeds": {
+        "route": 40,
+        "sentier": 25,
+        "fleuve": 0,
+        "mer": 0
+      },
+      "ordre": 3
+    },
+    {
+      "id": "cheval_otaku",
+      "nom": "Cheval Otaku",
+      "emoji": "🐎",
+      "speeds": {
+        "route": 50,
+        "sentier": 30,
+        "fleuve": 0,
+        "mer": 0
+      },
+      "ordre": 4,
+      "note": "Réservé Licorne"
+    },
+    {
+      "id": "bateau_riv",
+      "nom": "Bateau fluvial",
+      "emoji": "🛶",
+      "speeds": {
+        "route": 0,
+        "sentier": 0,
+        "fleuve": 40,
+        "mer": 0
+      },
+      "ordre": 5
+    },
+    {
+      "id": "bateau_mer",
+      "nom": "Bateau de mer",
+      "emoji": "⛵",
+      "speeds": {
+        "route": 0,
+        "sentier": 0,
+        "fleuve": 0,
+        "mer": 60
+      },
+      "ordre": 6
     }
   ]
 }
