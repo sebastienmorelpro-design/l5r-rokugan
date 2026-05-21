@@ -1,6 +1,6 @@
-// Rokugan SW — v3.7
+// Rokugan SW — v3.8
 // Stratégie : network-first pour data.json et HTML (fraîcheur), cache-first pour le reste (assets).
-const CACHE = 'rokugan-v3.7';
+const CACHE = 'rokugan-v3.8';
 const ESSENTIALS = [
   './',
   './index.html',
