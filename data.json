@@ -432,10 +432,10 @@
       ],
       "desc": "Le Fils du Ciel.",
       "id": "p17790543988120",
-      "lieuId": null,
+      "lieuId": "l17790543988110",
       "liens": [
         {
-          "id": "klp359nq",
+          "id": "k6dcc3jr",
           "to": "p17790543988121",
           "type": "Familial",
           "desc": "Père et fils",
@@ -446,7 +446,8 @@
       "visible": true,
       "postesCour": [
         "Empereur"
-      ]
+      ],
+      "statut": "vivant"
     },
     {
       "nom": "Sotorii",
@@ -458,13 +459,14 @@
       ],
       "desc": "Fils aîné de l'Empereur, hautain.",
       "id": "p17790543988121",
-      "lieuId": "",
+      "lieuId": "l17790543988110",
       "liens": [],
       "descMJ": "",
       "visible": true,
       "postesCour": [
         "Autre"
-      ]
+      ],
+      "statut": "vivant"
     },
     {
       "nom": "Banuken",
@@ -476,13 +478,14 @@
       ],
       "desc": "Daimyo Otomo, maître des intrigues de cour.",
       "id": "p17790543988122",
-      "lieuId": "",
+      "lieuId": "l17790543988110",
       "liens": [],
       "descMJ": "",
       "visible": true,
       "postesCour": [
         "Daimyo de Famille"
-      ]
+      ],
+      "statut": "vivant"
     },
     {
       "nom": "Yorihisa",
@@ -557,13 +560,14 @@
       ],
       "desc": "Daimyo Miya, porte-parole de l'Empereur.",
       "id": "p17790543988126",
-      "lieuId": "",
+      "lieuId": "l17790543988110",
       "liens": [],
       "descMJ": "",
       "visible": true,
       "postesCour": [
         "Daimyo de Famille"
-      ]
+      ],
+      "statut": "vivant"
     },
     {
       "nom": "Yoto",
@@ -619,13 +623,14 @@
       "fonctions": [],
       "desc": "Femme guerrière au tempérament de feu.",
       "id": "p17790543988129",
-      "lieuId": null,
+      "lieuId": "l1779312252336",
       "liens": [],
       "descMJ": "",
-      "visible": true,
+      "visible": false,
       "postesCour": [
         "Daimyo de Famille"
-      ]
+      ],
+      "statut": "vivant"
     },
     {
       "nom": "Sume",
@@ -1167,6 +1172,29 @@
       "fonctions": [],
       "visible": true,
       "liens": []
+    },
+    {
+      "id": "p1779332686172",
+      "famille": "Akodo",
+      "nom": "Arasou",
+      "clan": "Lion",
+      "lieuId": "l177905439881213",
+      "gradeMilitaire": "",
+      "desc": "",
+      "descMJ": "",
+      "statut": "mort",
+      "postesCour": [],
+      "fonctions": [],
+      "visible": true,
+      "liens": [
+        {
+          "id": "kfkwyz8c",
+          "to": "p17790543988129",
+          "type": "Amour",
+          "desc": "",
+          "visible": true
+        }
+      ]
     }
   ],
   "bestiaire": [
@@ -2219,79 +2247,12 @@
       ]
     }
   ],
-  "transportModes": [
-    {
-      "id": "pieds",
-      "nom": "À pied",
-      "emoji": "🚶",
-      "speeds": {
-        "route": 20,
-        "sentier": 15,
-        "fleuve": 0,
-        "mer": 0
-      },
-      "ordre": 1
-    },
-    {
-      "id": "poney",
-      "nom": "Poney",
-      "emoji": "🐎",
-      "speeds": {
-        "route": 30,
-        "sentier": 20,
-        "fleuve": 0,
-        "mer": 0
-      },
-      "ordre": 2
-    },
-    {
-      "id": "cheval",
-      "nom": "Cheval",
-      "emoji": "🐴",
-      "speeds": {
-        "route": 40,
-        "sentier": 25,
-        "fleuve": 0,
-        "mer": 0
-      },
-      "ordre": 3
-    },
-    {
-      "id": "cheval_otaku",
-      "nom": "Cheval Otaku",
-      "emoji": "🐎",
-      "speeds": {
-        "route": 50,
-        "sentier": 30,
-        "fleuve": 0,
-        "mer": 0
-      },
-      "ordre": 4,
-      "note": "Réservé Licorne"
-    },
-    {
-      "id": "bateau_riv",
-      "nom": "Bateau fluvial",
-      "emoji": "🛶",
-      "speeds": {
-        "route": 0,
-        "sentier": 0,
-        "fleuve": 40,
-        "mer": 0
-      },
-      "ordre": 5
-    },
-    {
-      "id": "bateau_mer",
-      "nom": "Bateau de mer",
-      "emoji": "⛵",
-      "speeds": {
-        "route": 0,
-        "sentier": 0,
-        "fleuve": 0,
-        "mer": 60
-      },
-      "ordre": 6
-    }
-  ]
+  "calendar": {
+    "annee": 1132,
+    "mois": 1,
+    "jour": 1,
+    "refRokuJourTotal": 407520,
+    "refStandardYear": 1602
+  },
+  "customClans": {}
 }
